@@ -2,13 +2,18 @@ import { StyleSheet } from 'react-native';
 
 import EditScreenInfo from '@/components/EditScreenInfo';
 import { Text, View } from '@/components/Themed';
+import List from '@/components/List';
 
 export default function SalahScreen() {
   return (
     <View style={styles.container}>
-      <Text style={styles.title}>Tab One</Text>
-      <View style={styles.separator} lightColor="#eee" darkColor="rgba(255,255,255,0.1)" />
-      <EditScreenInfo path="app/(tabs)/index.tsx" />
+      <View style={styles.currentPrayerContainer}>
+        <Text style={styles.currentPrayerText}>Dhuhr</Text>
+      </View>
+      <View>
+      <Text style={styles.title}>Wednesday 25th July</Text>
+      <List></List>
+      </View>
     </View>
   );
 }
@@ -16,16 +21,30 @@ export default function SalahScreen() {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    alignItems: 'center',
-    justifyContent: 'center',
+    alignItems: 'stretch',
+    justifyContent: 'space-evenly',
+    backgroundColor: 'transparent',
+    borderColor: 'red',
+    borderWidth: 2,
+    // marginTop: '40%'
   },
   title: {
     fontSize: 20,
     fontWeight: 'bold',
+    textAlign: "center",
+  },
+  currentPrayerContainer: {
+    margin: 10
+  },
+  currentPrayerText: {
+    fontSize: 30,
+    fontWeight: 'bold',
+    textAlign: 'left'
   },
   separator: {
     marginVertical: 30,
     height: 1,
     width: '80%',
+    alignItems: 'center'
   },
 });
