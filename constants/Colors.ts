@@ -1,7 +1,8 @@
 const tintColorLight = '#2f95dc';
 const tintColorDark = '#fff';
-const gold = '#ffc93c';
-const navy = '#023047'
+const gold = '#dab738';
+const navy = 'rgba(16, 37, 64, 1)';
+const lightNavy = 'rgba(16, 37, 64, 0.25)'
 
 export default {
   light: {
