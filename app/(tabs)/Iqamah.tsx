@@ -1,10 +1,43 @@
-import React from 'react';
-import { StyleSheet } from 'react-native';
+import React, { useEffect, useState } from 'react';
+import { ActivityIndicator, StyleSheet } from 'react-native';
 
 import EditScreenInfo from '@/components/EditScreenInfo';
 import { Text, View } from '@/components/Themed';
 
+import * as FileSystem from 'expo-file-system';
+import { Asset } from 'expo-asset';
+
+const loadDatabase = async () => {
+    const dbName = "salah_times.db";
+    const dbAsset = require('../../assets/databases/salaah_times.db');
+    const dbUri = Asset.fromModule(dbAsset).uri;
+    const dbFilePath = `${FileSystem.documentDirectory}SQLite/${dbName}`;
+
+    const fileInfo = await FileSystem.getInfoAsync(dbFilePath);
+    if (!fileInfo.exists){
+        await FileSystem.makeDirectoryAsync(
+            `${FileSystem.documentDirectory}SQLite`, {intermediates: true}
+        );
+        await FileSystem.downloadAsync(dbUri, dbFilePath);
+    }
+};
+
 export default function IqamahScreen() {
+  const [dbLoaded, setDbLoaded] = useState<boolean>(false);
+
+  useEffect(() => {
+    loadDatabase()
+    .then(() => setDbLoaded(true)).
+    catch((e: any) => console.error(e));
+  }, []);
+
+  if(!dbLoaded) 
+    return(
+      <View>
+        <ActivityIndicator size={"large"}/>
+        <Text>Loading...</Text>
+      </View>
+    ) 
   return (
     <View style={styles.container}>
       <Text style={styles.title}>Tab Two</Text>

@@ -49,7 +49,6 @@ const getFormattedDate = (date: Date) => {
 export default function SalahScreen() {
   const currentDate = new Date();
   const formattedDate = getFormattedDate(currentDate);
-  // const formattedHijriDate = getFormattedHijriDate(currentDate);
 
   return (
     <View style={styles.container}>
@@ -61,7 +60,6 @@ export default function SalahScreen() {
       </View>
       <View style={styles.listContainer} lightColor='#f6f6f6'>
       <Text style={styles.title} lightColor='rgba(16, 37, 64, 0.8)'>{formattedDate}</Text>
-      {/* <Text style={styles.title} lightColor='rgba(16, 37, 64, 0.8)'>{formattedHijriDate}</Text> */}
       <List></List>
       </View>
     </View>
