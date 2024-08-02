@@ -29,9 +29,9 @@ const getFormattedDate = (date: Date) => {
     "August", "September", "October", "November", "December"
   ];
 
-  const dayName = days[date.getDay()];
+  const dayName = date.toLocaleDateString('default', {weekday: 'long'});
   const day = date.getDate();
-  const month = months[date.getMonth()];
+  const month = date.toLocaleString('default', {month: 'long'});
 
   // Determine the day suffix
   const daySuffix = (day: number) => {
