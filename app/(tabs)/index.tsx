@@ -1,10 +1,11 @@
-import { StyleSheet } from 'react-native';
+import { ActivityIndicator, StyleSheet } from 'react-native';
 
 import EditScreenInfo from '@/components/EditScreenInfo';
 import { Text, View } from '@/components/Themed';
 import List from '@/components/List';
 import { HijriDate } from 'hijri-date';
 import React from 'react';
+import { SQLiteProvider } from 'expo-sqlite';
 
 
 // const getFormattedHijriDate = (date: Date) => {
@@ -51,6 +52,16 @@ export default function SalahScreen() {
   const formattedDate = getFormattedDate(currentDate);
 
   return (
+    <React.Suspense 
+      fallback= {
+        <View>
+          <ActivityIndicator size={'large'}/>
+          <Text>Loading...</Text>
+        </View>
+      }
+    >
+    {/* <SQLiteProvider useSuspense={true} databaseName='`${dbName}`'> */}
+
     <View style={styles.container}>
       <View style={styles.currentPrayerContainer}>
         <Text style={styles.currentPrayerText} lightColor='rgba(16, 37, 64, 0.8)'>Maghreb</Text>
@@ -60,9 +71,11 @@ export default function SalahScreen() {
       </View>
       <View style={styles.listContainer} lightColor='#f6f6f6'>
       <Text style={styles.title} lightColor='rgba(16, 37, 64, 0.8)'>{formattedDate}</Text>
-      <List></List>
+      {/* <List></List> */}
       </View>
     </View>
+    {/* </SQLiteProvider> */}
+    </React.Suspense>
   );
 }
 
