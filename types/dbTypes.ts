@@ -14,12 +14,12 @@ export interface SalaahTime {
 
 export interface IqamahTime {
     id: number;
-    masjid: string;
-    date: string;
-    fajr: string;
-    dhuhr: string;
-    'dhuhr-sunday': string;
-    asr: string;
-    maghrib: string;
-    isha: string;
+    Masjid: string;
+    Date: string;
+    Fajr: string;
+    Dhuhr: string;
+    'Dhuhr-sunday': string;
+    Asr: string;
+    Maghrib: string;
+    Isha: string;
 }

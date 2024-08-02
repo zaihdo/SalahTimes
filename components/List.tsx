@@ -17,41 +17,59 @@ const prayerTimesData = {
     "Sunset": "08:30 PM"
   };
 
-  export default function List() {
-    const [iqamahs, setIqamahs] = useState<IqamahTime[]>([]);
+export default function List() {
+  const [iqamahs, setIqamahs] = useState<IqamahTime[]>([]);
 
-    const db = useSQLiteContext();
-  
-    useEffect(() => {
-      db.withTransactionAsync(async () => {
-        getData();
-        
-      });
-    }, [db])
-    
-    async function getData() {
-      const result = await db.getAllAsync(`SELECT * FROM Iqamahs`);
-      console.log(result, "huh");
-    }
+  const db = useSQLiteContext();
 
-    const currentDate = new Date();
-    const data = Object.entries(prayerTimesData).map(([prayer, time]) => {
-      const dateTime = parse(time, 'hh:mm a', currentDate);
-      return { prayer, time, dateTime };
+  useEffect(() => {
+    db.withTransactionAsync(async () => {
+      // getData();
+      iqamahQuery();
+      
     });
+  }, [db])
   
-    return (
-      <FlatList
-        data={data}
-        keyExtractor={item => item.prayer}
-        renderItem={({ item }) => (
-          <ListItem prayer={item.prayer} time={format(item.dateTime, 'hh:mm a')} />
-        )}
-        contentContainerStyle={styles.listContainer}
-        scrollEnabled={false}
-      />
-    );
+  async function getData() {
+    const result = await db.getAllAsync(`SELECT * FROM Iqamahs WHERE `);
+    console.log(result, "huh");
   }
+
+  function formatDateQuery() {
+    const today = new Date();
+    const day = today.getDate();
+    const month = today.toLocaleString('default', {month: 'short'});
+    return `${day}-${month}`;
+  }
+
+  async function iqamahQuery() {
+    const date = formatDateQuery();
+    const masjid = "FRANCISTOWN MASJID";
+    const results: IqamahTime[] = db.getAllSync(`SELECT Fajr, Dhuhr, DhuhrSunday, Asr, Maghrib, Isha FROM Iqamahs WHERE Date = ? AND Masjid = ?`, [date, masjid]);
+    setIqamahs(results);
+    results.forEach(row => {
+      console.log(`Fajr: ${row.Fajr}`);
+      console.log(`Dhuhr: ${row.Dhuhr}`);
+    });
+  }
+  const currentDate = new Date();
+  const data = Object.entries(prayerTimesData).map(([prayer, time]) => {
+    const dateTime = parse(time, 'hh:mm a', currentDate);
+    return { prayer, time, dateTime };
+  });
+
+  return (
+    <FlatList
+      data={data}
+      keyExtractor={item => item.prayer}
+      renderItem={({ item }) => (
+        <ListItem prayer={item.prayer} time={format(item.dateTime, 'hh:mm a')} />
+      )}
+      contentContainerStyle={styles.listContainer}
+      scrollEnabled={false}
+    />
+  );
+}
 
 const styles = StyleSheet.create({
     listContainer: {
