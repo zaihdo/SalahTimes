@@ -1,8 +1,10 @@
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 import { FlatList } from 'react-native';
 import ListItem from './ListItem';
 import { StyleSheet } from 'react-native';
 import { format, parse } from 'date-fns';
+import { IqamahTime } from '@/types/dbTypes';
+import { useSQLiteContext } from 'expo-sqlite/next';
 
 const prayerTimesData = {
     "Fajr": "04:30 AM",
@@ -16,6 +18,22 @@ const prayerTimesData = {
   };
 
   export default function List() {
+    const [iqamahs, setIqamahs] = useState<IqamahTime[]>([]);
+
+    const db = useSQLiteContext();
+  
+    useEffect(() => {
+      db.withTransactionAsync(async () => {
+        getData();
+        
+      });
+    }, [db])
+    
+    async function getData() {
+      const result = await db.getAllAsync(`SELECT * FROM Iqamahs`);
+      console.log(result, "huh");
+    }
+
     const currentDate = new Date();
     const data = Object.entries(prayerTimesData).map(([prayer, time]) => {
       const dateTime = parse(time, 'hh:mm a', currentDate);
