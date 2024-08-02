@@ -5,6 +5,7 @@ import EditScreenInfo from '@/components/EditScreenInfo';
 import { Text, View } from '@/components/Themed';
 import { loadDatabase } from '@/services/dbService';
 import List from '@/components/List';
+import Suspense from '@/components/Suspense';
 
 export default function IqamahScreen() {
   const [dbLoaded, setDbLoaded] = useState<boolean>(false);
@@ -28,11 +29,7 @@ export default function IqamahScreen() {
   return (
     <React.Suspense
       fallback={
-        // abstract into separate 'Loader' component
-        <View>
-          <ActivityIndicator size={'large'}/>
-          <Text>Loading...</Text>
-        </View>
+        <Suspense></Suspense>
       }
     >
       <SQLiteProvider databaseName='prayerTimes.db' assetSource={{assetId: require('../../assets/databases/prayerTimes.db')}} useSuspense>
