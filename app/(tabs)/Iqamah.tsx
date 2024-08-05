@@ -1,44 +1,48 @@
 import React, { useEffect, useState } from 'react';
-import { SQLiteProvider } from 'expo-sqlite/next';
-import { ActivityIndicator, StyleSheet } from 'react-native';
-import EditScreenInfo from '@/components/EditScreenInfo';
+import { useSQLiteContext } from 'expo-sqlite/next';
+import { StyleSheet } from 'react-native';
 import { Text, View } from '@/components/Themed';
-import { loadDatabase } from '@/services/dbService';
 import List from '@/components/List';
 import Suspense from '@/components/Suspense';
+import { IqamahTime } from '@/types/dbTypes';
 
 export default function IqamahScreen() {
-  const [dbLoaded, setDbLoaded] = useState<boolean>(false);
+  const [iqamahs, setIqamahs] = useState<IqamahTime[]>([]);
+
+  const db = useSQLiteContext();
 
   useEffect(() => {
-    loadDatabase()
-    .then(() => {
-      setDbLoaded(true);
-    }
-    ).
-    catch((e: any) => console.error(e));
-  }, []);
+    db.withTransactionAsync(async () => {
+      iqamahQuery();
+      
+    });
+  }, [db])
+  
+  function formatDateQuery() {
+    const today = new Date();
+    const day = today.getDate();
+    const month = today.toLocaleString('default', {month: 'short'});
+    return `${day}-${month}`;
+  }
 
-  if(!dbLoaded) 
-    return(
-      <View>
-        <ActivityIndicator size={"large"}/>
-        <Text>Loading...</Text>
-      </View>
-    ) 
+  async function iqamahQuery() {
+    const date = formatDateQuery();
+    const masjid = "FRANCISTOWN MASJID";
+    const results = db.getAllSync<IqamahTime>(`SELECT Fajr, Dhuhr, DhuhrSunday, Asr, Maghrib, Isha FROM Iqamahs WHERE Date = ? AND Masjid = ?`, [date, masjid]);
+    setIqamahs(results);
+  }
+
   return (
     <React.Suspense
       fallback={
         <Suspense></Suspense>
       }
     >
-      <SQLiteProvider databaseName='prayerTimes.db' assetSource={{assetId: require('../../assets/databases/prayerTimes.db')}} useSuspense>
       <View style={styles.container}>
       <Text style={styles.title}>Tab Two</Text>
       <View style={styles.separator} lightColor="#eee" darkColor="rgba(255,255,255,0.1)" />
-      <List></List>
+      <List iqamahs={iqamahs}></List>
     </View>
-      </SQLiteProvider>
     </React.Suspense>
   );
 }
