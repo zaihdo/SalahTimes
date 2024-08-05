@@ -7,7 +7,7 @@ import { useEffect, useState } from 'react';
 import 'react-native-reanimated';
 
 import { useColorScheme } from '@/components/useColorScheme';
-import { loadDatabase } from '@/services/dbService';
+import { DataHandler } from '@/services/DataHandler';
 import { SQLiteProvider } from 'expo-sqlite';
 import React from 'react';
 import * as SystemUI from 'expo-system-ui';
@@ -49,7 +49,7 @@ export default function RootLayout() {
     }
 
     setSplashScreenColor();
-    loadDatabase()
+    DataHandler.loadDatabase()
     .then(() => {
       setDbLoaded(true);
     }
@@ -73,19 +73,19 @@ function RootLayoutNav() {
   const colorScheme = useColorScheme();
 
   return (
-    // <React.Suspense
-    //   fallback={
-    //     <Suspense></Suspense>
-    //   }
-    // >
+    <React.Suspense
+      fallback={
+        <Suspense></Suspense>
+      }
+    >
     <ThemeProvider value={colorScheme === 'dark' ? DarkTheme : DefaultTheme}>
       <SQLiteProvider databaseName={'prayerTimes.db'} useSuspense assetSource={{assetId: require("../assets/databases/prayerTimes.db")}}>
         <Stack>
           <Stack.Screen name="(tabs)" options={{ headerShown: false }} />
-          <Stack.Screen name="modal" options={{ presentation: 'modal' }} />
+          <Stack.Screen name="modal" options={{ presentation: 'card', headerBackTitle: 'Masaajid', headerBackVisible: false, headerShown: false }} />
         </Stack>
       </SQLiteProvider>
     </ThemeProvider>
-    // </React.Suspense>
+    </React.Suspense>
   );
 }

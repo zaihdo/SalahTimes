@@ -44,7 +44,6 @@ export default function TabLayout() {
             color: Colors[colorScheme ?? 'light'].tabIconSelected, // Change this to your desired color
           },
           headerTintColor: Colors[colorScheme ?? 'light'].text, // Change this to your desired color
-        
           headerRight: () => (
             <Link href="/modal" asChild>
               <Pressable>
@@ -74,6 +73,7 @@ export default function TabLayout() {
             color: Colors[colorScheme ?? 'light'].tabIconSelected, // Change this to your desired color
           },
           headerTintColor: Colors[colorScheme ?? 'light'].text, // Change this to your desired color
+          
         
         }}
       />
