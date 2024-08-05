@@ -10,6 +10,7 @@ import { useColorScheme } from '@/components/useColorScheme';
 import { loadDatabase } from '@/services/dbService';
 import { SQLiteProvider } from 'expo-sqlite';
 import React from 'react';
+import * as SystemUI from 'expo-system-ui';
 import Suspense from '@/components/Suspense';
 
 export {
@@ -32,15 +33,7 @@ export default function RootLayout() {
   });
 
   const [dbLoaded, setDbLoaded] = useState<boolean>(false);
-
-  useEffect(() => {
-    loadDatabase()
-    .then(() => {
-      setDbLoaded(true);
-    }
-    ).
-    catch((e: any) => console.error(e));
-  }, []);
+  const colorScheme = useColorScheme();
 
   // Expo Router uses Error Boundaries to catch errors in the navigation tree.
   useEffect(() => {
@@ -48,10 +41,26 @@ export default function RootLayout() {
   }, [error]);
 
   useEffect(() => {
-    if (dbLoaded && loaded) {
-      SplashScreen.hideAsync();
+    const setSplashScreenColor = async () => {
+
+      if (colorScheme === 'dark') {
+        await SystemUI.setBackgroundColorAsync(DarkTheme.colors.background);
+      };
     }
-  }, [dbLoaded, loaded]);
+
+    setSplashScreenColor();
+    loadDatabase()
+    .then(() => {
+      setDbLoaded(true);
+    }
+    ).
+    catch((e: any) => console.error(e));
+    if (dbLoaded && loaded) {
+      setTimeout(()=>{
+        SplashScreen.hideAsync();
+      }, 2000);
+    }
+  }, [dbLoaded, loaded, colorScheme]);
 
   if (!loaded || !dbLoaded) {
     return null;
@@ -64,11 +73,11 @@ function RootLayoutNav() {
   const colorScheme = useColorScheme();
 
   return (
-    <React.Suspense
-      fallback={
-        <Suspense></Suspense>
-      }
-    >
+    // <React.Suspense
+    //   fallback={
+    //     <Suspense></Suspense>
+    //   }
+    // >
     <ThemeProvider value={colorScheme === 'dark' ? DarkTheme : DefaultTheme}>
       <SQLiteProvider databaseName={'prayerTimes.db'} useSuspense assetSource={{assetId: require("../assets/databases/prayerTimes.db")}}>
         <Stack>
@@ -77,6 +86,6 @@ function RootLayoutNav() {
         </Stack>
       </SQLiteProvider>
     </ThemeProvider>
-    </React.Suspense>
+    // </React.Suspense>
   );
 }

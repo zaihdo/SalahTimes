@@ -1,6 +1,6 @@
 const tintColorLight = '#2f95dc';
 const tintColorDark = '#fff';
-const gold = '#dab738';
+const gold = '#FFC801';
 const navy = 'rgba(16, 37, 64, 1)';
 const lightNavy = 'rgba(16, 37, 64, 0.25)'
 
