@@ -41,15 +41,21 @@ import List from '@/components/List';
 import Suspense from '@/components/Suspense';
 import { IqamahTime } from '@/types/dbTypes';
 import { DataHandler } from '@/services/DataHandler';
+import { useLocalSearchParams } from 'expo-router';
 
-export default function IqamahScreen() {
+interface IqamahProps {
+  Name: string;
+}
+
+export default function IqamahScreen(Masjid: IqamahProps) {
   const [iqamahs, setIqamahs] = useState<IqamahTime[]>([]);
-
+  const {query} = useLocalSearchParams<{query: string}>(); 
   const db = useSQLiteContext();
 
   useEffect(() => {
     db.withTransactionAsync(async () => {
-      const results = await DataHandler.iqamahQuery(db);
+      console.log(query);
+      const results = await DataHandler.iqamahQuery(db, query);
       setIqamahs(results);
       
     });

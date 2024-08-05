@@ -23,3 +23,7 @@ export interface IqamahTime {
     Maghrib: string;
     Isha: string;
 }
+
+export interface Masjid {
+    Masjid: string;
+}

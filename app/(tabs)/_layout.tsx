@@ -61,9 +61,9 @@ export default function TabLayout() {
         }}
       />
       <Tabs.Screen
-        name="Iqamah"
+        name="Jamath"
         options={{
-          title: 'Iqamah',
+          title: 'Jamath',
           tabBarIcon: ({ color }) => <TabBarIcon name="people-group" color={color} />,
           headerStyle: {
             backgroundColor: Colors[colorScheme ?? 'light'].background, // Change this to your desired color
