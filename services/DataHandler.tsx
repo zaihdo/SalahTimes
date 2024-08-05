@@ -31,7 +31,6 @@ static async masjidQuery(db: SQLiteDatabase): Promise<any[]> {
   const result =  db.getAllAsync<any>(
     `SELECT DISTINCT Masjid FROM Iqamahs`
   );
-  console.log(result);
   return result;
 }
 

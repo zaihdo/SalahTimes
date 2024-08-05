@@ -2,31 +2,24 @@ import React, { useEffect, useState } from 'react';
 import { useSQLiteContext } from 'expo-sqlite/next';
 import { FlatList, Pressable, StyleSheet } from 'react-native';
 import { Text, View } from '@/components/Themed';
-import List from '@/components/List';
 import Suspense from '@/components/Suspense';
-import { IqamahTime, Masjid } from '@/types/dbTypes';
 import { DataHandler } from '@/services/DataHandler';
-import { FontAwesome } from '@expo/vector-icons';
 import { Link } from 'expo-router';
 import { Colors } from 'react-native/Libraries/NewAppScreen';
 import { useColorScheme } from '@/components/useColorScheme';
-
-
+import FontAwesome from '@expo/vector-icons/FontAwesome';
 
 export default function MasjidScreen() {
-  const [iqamahs, setIqamahs] = useState<IqamahTime[]>([]);
   const [masjids, setMasjids] = useState<any[]>([]);
   const colorScheme = useColorScheme();
-
   const db = useSQLiteContext();
 
   useEffect(() => {
     db.withTransactionAsync(async () => {
       const masjidNames = await DataHandler.masjidQuery(db);
       setMasjids(masjidNames);
-      console.log(masjidNames);
     });
-  }, [db])
+  }, [db]);
 
   const toCapitalCase = (str: string): string => {
     return str
@@ -35,7 +28,7 @@ export default function MasjidScreen() {
       .map(word => word.charAt(0).toUpperCase() + word.slice(1))
       .join(' ');
   };
-  
+
   return (
     <React.Suspense fallback={<Suspense />}>
       <View style={styles.container}>
@@ -43,23 +36,34 @@ export default function MasjidScreen() {
           data={masjids}
           keyExtractor={(item, index) => index.toString()}
           renderItem={({ item }) => (
-            <View >
-            <Link href={{pathname: '/modal', params: {query: item.Masjid}}} asChild style={styles.masjidContainer} >
-              <Pressable>
+            <Link
+              href={{
+                pathname: '/modal',
+                params: { query: item.Masjid }
+              }}
+              asChild
+              style={styles.masjidContainer}
+            >
+              <Pressable >
                 {({ pressed }) => (
                   <>
-                    <Text style={styles.masjidText} lightColor='rgba(16, 37, 64, 0.8)'>🕌 {toCapitalCase(item.Masjid)}</Text>
-                    {/* <FontAwesome
-                      name="info-circle"
-                      size={25}
-                      color={Colors[colorScheme ?? 'light'].tint}
-                      style={{ opacity: pressed ? 0.5 : 1 }}
-                    /> */}
+                  <Text
+                    style={[
+                      styles.masjidText,
+                    ]}
+                  >
+                    🕌 {toCapitalCase(item.Masjid)}
+                  </Text>
+                  {/* <FontAwesome
+                  name="chevron-right"
+                  size={25}
+                  color={Colors[colorScheme ?? 'light'].tint}
+                  style={{ right: 0, marginRight: 15, opacity: pressed ? 0.1 : 1 }}
+                  /> */}
                   </>
                 )}
               </Pressable>
             </Link>
-            </View>
           )}
         />
       </View>
@@ -71,9 +75,6 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     alignItems: 'stretch',
-    borderColor: 'grey',
-    borderWidth: 2,
-    borderStyle: 'solid',
   },
   title: {
     fontSize: 20,
@@ -85,7 +86,6 @@ const styles = StyleSheet.create({
     width: '80%',
   },
   masjidContainer: {
-    // flex: 1,
     flexDirection: 'row',
     borderColor: 'grey',
     borderWidth: 2,
@@ -95,12 +95,17 @@ const styles = StyleSheet.create({
     justifyContent: 'flex-start',
     margin: 2,
     padding: 15,
-    // width: '95%',
-    backgroundColor: 'transparent'
+    backgroundColor: 'transparent',
   },
   masjidText: {
     fontSize: 20,
     textAlign: 'left',
     textTransform: 'capitalize',
-  }
+  },
+  pressable: {
+    flex: 1,
+    alignItems: 'center',
+    justifyContent: 'center',
+    padding: 10,
+  },
 });
