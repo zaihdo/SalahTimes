@@ -1,11 +1,11 @@
 import React, { useEffect, useState } from 'react';
 import { useSQLiteContext } from 'expo-sqlite/next';
-import { FlatList, Pressable, StyleSheet } from 'react-native';
+import { ScrollView, FlatList, Pressable, StyleSheet } from 'react-native';
 import { Text, View } from '@/components/Themed';
 import Suspense from '@/components/Suspense';
 import { DataHandler } from '@/services/DataHandler';
 import { Link } from 'expo-router';
-import { Colors } from 'react-native/Libraries/NewAppScreen';
+import Colors from '@/constants/Colors';
 import { useColorScheme } from '@/components/useColorScheme';
 import FontAwesome from '@expo/vector-icons/FontAwesome';
 
@@ -29,52 +29,11 @@ export default function MasjidScreen() {
       .join(' ');
   };
 
-  return (
-    <React.Suspense fallback={<Suspense />}>
-      <View style={styles.container}>
-        <FlatList
-          data={masjids}
-          keyExtractor={(item, index) => index.toString()}
-          renderItem={({ item }) => (
-            <Link
-              href={{
-                pathname: '/modal',
-                params: { query: item.Masjid }
-              }}
-              asChild
-              style={styles.masjidContainer}
-            >
-              <Pressable >
-                {({ pressed }) => (
-                  <>
-                  <Text
-                    style={[
-                      styles.masjidText,
-                    ]}
-                  >
-                    🕌 {toCapitalCase(item.Masjid)}
-                  </Text>
-                  {/* <FontAwesome
-                  name="chevron-right"
-                  size={25}
-                  color={Colors[colorScheme ?? 'light'].tint}
-                  style={{ right: 0, marginRight: 15, opacity: pressed ? 0.1 : 1 }}
-                  /> */}
-                  </>
-                )}
-              </Pressable>
-            </Link>
-          )}
-        />
-      </View>
-    </React.Suspense>
-  );
-}
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    alignItems: 'stretch',
+  const styles = StyleSheet.create({
+    container: {
+      flex: 1,
+      alignItems: 'stretch',
+      padding: 20
   },
   title: {
     fontSize: 20,
@@ -87,18 +46,22 @@ const styles = StyleSheet.create({
   },
   masjidContainer: {
     flexDirection: 'row',
-    borderColor: 'grey',
-    borderWidth: 2,
+    borderColor: '#efefef',
+    borderBottomWidth: 1,
     borderStyle: 'solid',
-    borderRadius: 25,
     alignItems: 'center',
     justifyContent: 'flex-start',
-    margin: 2,
     padding: 15,
     backgroundColor: 'transparent',
   },
+  flatListContainer: {
+    borderRadius: 15,
+    borderStyle: 'solid',
+    backgroundColor: Colors[colorScheme ?? 'light'].secondary,
+    padding: 8,
+  },
   masjidText: {
-    fontSize: 20,
+    fontSize: 16,
     textAlign: 'left',
     textTransform: 'capitalize',
   },
@@ -109,3 +72,46 @@ const styles = StyleSheet.create({
     padding: 10,
   },
 });
+
+return (
+  <React.Suspense fallback={<Suspense />}>
+    <View style={styles.container}>
+      <FlatList
+        style={styles.flatListContainer}
+        data={masjids}
+        keyExtractor={(item, index) => index.toString()}
+        renderItem={({ item }) => (
+          <Link
+            href={{
+              pathname: '/modal',
+              params: { query: item.Masjid }
+            }}
+            asChild
+            style={styles.masjidContainer}
+          >
+            <Pressable >
+              {({ pressed }) => (
+                <>
+                <Text
+                  style={[
+                    styles.masjidText,
+                  ]}
+                >
+                  🕌 {toCapitalCase(item.Masjid)}
+                </Text>
+                {/* <FontAwesome
+                name="chevron-right"
+                size={25}
+                color={Colors[colorScheme ?? 'light'].tint}
+                style={{ right: 0, marginRight: 15, opacity: pressed ? 0.1 : 1 }}
+                /> */}
+                </>
+              )}
+            </Pressable>
+          </Link>
+        )}
+      />
+    </View>
+  </React.Suspense>
+);
+}
