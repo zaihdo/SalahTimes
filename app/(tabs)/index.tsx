@@ -6,6 +6,7 @@ import List from '@/components/List';
 import { HijriDate } from 'hijri-date';
 import React from 'react';
 import { SQLiteProvider } from 'expo-sqlite';
+import { Utilities } from '@/util/Utilities';
 
 
 // const getFormattedHijriDate = (date: Date) => {
@@ -22,34 +23,9 @@ import { SQLiteProvider } from 'expo-sqlite';
 //   return `${day} ${month} ${year}`;
 // };
 
-const getFormattedDate = (date: Date) => {
-  const days = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"];
-  const months = [
-    "January", "February", "March", "April", "May", "June", "July",
-    "August", "September", "October", "November", "December"
-  ];
-
-  const dayName = date.toLocaleDateString('default', {weekday: 'long'});
-  const day = date.getDate();
-  const month = date.toLocaleString('default', {month: 'long'});
-
-  // Determine the day suffix
-  const daySuffix = (day: number) => {
-    if (day > 3 && day < 21) return 'th';
-    switch (day % 10) {
-      case 1: return 'st';
-      case 2: return 'nd';
-      case 3: return 'rd';
-      default: return 'th';
-    }
-  };
-
-  return `${dayName} ${day}${daySuffix(day)} ${month}`;
-};
-
 export default function SalahScreen() {
   const currentDate = new Date();
-  const formattedDate = getFormattedDate(currentDate);
+  const formattedDate = Utilities.getFormattedDate(currentDate);
 
   return (
     <React.Suspense 
