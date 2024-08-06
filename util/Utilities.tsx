@@ -17,4 +17,12 @@ export class Utilities {
           default: return 'th';
         }
     }
+
+    static toCapitalCase (str: string): string {
+        return str
+        .toLowerCase()
+        .split(/[\s-]+/) // Split by any whitespace or hyphen
+        .map(word => word.charAt(0).toUpperCase() + word.slice(1))
+        .join(' ');
+    }
 }

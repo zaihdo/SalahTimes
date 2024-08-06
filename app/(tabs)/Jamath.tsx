@@ -1,13 +1,13 @@
 import React, { useEffect, useState } from 'react';
 import { useSQLiteContext } from 'expo-sqlite/next';
-import { ScrollView, FlatList, Pressable, StyleSheet } from 'react-native';
+import { FlatList, Pressable, StyleSheet } from 'react-native';
 import { Text, View } from '@/components/Themed';
 import Suspense from '@/components/Suspense';
 import { DataHandler } from '@/services/DataHandler';
 import { Link } from 'expo-router';
 import Colors from '@/constants/Colors';
 import { useColorScheme } from '@/components/useColorScheme';
-import FontAwesome from '@expo/vector-icons/FontAwesome';
+import { Utilities } from '@/util/Utilities';
 
 export default function MasjidScreen() {
   const [masjids, setMasjids] = useState<any[]>([]);
@@ -21,15 +21,50 @@ export default function MasjidScreen() {
     });
   }, [db]);
 
-  const toCapitalCase = (str: string): string => {
-    return str
-      .toLowerCase()
-      .split(/[\s-]+/) // Split by any whitespace or hyphen
-      .map(word => word.charAt(0).toUpperCase() + word.slice(1))
-      .join(' ');
-  };
+return (
+  <React.Suspense fallback={<Suspense />}>
+    <View style={styles.container}>
+      <FlatList
+        style={[{backgroundColor: Colors[colorScheme ?? 'light'].secondary}, styles.flatListContainer]}
+        data={masjids}
+        keyExtractor={(item, index) => index.toString()}
+        renderItem={({ item }) => (
+          <Link
+            href={{
+              pathname: '/Iqamah',
+              params: { query: item.Masjid }
+            }}
+            asChild
+            style={styles.masjidContainer}
+          >
+            <Pressable >
+              {({ pressed }) => (
+                <>
+                <Text
+                  style={[{color: Colors[colorScheme ?? 'light'].tint},
+                    styles.masjidText,
+                  ]}
+                >
+                  🕌 {Utilities.toCapitalCase(item.Masjid)}
+                </Text>
+                {/* <FontAwesome
+                name="chevron-right"
+                size={10}
+                color={Colors[colorScheme ?? 'light'].tint}
+                style={{ textAlign: 'right', marginRight: 15, opacity: pressed ? 0.1 : 1 }}
+                /> */}
+                </>
+              )}
+            </Pressable>
+          </Link>
+        )}
+      />
+    </View>
+  </React.Suspense>
+);
+}
 
-  const styles = StyleSheet.create({
+const styles = StyleSheet.create({
     container: {
       flex: 1,
       alignItems: 'stretch',
@@ -57,7 +92,6 @@ export default function MasjidScreen() {
   flatListContainer: {
     borderRadius: 15,
     borderStyle: 'solid',
-    backgroundColor: Colors[colorScheme ?? 'light'].secondary,
     padding: 8,
     paddingHorizontal: 16
   },
@@ -65,7 +99,6 @@ export default function MasjidScreen() {
     fontSize: 16,
     textAlign: 'left',
     textTransform: 'capitalize',
-    color: Colors[colorScheme ?? 'light'].tint
   },
   pressable: {
     flex: 1,
@@ -74,46 +107,3 @@ export default function MasjidScreen() {
     padding: 10,
   },
 });
-
-return (
-  <React.Suspense fallback={<Suspense />}>
-    <View style={styles.container}>
-      <FlatList
-        style={styles.flatListContainer}
-        data={masjids}
-        keyExtractor={(item, index) => index.toString()}
-        renderItem={({ item }) => (
-          <Link
-            href={{
-              pathname: '/Iqamah',
-              params: { query: item.Masjid }
-            }}
-            asChild
-            style={styles.masjidContainer}
-          >
-            <Pressable >
-              {({ pressed }) => (
-                <>
-                <Text
-                  style={[
-                    styles.masjidText,
-                  ]}
-                >
-                  🕌 {toCapitalCase(item.Masjid)}
-                </Text>
-                {/* <FontAwesome
-                name="chevron-right"
-                size={10}
-                color={Colors[colorScheme ?? 'light'].tint}
-                style={{ textAlign: 'right', marginRight: 15, opacity: pressed ? 0.1 : 1 }}
-                /> */}
-                </>
-              )}
-            </Pressable>
-          </Link>
-        )}
-      />
-    </View>
-  </React.Suspense>
-);
-}
