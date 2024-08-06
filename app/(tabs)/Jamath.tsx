@@ -85,7 +85,7 @@ return (
         renderItem={({ item }) => (
           <Link
             href={{
-              pathname: '/modal',
+              pathname: '/Iqamah',
               params: { query: item.Masjid }
             }}
             asChild
