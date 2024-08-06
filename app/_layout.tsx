@@ -12,6 +12,7 @@ import { SQLiteProvider } from 'expo-sqlite';
 import React from 'react';
 import * as SystemUI from 'expo-system-ui';
 import Suspense from '@/components/Suspense';
+import Colors from '@/constants/Colors';
 
 export {
   // Catch any errors thrown by the Layout component.
@@ -82,7 +83,7 @@ function RootLayoutNav() {
       <SQLiteProvider databaseName={'prayerTimes.db'} useSuspense assetSource={{assetId: require("../assets/databases/prayerTimes.db")}}>
         <Stack>
           <Stack.Screen name="(tabs)" options={{ headerShown: false }} />
-          <Stack.Screen name="modal" options={{ presentation: 'card', headerBackTitle: 'Masaajid', headerBackVisible: false, headerShown: false }} />
+          <Stack.Screen name="Iqamah" options={{ presentation: 'card', headerStyle: {backgroundColor: Colors[colorScheme ?? 'light'].secondary}, headerBackTitle: 'Masaajid', headerBackTitleVisible: false, headerBackVisible: true, headerShown: true, headerTransparent: true, headerBlurEffect: 'regular', headerTitleAlign: 'center'}} />
         </Stack>
       </SQLiteProvider>
     </ThemeProvider>
