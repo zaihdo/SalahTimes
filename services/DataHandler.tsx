@@ -1,7 +1,7 @@
 import * as FileSystem from 'expo-file-system';
 import { Asset } from 'expo-asset';
-import { IqamahTime, Masjid } from '@/types/dbTypes';
-import { SQLiteDatabase, useSQLiteContext } from 'expo-sqlite/next';
+import { IqamahTime } from '@/types/dbTypes';
+import { SQLiteDatabase } from 'expo-sqlite/next';
 
 export class DataHandler {
   static async loadDatabase() {
