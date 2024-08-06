@@ -1,7 +1,7 @@
 const tintColorLight = '#2f95dc';
 const tintColorDark = '#fff';
 const gold = '#FFC801';
-const navy = 'rgba(16, 37, 64, 1)';
+const navy = '#091825';
 const lightNavy = 'rgba(16, 37, 64, 0.25)'
 
 export default {
@@ -12,6 +12,8 @@ export default {
     tint: navy,
     tabIconDefault: '#ccc',
     tabIconSelected: navy,
+    main: '#ffc801',
+    secondary: '#FBF9F4'
   },
   dark: {
     text: '#fff',
@@ -20,5 +22,9 @@ export default {
     tint: gold,
     tabIconDefault: '#ccc',
     tabIconSelected: gold,
+    main: '#102540',
+    primary: '#091825',
+    secondary: 'rgba(9, 24, 37, 0.5)',
+    accent: '#17345E'
   },
 };

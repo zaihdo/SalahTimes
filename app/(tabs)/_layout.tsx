@@ -27,7 +27,7 @@ export default function TabLayout() {
         // to prevent a hydration error in React Navigation v6.
         headerShown: useClientOnlyValue(false, true),
         tabBarStyle: {
-          backgroundColor: Colors[colorScheme ?? 'light'].background,
+          backgroundColor: Colors[colorScheme ?? 'light'].secondary,
           borderTopWidth: 0,
         }
       }}>
@@ -37,27 +37,27 @@ export default function TabLayout() {
           title: 'Salah',
           tabBarIcon: ({ color }) => <TabBarIcon name="mosque" color={color} />,
           headerStyle: {
-            backgroundColor: Colors[colorScheme ?? 'light'].background, // Change this to your desired color
+            backgroundColor: Colors[colorScheme ?? 'light'].secondary, // Change this to your desired color
             borderBottomWidth: 0
           },
           headerTitleStyle: {
             color: Colors[colorScheme ?? 'light'].tabIconSelected, // Change this to your desired color
           },
           headerTintColor: Colors[colorScheme ?? 'light'].text, // Change this to your desired color
-          headerRight: () => (
-            <Link href="/modal" asChild>
-              <Pressable>
-                {({ pressed }) => (
-                  <FontAwesome
-                    name="info-circle"
-                    size={25}
-                    color={Colors[colorScheme ?? 'light'].tint}
-                    style={{ marginRight: 15, opacity: pressed ? 0.1 : 1 }}
-                  />
-                )}
-              </Pressable>
-            </Link>
-          ),
+          // headerRight: () => (
+          //   <Link href="/modal" asChild>
+          //     <Pressable>
+          //       {({ pressed }) => (
+          //         <FontAwesome
+          //           name="info-circle"
+          //           size={25}
+          //           color={Colors[colorScheme ?? 'light'].tint}
+          //           style={{ marginRight: 15, opacity: pressed ? 0.1 : 1 }}
+          //         />
+          //       )}
+          //     </Pressable>
+          //   </Link>
+          // ),
         }}
       />
       <Tabs.Screen
@@ -66,15 +66,13 @@ export default function TabLayout() {
           title: 'Jamath',
           tabBarIcon: ({ color }) => <TabBarIcon name="people-group" color={color} />,
           headerStyle: {
-            backgroundColor: Colors[colorScheme ?? 'light'].background, // Change this to your desired color
+            backgroundColor: Colors[colorScheme ?? 'light'].secondary, // Change this to your desired color
             borderBottomWidth: 0
           },
           headerTitleStyle: {
             color: Colors[colorScheme ?? 'light'].tabIconSelected, // Change this to your desired color
           },
           headerTintColor: Colors[colorScheme ?? 'light'].text, // Change this to your desired color
-          
-        
         }}
       />
       <Tabs.Screen
@@ -83,13 +81,13 @@ export default function TabLayout() {
           title: 'Qiblah',
           tabBarIcon: ({ color }) => <TabBarIcon name="kaaba" color={color} />,
           headerStyle: {
-            backgroundColor: Colors[colorScheme ?? 'light'].background, // Change this to your desired color
+            backgroundColor: Colors[colorScheme ?? 'light'].secondary, // Change this to your desired color
             borderBottomWidth: 0
           },
           headerTitleStyle: {
             color: Colors[colorScheme ?? 'light'].tabIconSelected, // Change this to your desired color
           },
-          headerTintColor: Colors[colorScheme ?? 'light'].text, // Change this to your desired color
+          headerTintColor: Colors[colorScheme ?? 'light'].text // Change this to your desired color
         
         }}
       />
