@@ -59,11 +59,13 @@ export default function MasjidScreen() {
     borderStyle: 'solid',
     backgroundColor: Colors[colorScheme ?? 'light'].secondary,
     padding: 8,
+    paddingHorizontal: 16
   },
   masjidText: {
     fontSize: 16,
     textAlign: 'left',
     textTransform: 'capitalize',
+    color: Colors[colorScheme ?? 'light'].tint
   },
   pressable: {
     flex: 1,
@@ -101,9 +103,9 @@ return (
                 </Text>
                 {/* <FontAwesome
                 name="chevron-right"
-                size={25}
+                size={10}
                 color={Colors[colorScheme ?? 'light'].tint}
-                style={{ right: 0, marginRight: 15, opacity: pressed ? 0.1 : 1 }}
+                style={{ textAlign: 'right', marginRight: 15, opacity: pressed ? 0.1 : 1 }}
                 /> */}
                 </>
               )}
