@@ -7,6 +7,7 @@ import Colors from '@/constants/Colors';
 import { useColorScheme } from '@/components/useColorScheme';
 import React from 'react';
 import { Utilities } from '@/util/Utilities';
+
 interface ListProps {
   iqamahs: IqamahTime[];
   masjid: string

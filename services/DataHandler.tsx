@@ -1,6 +1,6 @@
 import * as FileSystem from 'expo-file-system';
 import { Asset } from 'expo-asset';
-import { IqamahTime } from '@/types/dbTypes';
+import { IqamahTime, SalaahTime } from '@/types/dbTypes';
 import { SQLiteDatabase } from 'expo-sqlite/next';
 
 export class DataHandler {
@@ -30,6 +30,21 @@ static async iqamahQuery(db: SQLiteDatabase, masjid: string): Promise<IqamahTime
 static async masjidQuery(db: SQLiteDatabase): Promise<any[]> {
   const result =  db.getAllAsync<any>(
     `SELECT DISTINCT Masjid FROM Iqamahs`
+  );
+  return result;
+}
+
+static async salaahQuery(db: SQLiteDatabase, city: string): Promise<SalaahTime[]> {
+  const date = this.formatDateQuery();
+  return db.getAllSync<SalaahTime>(
+    `SELECT Fajr, Dhuhr, DhuhrSunday, Asr, Maghrib, Isha FROM Salaahs WHERE Date = ? AND City = ?`,
+    [date, city]
+  );
+}
+
+static async cityQuery(db: SQLiteDatabase): Promise<any[]> {
+  const result =  db.getAllAsync<any>(
+    `SELECT DISTINCT City FROM Salahs`
   );
   return result;
 }

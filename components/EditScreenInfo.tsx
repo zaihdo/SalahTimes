@@ -7,7 +7,6 @@ import { Text, View } from './Themed';
 
 import Colors from '@/constants/Colors';
 import ListItem from './ListItem';
-import List from './List';
 
 export default function EditScreenInfo({ path }: { path: string }) {
   return (
