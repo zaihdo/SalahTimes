@@ -9,17 +9,17 @@ import React from 'react';
 import { Utilities } from '@/util/Utilities';
 
 interface ListProps {
-  salaahTimes: SalaahTime[];
+  salaahs: SalaahTime[];
   city: string
 }
 
-export default function List({salaahTimes: salaahTimes, city: city}: ListProps) {
+export default function List({salaahs, city}: ListProps) {
   const colorScheme = useColorScheme();
   const formatColumnName = (name: string) => {
     return name.replace(/([a-z])([A-Z])/g, '$1-$2');
   };
 
-  const data = salaahTimes.flatMap(iqamah => Object.entries(iqamah));
+  const data = salaahs.flatMap(salaah => Object.entries(salaah));
 
   const renderItem = ({ item }: { item: [string, string] }) => (
     <ListItem prayer={formatColumnName(item[0])} time={item[1]}></ListItem>

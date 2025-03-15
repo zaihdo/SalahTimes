@@ -37,7 +37,7 @@ static async masjidQuery(db: SQLiteDatabase): Promise<any[]> {
 static async salaahQuery(db: SQLiteDatabase, city: string): Promise<SalaahTime[]> {
   const date = this.formatDateQuery();
   return db.getAllSync<SalaahTime>(
-    `SELECT Fajr, Dhuhr, DhuhrSunday, Asr, Maghrib, Isha FROM Salaahs WHERE Date = ? AND City = ?`,
+    `SELECT Fajr, Sunrise, Zawwal, AsrShafiee, AsrHanafee, Sunset, Maghrib, Isha FROM Salahs WHERE Date = ? AND City = ?`,
     [date, city]
   );
 }

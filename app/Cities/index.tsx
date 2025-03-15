@@ -9,15 +9,15 @@ import Colors from '@/constants/Colors';
 import { useColorScheme } from '@/components/useColorScheme';
 import { Utilities } from '@/util/Utilities';
 
-export default function MasjidScreen() {
-  const [masjids, setMasjids] = useState<any[]>([]);
+export default function CityScreen() {
+  const [cities, setCities] = useState<any[]>([]);
   const colorScheme = useColorScheme();
   const db = useSQLiteContext();
 
   useEffect(() => {
     db.withTransactionAsync(async () => {
-      const masjidNames = await DataHandler.masjidQuery(db);
-      setMasjids(masjidNames);
+      const cityNames = await DataHandler.cityQuery(db);
+      setCities(cityNames);
     });
   }, [db]);
 
@@ -26,13 +26,13 @@ return (
     <View style={styles.container}>
       <FlatList
         style={[{backgroundColor: Colors[colorScheme ?? 'light'].secondary}, styles.flatListContainer]}
-        data={masjids}
+        data={cities}
         keyExtractor={(item, index) => index.toString()}
         renderItem={({ item }) => (
           <Link
             href={{
-              pathname: '/Iqamah',
-              params: { query: item.Masjid }
+              pathname: '/Salaah',
+              params: { query: item.City }
             }}
             asChild
             style={styles.masjidContainer}
@@ -45,14 +45,8 @@ return (
                     styles.masjidText,
                   ]}
                 >
-                  🕌 {Utilities.toCapitalCase(item.Masjid)}
+                  🕌 {Utilities.toCapitalCase(item.City)}
                 </Text>
-                {/* <FontAwesome
-                name="chevron-right"
-                size={10}
-                color={Colors[colorScheme ?? 'light'].tint}
-                style={{ textAlign: 'right', marginRight: 15, opacity: pressed ? 0.1 : 1 }}
-                /> */}
                 </>
               )}
             </Pressable>

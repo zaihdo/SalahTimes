@@ -4,26 +4,26 @@ import React, { useEffect, useState } from 'react';
 import { useSQLiteContext } from 'expo-sqlite/next';
 import { Text, View } from '@/components/Themed';
 import Suspense from '@/components/Suspense';
-import { IqamahTime } from '@/types/dbTypes';
+import { SalaahTime } from '@/types/dbTypes';
 import { DataHandler } from '@/services/DataHandler';
 import { useLocalSearchParams } from 'expo-router';
 import { Utilities } from '@/util/Utilities';
-import IqamahList from '@/components/IqamahList';
+import SalaahList from '@/components/SalaahList';
 
-interface IqamahProps {
+interface SalaahProps {
   Name: string;
 }
 
-export default function IqamahScreen(Masjid: IqamahProps) {
-  const [IqamahTimes, setIqamahTimes] = useState<IqamahTime[]>([]);
+export default function SalaahScreen(City: SalaahProps) {
+  const [salaahTimes, setSalaahTimes] = useState<SalaahTime[]>([]);
   const { query } = useLocalSearchParams<{ query: string }>();
   const db = useSQLiteContext();
 
   useEffect(() => {
     db.withTransactionAsync(async () => {
       console.log(query);
-      const results = await DataHandler.iqamahQuery(db, query);
-      setIqamahTimes(results);
+      const results = await DataHandler.salaahQuery(db, query);
+      setSalaahTimes(results);
     });
   }, [db]);
 
@@ -40,7 +40,7 @@ export default function IqamahScreen(Masjid: IqamahProps) {
         {/* EditScreenInfo Component */}
         {/* <EditScreenInfo path="app/modal.tsx" /> */}
 
-        <IqamahList iqamahs={IqamahTimes} masjid={query.toLowerCase()} />
+        <SalaahList salaahs={salaahTimes} city={query.toLowerCase()} />
       </View>
     </React.Suspense>
   );

@@ -82,8 +82,10 @@ function RootLayoutNav() {
     <ThemeProvider value={colorScheme === 'dark' ? DarkTheme : DefaultTheme}>
       <SQLiteProvider databaseName={'prayerTimes.db'} useSuspense assetSource={{assetId: require("../assets/databases/prayerTimes.db")}}>
         <Stack>
-          <Stack.Screen name="(tabs)" options={{ headerShown: false }} />
-          <Stack.Screen name="Iqamah" options={{ presentation: 'card', headerStyle: {backgroundColor: Colors[colorScheme ?? 'light'].secondary}, headerBackTitle: 'Masaajid', headerBackTitleVisible: false, headerBackVisible: true, headerShown: true, headerTransparent: true, headerBlurEffect: 'regular', headerTitleAlign: 'center'}} />
+          <Stack.Screen name="(tabs)" options={{ headerTitle: "Cities", headerShown: false}} />
+          <Stack.Screen name="Iqamah" options={{ headerBackTitle: "Masaajid"}}/>
+          {/* options={{ presentation: 'card', headerStyle: {backgroundColor: Colors[colorScheme ?? 'light'].secondary}, headerBackTitle: 'Masaajid', headerBackTitleVisible: false, headerBackVisible: true, headerShown: true, headerTransparent: true, headerBlurEffect: 'regular', headerTitleAlign: 'center'}} */}
+          {/* <Stack.Screen name="Iqamah" options={{ presentation: 'card', headerStyle: {backgroundColor: Colors[colorScheme ?? 'light'].secondary}, headerBackTitle: 'Masaajid', headerBackTitleVisible: false, headerBackVisible: true, headerShown: true, headerTransparent: true, headerBlurEffect: 'regular', headerTitleAlign: 'center'}} /> */}
         </Stack>
       </SQLiteProvider>
     </ThemeProvider>
