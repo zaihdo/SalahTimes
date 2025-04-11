@@ -5,10 +5,15 @@ import { SQLiteDatabase } from 'expo-sqlite/next';
 
 export class DataHandler {
   static async loadDatabase() {
-    const dbName = 'salahAndIqamahTimes.db';
+    const dbName = 'prayerTimes.db';
     const dbAsset = require('../assets/databases/prayerTimes.db');
+    console.log('Asset database URI:', Asset.fromModule(dbAsset).uri);
+
     const dbUri = Asset.fromModule(dbAsset).uri;
     const dbFilePath = `${FileSystem.documentDirectory}SQLite/${dbName}`;
+
+    // Always delete and recreate for debugging (remove this in production)
+    //await FileSystem.deleteAsync(dbFilePath).catch(() => {});
 
     const fileInfo = await FileSystem.getInfoAsync(dbFilePath);
     if (!fileInfo.exists){
@@ -18,6 +23,7 @@ export class DataHandler {
         await FileSystem.downloadAsync(dbUri, dbFilePath);
     }
 };
+
 
 static async iqamahQuery(db: SQLiteDatabase, masjid: string): Promise<IqamahTime[]> {
   const date = this.formatDateQuery();
@@ -36,7 +42,7 @@ static async masjidQuery(db: SQLiteDatabase): Promise<any[]> {
 
 static async salaahQuery(db: SQLiteDatabase, city: string): Promise<SalaahTime[]> {
   const date = this.formatDateQuery();
-  return db.getAllSync<SalaahTime>(
+  return db.getAllAsync<SalaahTime>(
     `SELECT Fajr, Sunrise, Zawwal, AsrShafiee, AsrHanafee, Sunset, Maghrib, Isha FROM Salahs WHERE Date = ? AND City = ?`,
     [date, city]
   );
