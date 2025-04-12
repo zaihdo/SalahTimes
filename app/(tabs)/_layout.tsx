@@ -54,11 +54,11 @@ export default function TabLayout() {
           headerTintColor: Colors[colorScheme ?? 'light'].text, 
         }}
       />
-      {/* <Tabs.Screen
-        name="Qiblah"
+      <Tabs.Screen
+        name="about"
         options={{
-          title: 'Qiblah',
-          tabBarIcon: ({ color }) => <TabBarIcon name="kaaba" color={color} />,
+          title: 'About',
+          tabBarIcon: ({ color }) => <TabBarIcon name="info" color={color} />,
           headerStyle: {
             backgroundColor: Colors[colorScheme ?? 'light'].secondary, // Change this to your desired color
             borderBottomWidth: 0
@@ -69,7 +69,7 @@ export default function TabLayout() {
           headerTintColor: Colors[colorScheme ?? 'light'].text // Change this to your desired color
         
         }}
-      /> */}
+      />
     </Tabs>
   );
 }

@@ -7,7 +7,6 @@ export class DataHandler {
   static async loadDatabase() {
     const dbName = 'prayerTimes.db';
     const dbAsset = require('../assets/databases/prayerTimes.db');
-    console.log('Asset database URI:', Asset.fromModule(dbAsset).uri);
 
     const dbUri = Asset.fromModule(dbAsset).uri;
     const dbFilePath = `${FileSystem.documentDirectory}SQLite/${dbName}`;
