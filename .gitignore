@@ -16,6 +16,11 @@ web-build/
 *.key
 *.mobileprovision
 
+# iOS and Android build folders 
+ios/
+android/
+**
+
 # Metro
 .metro-health-check*
 
