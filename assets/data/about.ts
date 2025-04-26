@@ -1,60 +1,61 @@
 export type Category = {
     title: string;
     content: string[];
-};
-
-export type About = Category[];
-
-const data: About = [
+    contentNested: NestedItem[];
+    type: string;
+  };
+  
+  export type NestedItem = {
+    title: string;
+    content: string[];
+  };
+  
+  export type Data = Category[];
+  
+  const data: Data = [
     {
-        title: 'About SalahTimes',
-        content: [
-            'SalahTimes is a comprehensive prayer time application designed to help Muslims keep track of their daily prayers. The app provides accurate prayer times based on your location and preferred calculation method.',
-            'Our mission is to make it easier for Muslims around the world to fulfill their religious obligations by providing reliable prayer times and useful features in a beautiful, easy-to-use interface.'
-        ]
+      title: 'Category 1',
+      content: ['Content Category 1'],
+      contentNested: [],
+      type: 'regular',
     },
     {
-        title: 'Features',
-        content: [
-            '• Accurate prayer times based on your location',
-            '• Multiple calculation methods (MWL, ISNA, Egypt, Makkah, Karachi)',
-            '• Notifications for prayer times',
-            '• Qibla direction finder',
-            '• Hijri calendar',
-            '• Beautiful and intuitive interface',
-            '• Dark mode support',
-            '• Works offline'
-        ]
+      title: 'Category 2',
+      content: ['Content Category 1', 'Content Category 2'],
+      contentNested: [],
+      type: 'regular',
     },
     {
-        title: 'How to Use',
-        content: [
-            '1. Allow location access for accurate prayer times',
-            '2. Select your preferred calculation method in Settings',
-            '3. Enable notifications if you want to be reminded of prayer times',
-            '4. Use the Qibla finder to determine the direction of prayer',
-            '5. Explore the Hijri calendar for important Islamic dates'
-        ]
+      title: 'Category 3',
+      content: ['Content Category 1', 'Content Category 2', 'Content Category 3'],
+      contentNested: [],
+      type: 'regular',
     },
     {
-        title: 'Privacy Policy',
-        content: [
-            'At SalahTimes, we take your privacy seriously. We only collect the minimum amount of data necessary to provide you with accurate prayer times.',
-            'Location data: We use your location to calculate accurate prayer times for your area. This data is processed on your device and is not shared with any third parties.',
-            'We do not collect any personal information or track your usage of the app. We believe your religious practices are private and should remain that way.',
-            'If you have any questions or concerns about our privacy practices, please contact us at privacy@salahtimes.app.'
-        ]
+      title: 'Paragraph',
+      content: [
+        'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.',
+      ],
+      contentNested: [],
+      type: 'regular',
     },
     {
-        title: 'Note from the Developer',
-        content: [
-            'As-salamu alaykum (Peace be upon you),',
-            'Thank you for using SalahTimes! This app was created with the intention of making it easier for Muslims to keep track of their daily prayers. I hope it serves as a beneficial tool in your spiritual journey.',
-            'If you have any suggestions, feedback, or encounter any issues, please don\'t hesitate to reach out. Your input is valuable and helps improve the app for everyone.',
-            'May Allah accept our prayers and good deeds.',
-            'Jazak Allah Khair (May Allah reward you with goodness).'
-        ]
-    }
-]
-
-export default data;
+      title: 'Nested Accordion',
+      content: [
+        'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.',
+      ],
+      contentNested: [
+        {
+          title: 'Nested 1',
+          content: ['Content Nested 1', 'Content Nested 2', 'Content Nested 3'],
+        },
+        {
+          title: 'Nested 2',
+          content: ['Content Nested 1', 'Content Nested 2', 'Content Nested 3'],
+        },
+      ],
+      type: 'nested',
+    },
+  ];
+  
+  export default data;

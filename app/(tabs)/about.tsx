@@ -5,12 +5,15 @@ import { DataHandler } from '@/services/DataHandler';
 import { useColorScheme } from '@/components/useColorScheme';
 import Accordion from '@/components/Accordion';
 import data, { Category } from '@/assets/data/about';
-import { View, ScrollView, StyleSheet } from 'react-native';
+import { View, ScrollView, StyleSheet, Text, SafeAreaView } from 'react-native';
+import Colors from '@/constants/Colors';
+import { useScreenSize } from '@/hooks/useScreenSize';
 
-export default function CityScreen() {
+export default function AboutScreen() {
   const [cities, setCities] = useState<any[]>([]);
   const colorScheme = useColorScheme();
   const db = useSQLiteContext();
+  const { isSmall, isLarge } = useScreenSize();
 
   useEffect(() => {
     db.withTransactionAsync(async () => {
@@ -19,62 +22,48 @@ export default function CityScreen() {
     });
   }, [db]);
 
-return (
-  <React.Suspense fallback={<Suspense />}>
-    <View style={styles.container}>
-      <ScrollView showsVerticalScrollIndicator={false}>
-        {data.map((value: any, index: any) => {
-          return <Accordion value={value} key={index} />
+  // Responsive padding
+  const containerPadding = isSmall ? 12 : isLarge ? 24 : 16;
+  const headerFontSize = isSmall ? 22 : isLarge ? 32 : 26;
+
+  return (
+    <React.Suspense fallback={<Suspense />}>
+      <SafeAreaView style={[
+        styles.safeArea, 
+        { backgroundColor: colorScheme === 'dark' ? Colors.dark.background : '#fff' }
+      ]}>
+        <View style={[
+          styles.container, 
+          { 
+            padding: containerPadding,
+            backgroundColor: colorScheme === 'dark' ? Colors.dark.background : '#fff'
+          }
+        ]}>
+
+        <ScrollView showsVerticalScrollIndicator={false}>
+        {data.map((value, index) => {
+          return <Accordion value={value} key={index} type={value.type} />;
         })}
-      </ScrollView>
-  
-    </View>
-    
-  </React.Suspense>
-);
+        </ScrollView>
+        </View>
+      </SafeAreaView>
+    </React.Suspense>
+  );
 }
 
 const styles = StyleSheet.create({
-    container: {
-      flex: 1,
-      alignItems: 'stretch',
-      padding: 20
+  safeArea: {
+    flex: 1,
   },
-  title: {
-    fontSize: 20,
+  container: {
+    flex: 1,
+    alignItems: 'stretch',
+  },
+  headerText: {
     fontWeight: 'bold',
   },
-  separator: {
-    marginVertical: 30,
-    height: 1,
-    width: '80%',
-  },
-  masjidContainer: {
-    flexDirection: 'row',
-    borderColor: '#efefef',
-    borderBottomWidth: 1,
-    borderStyle: 'solid',
-    alignItems: 'center',
-    justifyContent: 'flex-start',
-    padding: 15,
-    backgroundColor: 'transparent',
-  },
-  flatListContainer: {
-    borderRadius: 15,
-    borderStyle: 'solid',
-    padding: 8,
-    paddingHorizontal: 16
-  },
-  cityText: {
-    fontSize: 16,
-    textAlign: 'left',
-    textTransform: 'capitalize',
-    fontWeight: '500'
-  },
-  pressable: {
-    flex: 1,
-    alignItems: 'center',
-    justifyContent: 'center',
-    padding: 10,
-  },
+  scrollContent: {
+    paddingBottom: 20,
+    paddingTop: 20,
+  }
 });
