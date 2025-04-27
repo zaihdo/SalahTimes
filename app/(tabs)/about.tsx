@@ -30,17 +30,22 @@ export default function AboutScreen() {
     <React.Suspense fallback={<Suspense />}>
       <SafeAreaView style={[
         styles.safeArea, 
-        { backgroundColor: colorScheme === 'dark' ? Colors.dark.background : '#fff' }
+        { backgroundColor: Colors[colorScheme ?? 'light'].background[colorScheme === 'dark' ? 'dark' : 'light'] }
       ]}>
         <View style={[
           styles.container, 
           { 
             padding: containerPadding,
-            backgroundColor: colorScheme === 'dark' ? Colors.dark.background : '#fff'
+            backgroundColor: Colors[colorScheme ?? 'light'].background[colorScheme === 'dark' ? 'dark' : 'light']
           }
         ]}>
 
-        <ScrollView showsVerticalScrollIndicator={false}>
+        <ScrollView showsVerticalScrollIndicator={false} style={[
+          styles.scrollContent, 
+          { 
+            backgroundColor: Colors[colorScheme ?? 'light'].background[colorScheme === 'dark' ? 'dark' : 'light']
+          }
+        ]}>
         {data.map((value, index) => {
           return <Accordion value={value} key={index} type={value.type} />;
         })}

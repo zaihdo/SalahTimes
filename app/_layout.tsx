@@ -45,8 +45,10 @@ export default function RootLayout() {
     const setSplashScreenColor = async () => {
 
       if (colorScheme === 'dark') {
-        await SystemUI.setBackgroundColorAsync(DarkTheme.colors.background);
-      };
+        await SystemUI.setBackgroundColorAsync(Colors[colorScheme ?? 'light'].background.dark);
+      } else {
+        await SystemUI.setBackgroundColorAsync(Colors[colorScheme ?? 'light'].background.light);
+      }
     }
 
     setSplashScreenColor();
@@ -83,9 +85,7 @@ function RootLayoutNav() {
       <SQLiteProvider databaseName={'prayerTimes.db'} useSuspense assetSource={{assetId: require("../assets/databases/prayerTimes.db")}}>
         <Stack>
           <Stack.Screen name="(tabs)" options={{ headerTitle: "Cities", headerShown: false}} />
-          <Stack.Screen name="Iqamah" options={{ headerBackTitle: "Masaajid"}}/>
-          {/* options={{ presentation: 'card', headerStyle: {backgroundColor: Colors[colorScheme ?? 'light'].secondary}, headerBackTitle: 'Masaajid', headerBackTitleVisible: false, headerBackVisible: true, headerShown: true, headerTransparent: true, headerBlurEffect: 'regular', headerTitleAlign: 'center'}} */}
-          {/* <Stack.Screen name="Iqamah" options={{ presentation: 'card', headerStyle: {backgroundColor: Colors[colorScheme ?? 'light'].secondary}, headerBackTitle: 'Masaajid', headerBackTitleVisible: false, headerBackVisible: true, headerShown: true, headerTransparent: true, headerBlurEffect: 'regular', headerTitleAlign: 'center'}} /> */}
+          <Stack.Screen name="Iqamah" options={{ headerBackTitle: "Masaajid", headerStyle: {backgroundColor: Colors[colorScheme ?? 'light'].background[colorScheme === 'dark' ? 'dark' : 'light']}, headerBackTitleVisible: false, headerBackVisible: true, headerShown: true, headerTransparent: false, headerBlurEffect: 'regular', headerTitleAlign: 'center'}} />
         </Stack>
       </SQLiteProvider>
     </ThemeProvider>

@@ -21,48 +21,56 @@ export default function CityScreen() {
     });
   }, [db]);
 
-return (
-  <React.Suspense fallback={<Suspense />}>
-    <View style={styles.container}>
-      <FlatList
-        style={[{backgroundColor: Colors[colorScheme ?? 'light'].secondary}, styles.flatListContainer]}
-        data={cities}
-        keyExtractor={(item, index) => index.toString()}
-        renderItem={({ item }) => (
-          <Link
-            href={{
-              pathname: '/Salaah',
-              params: { query: item.City }
-            }}
-            asChild
-            style={styles.masjidContainer}
-          >
-            <Pressable >
-              {({ pressed }) => (
-                <>
-                <Text
-                  style={[{color: Colors[colorScheme ?? 'light'].tint},
-                    styles.cityText,
-                  ]}
-                >
-                  🕌 {Utilities.toCapitalCase(item.City)}
-                </Text>
-                </>
-              )}
-            </Pressable>
-          </Link>
-        )}
-      />
-    </View>
-  </React.Suspense>
-);
+  return (
+    <React.Suspense fallback={<Suspense />}>
+      <View style={styles.container}>
+        <FlatList
+          style={[
+            styles.flatListContainer,
+            {
+              backgroundColor: Colors[colorScheme ?? 'light'].background[colorScheme === 'dark' ? 'dark' : 'light'],
+            },
+          ]}
+          data={cities}
+          keyExtractor={(item, index) => index.toString()}
+          renderItem={({ item }) => (
+            <Link
+              href={{
+                pathname: '/Salaah',
+                params: { query: item.City },
+              }}
+              asChild
+              style={styles.masjidContainer}
+            >
+              <Pressable>
+                {({ pressed }) => (
+                  <>
+                    <Text
+                      style={[
+                        styles.cityText,
+                        {
+                          color: Colors[colorScheme ?? 'light'].text[colorScheme === 'dark' ? 'dark' : 'light'],
+                        },
+                      ]}
+                    >
+                      🕌 {Utilities.toCapitalCase(item.City)}
+                    </Text>
+                  </>
+                )}
+              </Pressable>
+            </Link>
+          )}
+        />
+      </View>
+    </React.Suspense>
+  );
 }
 
 const styles = StyleSheet.create({
-    container: {
-      flex: 1,
-      alignItems: 'stretch',
-      padding: 20
+  container: {
+    flex: 1,
+    alignItems: 'stretch',
+    padding: 20,
   },
   title: {
     fontSize: 20,
@@ -87,13 +95,13 @@ const styles = StyleSheet.create({
     borderRadius: 15,
     borderStyle: 'solid',
     padding: 8,
-    paddingHorizontal: 16
+    paddingHorizontal: 16,
   },
   cityText: {
     fontSize: 16,
     textAlign: 'left',
     textTransform: 'capitalize',
-    fontWeight: '500'
+    fontWeight: '500',
   },
   pressable: {
     flex: 1,

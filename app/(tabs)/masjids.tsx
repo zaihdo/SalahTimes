@@ -21,48 +21,56 @@ export default function MasjidScreen() {
     });
   }, [db]);
 
-return (
-  <React.Suspense fallback={<Suspense />}>
-    <View style={styles.container}>
-      <FlatList
-        style={[{backgroundColor: Colors[colorScheme ?? 'light'].secondary}, styles.flatListContainer]}
-        data={masjids}
-        keyExtractor={(item, index) => index.toString()}
-        renderItem={({ item }) => (
-          <Link
-            href={{
-              pathname: '/Iqamah',
-              params: { query: item.Masjid }
-            }}
-            asChild
-            style={styles.masjidContainer}
-          >
-            <Pressable >
-              {({ pressed }) => (
-                <>
-                <Text
-                  style={[{color: Colors[colorScheme ?? 'light'].tint},
-                    styles.masjidText,
-                  ]}
-                >
-                  🕌 {Utilities.toCapitalCase(item.Masjid)}
-                </Text>
-                </>
-              )}
-            </Pressable>
-          </Link>
-        )}
-      />
-    </View>
-  </React.Suspense>
-);
+  return (
+    <React.Suspense fallback={<Suspense />}>
+      <View style={styles.container}>
+        <FlatList
+          style={[
+            styles.flatListContainer,
+            {
+              backgroundColor: Colors[colorScheme ?? 'light'].background[colorScheme === 'dark' ? 'dark' : 'light'],
+            },
+          ]}
+          data={masjids}
+          keyExtractor={(item, index) => index.toString()}
+          renderItem={({ item }) => (
+            <Link
+              href={{
+                pathname: '/Iqamah',
+                params: { query: item.Masjid },
+              }}
+              asChild
+              style={styles.masjidContainer}
+            >
+              <Pressable>
+                {({ pressed }) => (
+                  <>
+                    <Text
+                      style={[
+                        styles.masjidText,
+                        {
+                          color: Colors[colorScheme ?? 'light'].text[colorScheme === 'dark' ? 'dark' : 'light'],
+                        },
+                      ]}
+                    >
+                      🕌 {Utilities.toCapitalCase(item.Masjid)}
+                    </Text>
+                  </>
+                )}
+              </Pressable>
+            </Link>
+          )}
+        />
+      </View>
+    </React.Suspense>
+  );
 }
 
 const styles = StyleSheet.create({
-    container: {
-      flex: 1,
-      alignItems: 'stretch',
-      padding: 20
+  container: {
+    flex: 1,
+    alignItems: 'stretch',
+    padding: 20,
   },
   title: {
     fontSize: 20,
@@ -87,13 +95,13 @@ const styles = StyleSheet.create({
     borderRadius: 15,
     borderStyle: 'solid',
     padding: 8,
-    paddingHorizontal: 16
+    paddingHorizontal: 16,
   },
   masjidText: {
     fontSize: 16,
     textAlign: 'left',
     textTransform: 'capitalize',
-    fontWeight: '500'
+    fontWeight: '500',
   },
   pressable: {
     flex: 1,

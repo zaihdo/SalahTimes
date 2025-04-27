@@ -18,9 +18,9 @@ export default function TabLayout() {
   return (
     <Tabs
       screenOptions={{
-        tabBarActiveTintColor: Colors[colorScheme ?? 'light'].tint,
+        tabBarActiveTintColor: Colors[colorScheme ?? 'light'].text[colorScheme === 'dark' ? 'dark' : 'light'],
         tabBarStyle: {
-          backgroundColor: Colors[colorScheme ?? 'light'].secondary,
+          backgroundColor: Colors[colorScheme ?? 'light'].background[colorScheme === 'dark' ? 'dark' : 'light'],
           borderTopWidth: 0,
         }
       }}>
@@ -30,13 +30,13 @@ export default function TabLayout() {
           title: 'Cities',
           tabBarIcon: ({ color }) => <TabBarIcon name="city" color={color} />,
           headerStyle: {
-            backgroundColor: Colors[colorScheme ?? 'light'].secondary, 
+            backgroundColor: Colors[colorScheme ?? 'light'].background[colorScheme === 'dark' ? 'dark' : 'light'], 
             borderBottomWidth: 0
           },
           headerTitleStyle: {
-            color: Colors[colorScheme ?? 'light'].tabIconSelected, 
+            color: Colors[colorScheme ?? 'light'].text[colorScheme === 'dark' ? 'dark' : 'light'], 
           },
-          headerTintColor: Colors[colorScheme ?? 'light'].text,
+          headerTintColor: Colors[colorScheme ?? 'light'].text[colorScheme === 'dark' ? 'dark' : 'light'],
         }}
       />
       <Tabs.Screen
@@ -45,13 +45,13 @@ export default function TabLayout() {
           title: 'Masjids',
           tabBarIcon: ({ color }) => <TabBarIcon name="mosque" color={color} />,
           headerStyle: {
-            backgroundColor: Colors[colorScheme ?? 'light'].secondary, 
+            backgroundColor: Colors[colorScheme ?? 'light'].background[colorScheme === 'dark' ? 'dark' : 'light'], 
             borderBottomWidth: 0
           },
           headerTitleStyle: {
-            color: Colors[colorScheme ?? 'light'].tabIconSelected, 
+            color: Colors[colorScheme ?? 'light'].text[colorScheme === 'dark' ? 'dark' : 'light'], 
           },
-          headerTintColor: Colors[colorScheme ?? 'light'].text, 
+          headerTintColor: Colors[colorScheme ?? 'light'].text[colorScheme === 'dark' ? 'dark' : 'light'], 
         }}
       />
       <Tabs.Screen
@@ -60,13 +60,13 @@ export default function TabLayout() {
           title: 'About',
           tabBarIcon: ({ color }) => <TabBarIcon name="info" color={color} />,
           headerStyle: {
-            backgroundColor: Colors[colorScheme ?? 'light'].secondary, // Change this to your desired color
+            backgroundColor: Colors[colorScheme ?? 'light'].background[colorScheme === 'dark' ? 'dark' : 'light'], // Change this to your desired color
             borderBottomWidth: 0
           },
           headerTitleStyle: {
-            color: Colors[colorScheme ?? 'light'].tabIconSelected, // Change this to your desired color
+            color: Colors[colorScheme ?? 'light'].text[colorScheme === 'dark' ? 'dark' : 'light'], // Change this to your desired color
           },
-          headerTintColor: Colors[colorScheme ?? 'light'].text // Change this to your desired color
+          headerTintColor: Colors[colorScheme ?? 'light'].text[colorScheme === 'dark' ? 'dark' : 'light'] // Change this to your desired color
         
         }}
       />

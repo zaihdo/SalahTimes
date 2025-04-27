@@ -9,6 +9,8 @@ import { DataHandler } from '@/services/DataHandler';
 import { useLocalSearchParams } from 'expo-router';
 import { Utilities } from '@/util/Utilities';
 import SalaahList from '@/components/SalaahList';
+import Colors from '@/constants/Colors';
+import { useColorScheme } from '@/components/useColorScheme';
 
 interface SalaahProps {
   Name: string;
@@ -18,6 +20,7 @@ export default function SalaahScreen(City: SalaahProps) {
   const [salaahTimes, setSalaahTimes] = useState<SalaahTime[]>([]);
   const { query } = useLocalSearchParams<{ query: string }>();
   const db = useSQLiteContext();
+  const colorScheme = useColorScheme();
 
   useEffect(() => {
     db.withTransactionAsync(async () => {
@@ -29,17 +32,9 @@ export default function SalaahScreen(City: SalaahProps) {
 
   return (
     <React.Suspense fallback={<Suspense />}>
-      <View style={styles.container}>
-
-        <Text style={styles.title} lightColor="rgba(16, 37, 64, 0.8)">
-          {Utilities.getFormattedDate(new Date())}
-        </Text>
-
-        <View style={styles.separator} lightColor="#eee" darkColor="rgba(255,255,255,0.1)" />
-
-        {/* EditScreenInfo Component */}
-        {/* <EditScreenInfo path="app/modal.tsx" /> */}
-
+      <View style={[styles.container, { backgroundColor: Colors[colorScheme ?? 'light'].background[colorScheme === 'dark' ? 'dark' : 'light'] }]}>
+        <Text style={[styles.title, { color: Colors[colorScheme ?? 'light'].text[colorScheme === 'dark' ? 'dark' : 'light'] }]}>{Utilities.getFormattedDate(new Date())}</Text>
+        <View style={[styles.separator, { backgroundColor: Colors[colorScheme ?? 'light'].background[colorScheme === 'dark' ? 'dark' : 'light'] }]} />
         <SalaahList salaahs={salaahTimes} city={query.toLowerCase()} />
       </View>
     </React.Suspense>
@@ -48,18 +43,18 @@ export default function SalaahScreen(City: SalaahProps) {
 
 const styles = StyleSheet.create({
   container: {
-    flex: 1, // Ensure the container takes up the full available space
-    padding: 16, // Add padding to ensure content doesn't touch the edges
+    flex: 1,
+    padding: 16,
   },
   title: {
     fontSize: 20,
     fontWeight: 'bold',
     textAlign: 'center',
-    marginTop: '15%', // Add margin to position the date text at the top
+    marginTop: '15%',
   },
   separator: {
-    marginVertical: 16, // Adjust margin for better spacing
+    marginVertical: 16,
     height: 1,
-    width: '100%', // Full width separator
+    width: '100%',
   },
 });
