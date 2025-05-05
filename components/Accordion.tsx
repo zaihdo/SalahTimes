@@ -1,6 +1,6 @@
 import {Pressable, StyleSheet, Text, View} from 'react-native';
 import React from 'react';
-import {Category, NestedItem} from '@/assets/data/about';
+import {Category, NestedItem} from '@/assets/data/about-data';
 import Animated, {
   useAnimatedRef,
   useSharedValue,
@@ -126,17 +126,18 @@ export default Accordion;
 
 const styles = StyleSheet.create({
   container: {
-    marginHorizontal: 10,
+    marginHorizontal: 0,
     marginVertical: 10,
     borderRadius: 14,
     borderWidth: 1,
     overflow: 'hidden',
   },
   textTitle: {
-    fontSize: 16,
+    fontSize: 20,
+    fontWeight: 'bold',
   },
   titleContainer: {
-    padding: 20,
+    padding: 15,
     flexDirection: 'row',
     justifyContent: 'space-between',
     alignItems: 'center',
@@ -147,9 +148,9 @@ const styles = StyleSheet.create({
     top: 0,
   },
   content: {
-    padding: 20,
+    padding: 18,
   },
   textContent: {
-    fontSize: 14,
+    fontSize: 18,
   },
 });

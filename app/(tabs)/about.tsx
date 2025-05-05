@@ -4,7 +4,7 @@ import Suspense from '@/components/Suspense';
 import { DataHandler } from '@/services/DataHandler';
 import { useColorScheme } from '@/components/useColorScheme';
 import Accordion from '@/components/Accordion';
-import data, { Category } from '@/assets/data/about';
+import data, { Category } from '@/assets/data/about-data';
 import { View, ScrollView, StyleSheet, Text, SafeAreaView } from 'react-native';
 import Colors from '@/constants/Colors';
 import { useScreenSize } from '@/hooks/useScreenSize';
