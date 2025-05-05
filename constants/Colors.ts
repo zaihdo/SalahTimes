@@ -9,7 +9,7 @@ const colors = {
   },
   background: {
     light: '#fff',
-    dark: '#091825',
+    dark: '#102540',
   },
   text: {
     light: '#000',
