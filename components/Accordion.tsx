@@ -15,17 +15,20 @@ import AccordionNested from './AccordionNested';
 import { useColorScheme } from '@/hooks/useColorScheme';
 import Colors from '@/constants/Colors';
 import fonts from '@/constants/Fonts';
+import { useScreenSize } from '@/hooks/useScreenSize';
 
 type Props = {
   value: Category;
   type: string;
+  onPress?: () => void;
 };
 
-const Accordion = ({value, type}: Props) => {
+const Accordion = ({value, type, onPress}: Props) => {
   const colorScheme = useColorScheme();
   const listRef = useAnimatedRef();
   const heightValue = useSharedValue(0);
   const open = useSharedValue(false);
+  const { isSmall, isLarge } = useScreenSize();
   const progress = useDerivedValue(() =>
     open.value ? withTiming(1) : withTiming(0),
   );
@@ -34,26 +37,30 @@ const Accordion = ({value, type}: Props) => {
     height: heightValue.value,
   }));
 
+  const handlePress = () => {
+    if (heightValue.value === 0) {
+      runOnUI(() => {
+        'worklet';
+        heightValue.value = withTiming(measure(listRef)!.height);
+      })();
+    } else {
+      heightValue.value = withTiming(0);
+    }
+    open.value = !open.value;
+    onPress?.();
+  };
+
   return (
     <View 
       style={[
         styles.container,
         {
           borderColor: Colors[colorScheme ?? 'light'].accent[colorScheme === 'dark' ? 'dark' : 'light'],
+          marginVertical: isSmall ? 6 : isLarge ? 12 : 10
         },
       ]}>
       <Pressable
-        onPress={() => {
-          if (heightValue.value === 0) {
-            runOnUI(() => {
-              'worklet';
-              heightValue.value = withTiming(measure(listRef)!.height);
-            })();
-          } else {
-            heightValue.value = withTiming(0);
-          }
-          open.value = !open.value;
-        }}
+        onPress={handlePress}
         style={[
           styles.titleContainer,
           {
