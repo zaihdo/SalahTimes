@@ -22,11 +22,13 @@ const fonts = StyleSheet.create({
     fontSize: fontSizes.medium,
     fontFamily: fontFamilies.openSans,
     fontWeight: fontWeights.regular,
+    // textAlign: 'justify',
   },
   heading: {
     fontSize: fontSizes.large,
     fontFamily: fontFamilies.openSans,
     fontWeight: fontWeights.bold,
+
   },
   title: {
     fontSize: fontSizes.medium,
