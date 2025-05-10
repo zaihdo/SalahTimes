@@ -1,5 +1,4 @@
-import { StatusBar } from 'expo-status-bar';
-import { Platform, StyleSheet } from 'react-native';
+import { StyleSheet } from 'react-native';
 import React, { useEffect, useState } from 'react';
 import { useSQLiteContext } from 'expo-sqlite/next';
 import { Text, View } from '@/components/Themed';
@@ -10,7 +9,8 @@ import { useLocalSearchParams } from 'expo-router';
 import { Utilities } from '@/util/Utilities';
 import IqamahList from '@/components/IqamahList';
 import Colors from '@/constants/Colors';
-import { useColorScheme } from '@/components/useColorScheme';
+import { useColorScheme } from '@/hooks/useColorScheme';
+import fonts from '@/constants/Fonts';
 
 interface IqamahProps {
   Name: string;
@@ -33,7 +33,7 @@ export default function IqamahScreen(Masjid: IqamahProps) {
   return (
     <React.Suspense fallback={<Suspense />}>
       <View style={[styles.container, { backgroundColor: Colors[colorScheme ?? 'light'].background[colorScheme === 'dark' ? 'dark' : 'light'] }]}>
-        <Text style={[styles.title, { color: Colors[colorScheme ?? 'light'].text[colorScheme === 'dark' ? 'dark' : 'light'] }]}>{Utilities.getFormattedDate(new Date())}</Text>
+        <Text style={[styles.date, fonts.title, { color: Colors[colorScheme ?? 'light'].text[colorScheme === 'dark' ? 'dark' : 'light'] }]}>{Utilities.getFormattedDate(new Date())}</Text>
         <IqamahList iqamahs={IqamahTimes} masjid={query.toLowerCase()} />
       </View>
     </React.Suspense>
@@ -45,10 +45,8 @@ const styles = StyleSheet.create({
     flex: 1,
     padding: 16,
   },
-  title: {
-    fontSize: 20,
-    fontWeight: 'bold',
+  date: {
     textAlign: 'center',
-    marginTop: '5%',
+    padding: 10
   }
 });

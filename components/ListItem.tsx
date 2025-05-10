@@ -3,7 +3,8 @@ import { StyleSheet } from 'react-native';
 import { Text, View } from './Themed';
 import { useScreenSize } from '@/hooks/useScreenSize';
 import Colors from '@/constants/Colors';
-import { useColorScheme } from '@/components/useColorScheme';
+import { useColorScheme } from '@/hooks/useColorScheme';
+import fonts from '@/constants/Fonts';
 
 export default function ListItem(props: { prayer: string, time: string }) {
   const { isSmall, isLarge, width, height } = useScreenSize();
@@ -46,13 +47,19 @@ export default function ListItem(props: { prayer: string, time: string }) {
       ]} 
       lightColor='#fff'>
       <Text 
-        style={styles.prayerText}
+        style={[
+          styles.prayerText,
+          fonts.title
+        ]}
         lightColor="rgba(0,0,0,0.5)"
         darkColor="rgba(255,255,255,0.75)">
         {props.prayer}
       </Text>
       <Text 
-        style={styles.prayerText}
+        style={[
+          styles.prayerText,
+          fonts.title
+        ]}
         lightColor="rgba(0,0,0,0.5)"
         darkColor="rgba(255,255,255,0.75)">
         {props.time}
@@ -70,9 +77,6 @@ const styles = StyleSheet.create({
     marginTop: 5,
   },
   prayerText: {
-    fontSize: 17,
     lineHeight: 24,
-    textAlign: 'center',
-    fontWeight: 'bold'
   },
 });

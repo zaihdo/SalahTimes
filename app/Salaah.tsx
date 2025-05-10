@@ -10,7 +10,8 @@ import { useLocalSearchParams } from 'expo-router';
 import { Utilities } from '@/util/Utilities';
 import SalaahList from '@/components/SalaahList';
 import Colors from '@/constants/Colors';
-import { useColorScheme } from '@/components/useColorScheme';
+import fonts from '@/constants/Fonts';
+import { useColorScheme } from '@/hooks/useColorScheme';
 
 interface SalaahProps {
   Name: string;
@@ -33,7 +34,7 @@ export default function SalaahScreen(City: SalaahProps) {
   return (
     <React.Suspense fallback={<Suspense />}>
       <View style={[styles.container, { backgroundColor: Colors[colorScheme ?? 'light'].background[colorScheme === 'dark' ? 'dark' : 'light'] }]}>
-        <Text style={[styles.title, { color: Colors[colorScheme ?? 'light'].text[colorScheme === 'dark' ? 'dark' : 'light'] }]}>{Utilities.getFormattedDate(new Date())}</Text>
+        <Text style={[styles.date, fonts.title, { color: Colors[colorScheme ?? 'light'].text[colorScheme === 'dark' ? 'dark' : 'light'] }]}>{Utilities.getFormattedDate(new Date())}</Text>
         <SalaahList salaahs={salaahTimes} city={query.toLowerCase()} />
       </View>
     </React.Suspense>
@@ -45,10 +46,8 @@ const styles = StyleSheet.create({
     flex: 1,
     padding: 16,
   },
-  title: {
-    fontSize: 20,
-    fontWeight: 'bold',
+  date: {
     textAlign: 'center',
-    marginTop: '5%',
+    padding: 10
   }
 });

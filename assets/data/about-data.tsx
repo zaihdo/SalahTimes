@@ -67,20 +67,12 @@ export type Category = {
     },
     {
       title: '🔒 Privacy Policy',
-      content: [
-        'At SalahTimesBotswana, currently no user data is collected or stored.',
-        'Location data: Unlike most traditional apps, we do not request your location data as checking the times for each location is opted for. In future, we may enable the ability to request location data based on user preferences, with the ability to opt-out.',
-      ],
-      contentNested: [],
-      type: 'regular',
-    },
-    {
-      title: '📱 About the App',
-      content: [
-        'SalahTimesBotswana is a mobile app designed to provide Muslims with accurate and reliable prayer times for Botswana.',
-        'The app uses a sophisticated algorithm to calculate the prayer times based on the user\'s location and the Islamic calendar.',
-        'The app also includes features such as a prayer counter, a Quran reader, and a hijri calendar.',
-      ],
+     content: [
+       'At SalahTimesBotswana, currently no user data is collected or stored.',
+       <Text>
+         <Text style={{ fontWeight: 'bold' }}>Location data:</Text> Unlike most traditional apps, we do not request your location data as checking the times for each location is opted for. In future, we may enable the ability to request location data based on user preferences, with the ability to opt-out.
+       </Text>,
+     ],
       contentNested: [],
       type: 'regular',
     },

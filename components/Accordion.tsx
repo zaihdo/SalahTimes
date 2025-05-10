@@ -12,8 +12,9 @@ import Animated, {
 } from 'react-native-reanimated';
 import Chevron from './Chevron';
 import AccordionNested from './AccordionNested';
-import { useColorScheme } from '@/components/useColorScheme';
+import { useColorScheme } from '@/hooks/useColorScheme';
 import Colors from '@/constants/Colors';
+import fonts from '@/constants/Fonts';
 
 type Props = {
   value: Category;
@@ -60,7 +61,7 @@ const Accordion = ({value, type}: Props) => {
           },
         ]}>
         <Text style={[
-          styles.textTitle,
+          fonts.heading,
           {
             color: Colors[colorScheme ?? 'light'].tint[colorScheme === 'dark' ? 'dark' : 'light'],
           },
@@ -82,6 +83,7 @@ const Accordion = ({value, type}: Props) => {
                 ]}>
                   <Text style={[
                     styles.textContent,
+                    fonts.text,
                     {
                       color: Colors[colorScheme ?? 'light'].textSecondary[colorScheme === 'dark' ? 'dark' : 'light'],
                     },
@@ -130,10 +132,6 @@ const styles = StyleSheet.create({
     borderRadius: 14,
     borderWidth: 3,
     overflow: 'hidden',
-  },
-  textTitle: {
-    fontSize: 20,
-    fontWeight: 'bold',
   },
   titleContainer: {
     padding: 15,

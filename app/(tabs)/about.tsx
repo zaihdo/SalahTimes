@@ -1,13 +1,12 @@
 import React, { useEffect, useState } from 'react';
 import { useSQLiteContext } from 'expo-sqlite/next';
-import { FlatList, Pressable, StyleSheet, Text, SafeAreaView, ScrollView, View } from 'react-native';
+import { StyleSheet, SafeAreaView, ScrollView, View } from 'react-native';
 import Suspense from '@/components/Suspense';
 import { DataHandler } from '@/services/DataHandler';
-import { useColorScheme } from '@/components/useColorScheme';
-import { Utilities } from '@/util/Utilities';
+import { useColorScheme } from '@/hooks/useColorScheme';
 import Colors from '@/constants/Colors';
 import Accordion from '@/components/Accordion';
-import data, { Category } from '@/assets/data/about-data';
+import data from '@/assets/data/about-data';
 import { useScreenSize } from '@/hooks/useScreenSize';
 
 export default function AboutScreen() {

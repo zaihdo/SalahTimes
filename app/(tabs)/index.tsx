@@ -6,7 +6,8 @@ import Suspense from '@/components/Suspense';
 import { DataHandler } from '@/services/DataHandler';
 import { Link } from 'expo-router';
 import Colors from '@/constants/Colors';
-import { useColorScheme } from '@/components/useColorScheme';
+import fonts from '@/constants/Fonts';
+import { useColorScheme } from '@/hooks/useColorScheme';
 import { Utilities } from '@/util/Utilities';
 
 export default function CityScreen() {
@@ -59,6 +60,7 @@ export default function CityScreen() {
                     <Text
                       style={[
                         styles.cityText,
+                        fonts.text,
                         {
                           color: Colors[colorScheme ?? 'light'].text[colorScheme === 'dark' ? 'dark' : 'light'],
                         },
@@ -115,10 +117,8 @@ const styles = StyleSheet.create({
     paddingHorizontal: 16,
   },
   cityText: {
-    fontSize: 16,
     textAlign: 'left',
     textTransform: 'capitalize',
-    fontWeight: '500',
   },
   pressable: {
     flex: 1,

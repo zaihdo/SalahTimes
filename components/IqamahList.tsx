@@ -2,11 +2,12 @@ import { FlatList } from 'react-native';
 import ListItem from './ListItem';
 import { StyleSheet } from 'react-native';
 import { IqamahTime } from '@/types/dbTypes';
-import { Text, useThemeColor, View } from '@/components/Themed';
+import { Text } from '@/components/Themed';
 import Colors from '@/constants/Colors';
-import { useColorScheme } from '@/components/useColorScheme';
+import { useColorScheme } from '@/hooks/useColorScheme';
 import React from 'react';
 import { Utilities } from '@/util/Utilities';
+import fonts from '@/constants/Fonts';
 
 interface ListProps {
   iqamahs: IqamahTime[];
@@ -27,7 +28,13 @@ export default function List({iqamahs, masjid}: ListProps) {
 
   return (
     <FlatList
-      ListHeaderComponent={<Text style={[{color: Colors[colorScheme ?? 'light'].tint[colorScheme === 'dark' ? 'dark' : 'light']}, styles.header]}>{Utilities.toCapitalCase(masjid)}</Text>}
+      ListHeaderComponent={
+      <Text 
+      style={[{
+        color: Colors[colorScheme ?? 'light'].tint[colorScheme === 'dark' ? 'dark' : 'light']}, styles.header, fonts.heading
+      ]}>
+        {Utilities.toCapitalCase(masjid)}
+        </Text>}
       data={data}
       keyExtractor={(item) => item[0]}
       renderItem={renderItem}
@@ -43,7 +50,6 @@ const styles = StyleSheet.create({
       margin: 10
     },
     header: {
-      fontSize: 26,
       textAlign: 'center',
       padding: 15
     }
