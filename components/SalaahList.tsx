@@ -46,11 +46,12 @@ export default function List({salaahs, city}: ListProps) {
 
 const styles = StyleSheet.create({
     listContainer: {
-      padding: 5,
-      margin: 15
+      padding: 0,
+      margin: 10
     },
     header: {
       fontSize: 26,
       textAlign: 'center',
+      padding: 15
     }
   });

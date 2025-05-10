@@ -34,7 +34,6 @@ export default function IqamahScreen(Masjid: IqamahProps) {
     <React.Suspense fallback={<Suspense />}>
       <View style={[styles.container, { backgroundColor: Colors[colorScheme ?? 'light'].background[colorScheme === 'dark' ? 'dark' : 'light'] }]}>
         <Text style={[styles.title, { color: Colors[colorScheme ?? 'light'].text[colorScheme === 'dark' ? 'dark' : 'light'] }]}>{Utilities.getFormattedDate(new Date())}</Text>
-        <View style={[styles.separator, { backgroundColor: Colors[colorScheme ?? 'light'].background[colorScheme === 'dark' ? 'dark' : 'light'] }]} />
         <IqamahList iqamahs={IqamahTimes} masjid={query.toLowerCase()} />
       </View>
     </React.Suspense>
@@ -50,11 +49,6 @@ const styles = StyleSheet.create({
     fontSize: 20,
     fontWeight: 'bold',
     textAlign: 'center',
-    marginTop: '15%',
-  },
-  separator: {
-    marginVertical: 16,
-    height: 1,
-    width: '100%',
-  },
+    marginTop: '5%',
+  }
 });

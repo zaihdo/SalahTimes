@@ -48,13 +48,13 @@ export default function ListItem(props: { prayer: string, time: string }) {
       <Text 
         style={styles.prayerText}
         lightColor="rgba(0,0,0,0.5)"
-        darkColor="rgba(255,255,255,0.5)">
+        darkColor="rgba(255,255,255,0.75)">
         {props.prayer}
       </Text>
       <Text 
         style={styles.prayerText}
         lightColor="rgba(0,0,0,0.5)"
-        darkColor="rgba(255,255,255,0.5)">
+        darkColor="rgba(255,255,255,0.75)">
         {props.time}
       </Text>
     </View>
@@ -73,5 +73,6 @@ const styles = StyleSheet.create({
     fontSize: 17,
     lineHeight: 24,
     textAlign: 'center',
+    fontWeight: 'bold'
   },
 });
