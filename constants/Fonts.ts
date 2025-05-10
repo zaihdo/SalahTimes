@@ -7,7 +7,7 @@ const fontSizes = {
 };
 
 const fontFamilies = {
-  openSans: 'Lato',
+  openSans: 'Roboto',
 };
 
 type FontWeight = 'normal' | 'bold' | 100 | 200 | 300 | 400 | 500 | 600 | 700 | 800 | 900;
@@ -22,7 +22,6 @@ const fonts = StyleSheet.create({
     fontSize: fontSizes.medium,
     fontFamily: fontFamilies.openSans,
     fontWeight: fontWeights.regular,
-    // textAlign: 'justify',
   },
   heading: {
     fontSize: fontSizes.large,
