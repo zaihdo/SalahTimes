@@ -83,9 +83,29 @@ function RootLayoutNav() {
     >
     <ThemeProvider value={colorScheme === 'dark' ? DarkTheme : DefaultTheme}>
       <SQLiteProvider databaseName={'prayerTimes.db'} useSuspense assetSource={{assetId: require("../assets/databases/prayerTimes.db")}}>
-        <Stack>
-          <Stack.Screen name="(tabs)" options={{ headerTitle: "Cities", headerShown: false}} />
-          <Stack.Screen name="Iqamah" options={{ headerBackTitle: "Masaajid", headerStyle: {backgroundColor: Colors[colorScheme ?? 'light'].background[colorScheme === 'dark' ? 'dark' : 'light']}, headerBackTitleVisible: false, headerBackVisible: true, headerShown: true, headerTransparent: false, headerBlurEffect: 'regular', headerTitleAlign: 'center'}} />
+        <Stack
+          screenOptions={{ 
+            headerStyle: {
+              backgroundColor: Colors[colorScheme ?? 'light'].accent[colorScheme === 'dark' ? 'dark' : 'light'],
+            },
+            headerTintColor: Colors[colorScheme ?? 'light'].secondary[colorScheme === 'dark' ? 'dark' : 'light'],    
+            headerTitleStyle: {
+              fontWeight: 'bold',
+            }
+        }}>
+          <Stack.Screen 
+            name="(tabs)" 
+            options={{ 
+              headerShown: false,
+              headerTitle: "Cities"  
+            }} 
+          />
+          <Stack.Screen
+            name="Iqamah"
+            options={{
+              headerBackTitle: "Masaajid"  
+            }}
+          />
         </Stack>
       </SQLiteProvider>
     </ThemeProvider>
