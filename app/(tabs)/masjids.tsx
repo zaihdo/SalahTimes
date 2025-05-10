@@ -9,7 +9,7 @@ import Colors from '@/constants/Colors';
 import { useColorScheme } from '@/components/useColorScheme';
 import { Utilities } from '@/util/Utilities';
 
-export default function MasjidScreen() {
+export default function MasjidsScreen() {
   const [masjids, setMasjids] = useState<any[]>([]);
   const colorScheme = useColorScheme();
   const db = useSQLiteContext();
@@ -23,13 +23,15 @@ export default function MasjidScreen() {
 
   return (
     <React.Suspense fallback={<Suspense />}>
-      <View style={styles.container}>
+      <View style={[
+        styles.container,
+        {
+          backgroundColor: Colors[colorScheme ?? 'light'].background[colorScheme === 'dark' ? 'dark' : 'light'],
+        },
+      ]}>
         <FlatList
           style={[
             styles.flatListContainer,
-            {
-              backgroundColor: Colors[colorScheme ?? 'light'].background[colorScheme === 'dark' ? 'dark' : 'light'],
-            },
           ]}
           data={masjids}
           keyExtractor={(item, index) => index.toString()}
@@ -47,7 +49,7 @@ export default function MasjidScreen() {
                   <>
                     <Text
                       style={[
-                        styles.masjidText,
+                        styles.cityText,
                         {
                           color: Colors[colorScheme ?? 'light'].text[colorScheme === 'dark' ? 'dark' : 'light'],
                         },
@@ -97,7 +99,7 @@ const styles = StyleSheet.create({
     padding: 8,
     paddingHorizontal: 16,
   },
-  masjidText: {
+  cityText: {
     fontSize: 16,
     textAlign: 'left',
     textTransform: 'capitalize',

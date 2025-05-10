@@ -27,7 +27,7 @@ export default function List({iqamahs, masjid}: ListProps) {
 
   return (
     <FlatList
-      ListHeaderComponent={<Text style={[{color: Colors[colorScheme ?? 'light'].tint}, styles.header]}>{Utilities.toCapitalCase(masjid)}</Text>}
+      ListHeaderComponent={<Text style={[{color: Colors[colorScheme ?? 'light'].tint[colorScheme === 'dark' ? 'dark' : 'light']}, styles.header]}>{Utilities.toCapitalCase(masjid)}</Text>}
       data={data}
       keyExtractor={(item) => item[0]}
       renderItem={renderItem}

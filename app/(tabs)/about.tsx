@@ -1,12 +1,13 @@
 import React, { useEffect, useState } from 'react';
 import { useSQLiteContext } from 'expo-sqlite/next';
+import { FlatList, Pressable, StyleSheet, Text, SafeAreaView, ScrollView, View } from 'react-native';
 import Suspense from '@/components/Suspense';
 import { DataHandler } from '@/services/DataHandler';
 import { useColorScheme } from '@/components/useColorScheme';
+import { Utilities } from '@/util/Utilities';
+import Colors from '@/constants/Colors';
 import Accordion from '@/components/Accordion';
 import data, { Category } from '@/assets/data/about-data';
-import { View, ScrollView, StyleSheet, Text, SafeAreaView } from 'react-native';
-import Colors from '@/constants/Colors';
 import { useScreenSize } from '@/hooks/useScreenSize';
 
 export default function AboutScreen() {
@@ -30,7 +31,9 @@ export default function AboutScreen() {
     <React.Suspense fallback={<Suspense />}>
       <SafeAreaView style={[
         styles.safeArea, 
-        { backgroundColor: Colors[colorScheme ?? 'light'].background[colorScheme === 'dark' ? 'dark' : 'light'] }
+        { 
+          backgroundColor: Colors[colorScheme ?? 'light'].background[colorScheme === 'dark' ? 'dark' : 'light']
+        }
       ]}>
         <View style={[
           styles.container, 
@@ -39,17 +42,16 @@ export default function AboutScreen() {
             backgroundColor: Colors[colorScheme ?? 'light'].background[colorScheme === 'dark' ? 'dark' : 'light']
           }
         ]}>
-
-        <ScrollView showsVerticalScrollIndicator={false} style={[
-          styles.scrollContent, 
-          { 
-            backgroundColor: Colors[colorScheme ?? 'light'].background[colorScheme === 'dark' ? 'dark' : 'light']
-          }
-        ]}>
-        {data.map((value, index) => {
-          return <Accordion value={value} key={index} type={value.type} />;
-        })}
-        </ScrollView>
+          <ScrollView showsVerticalScrollIndicator={false} style={[
+            styles.scrollContent, 
+            { 
+              backgroundColor: Colors[colorScheme ?? 'light'].background[colorScheme === 'dark' ? 'dark' : 'light']
+            }
+          ]}>
+            {data.map((value, index) => {
+              return <Accordion value={value} key={index} type={value.type} />;
+            })}
+          </ScrollView>
         </View>
       </SafeAreaView>
     </React.Suspense>

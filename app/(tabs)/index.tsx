@@ -23,13 +23,15 @@ export default function CityScreen() {
 
   return (
     <React.Suspense fallback={<Suspense />}>
-      <View style={styles.container}>
+      <View style={[
+        styles.container,
+        {
+          backgroundColor: Colors[colorScheme ?? 'light'].background[colorScheme === 'dark' ? 'dark' : 'light'],
+        },
+      ]}>
         <FlatList
           style={[
             styles.flatListContainer,
-            {
-              backgroundColor: Colors[colorScheme ?? 'light'].background[colorScheme === 'dark' ? 'dark' : 'light'],
-            },
           ]}
           data={cities}
           keyExtractor={(item, index) => index.toString()}
