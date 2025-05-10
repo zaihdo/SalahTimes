@@ -1,14 +1,14 @@
 const colors = {
   primary: {
-    light: '#2f95dc',
+    light: '#102540',
     dark: '#102540',
   },
   secondary: {
-    light: '#FFC801',
+    light: '#f9f9f9',
     dark: '#FFC801',
   },
   background: {
-    light: '#fff',
+    light: '#f9f9f9',
     dark: '#102540',
   },
   text: {
@@ -16,11 +16,11 @@ const colors = {
     dark: '#fff',
   },
   tint: {
-    light: '#091825',
+    light: '#102540',
     dark: '#FFC801',
   },
   tabIconDefault: {
-    light: '#ccc',
+    light: '#17345E80',
     dark: '#FFC80180',
   },
   tabIconSelected: {
@@ -32,12 +32,12 @@ const colors = {
     dark: '#102540',
   },
   accent: {
-    light: '#17345E',
+    light: '#FFC80160',
     dark: '#17345E',
   },
-  navy: {
+  contrast: {
     light: '#091825',
-    dark: '#091825',
+    dark: '#FFC801',
   },
   lightNavy: {
     light: 'rgba(16, 37, 64, 0.25)',

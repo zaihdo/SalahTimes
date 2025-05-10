@@ -2,9 +2,12 @@ import React from 'react';
 import { StyleSheet } from 'react-native';
 import { Text, View } from './Themed';
 import { useScreenSize } from '@/hooks/useScreenSize';
+import Colors from '@/constants/Colors';
+import { useColorScheme } from '@/components/useColorScheme';
 
 export default function ListItem(props: { prayer: string, time: string }) {
   const { isSmall, isLarge, width, height } = useScreenSize();
+  const colorScheme = useColorScheme();
 
   // Log screen size info on initial render
   React.useEffect(() => {
@@ -34,7 +37,14 @@ export default function ListItem(props: { prayer: string, time: string }) {
   }, [isSmall, isLarge, width, height]);
 
   return (
-    <View style={[styles.container, { padding: isSmall ? 5 : 20 }]} lightColor='#fff'>
+    <View 
+      style={[
+        styles.container, 
+        { padding: isSmall ? 5 : 20, 
+          backgroundColor: Colors[colorScheme ?? 'light'].accent[colorScheme === 'dark' ? 'dark' : 'light']
+        }
+      ]} 
+      lightColor='#fff'>
       <Text 
         style={styles.prayerText}
         lightColor="rgba(0,0,0,0.5)"

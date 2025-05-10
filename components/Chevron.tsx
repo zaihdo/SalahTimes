@@ -20,7 +20,7 @@ const Chevron = ({ progress }: Props) => {
    }))
   return (
     <Animated.View style={iconStyle}>
-      <TabBarIcon name="chevron-down" color='black'/>
+      <TabBarIcon name="chevron-down" color= "#fff"/>
     </Animated.View>
   )
 }

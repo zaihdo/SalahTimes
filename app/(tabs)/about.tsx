@@ -39,14 +39,10 @@ export default function AboutScreen() {
           styles.container, 
           { 
             padding: containerPadding,
-            backgroundColor: Colors[colorScheme ?? 'light'].background[colorScheme === 'dark' ? 'dark' : 'light']
           }
         ]}>
           <ScrollView showsVerticalScrollIndicator={false} style={[
-            styles.scrollContent, 
-            { 
-              backgroundColor: Colors[colorScheme ?? 'light'].background[colorScheme === 'dark' ? 'dark' : 'light']
-            }
+            styles.scrollContent
           ]}>
             {data.map((value, index) => {
               return <Accordion value={value} key={index} type={value.type} />;

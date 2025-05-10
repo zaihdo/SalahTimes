@@ -30,8 +30,13 @@ export default function CityScreen() {
         },
       ]}>
         <FlatList
+          contentContainerStyle={[
+            styles.flatListContentContainer, 
+            { backgroundColor: Colors[colorScheme ?? 'light'].accent[colorScheme === 'dark' ? 'dark' : 'light'],
+              borderColor: Colors[colorScheme ?? 'light'].background[colorScheme === 'dark' ? 'dark' : 'light'],
+             }]}
           style={[
-            styles.flatListContainer,
+            styles.flatListContainer
           ]}
           data={cities}
           keyExtractor={(item, index) => index.toString()}
@@ -42,8 +47,12 @@ export default function CityScreen() {
                 params: { query: item.City },
               }}
               asChild
-              style={styles.masjidContainer}
-            >
+              style={[
+                styles.masjidContainer,
+                {
+                  borderColor: Colors[colorScheme ?? 'light'].contrast[colorScheme === 'dark' ? 'dark' : 'light'],
+                },
+              ]}>
               <Pressable>
                 {({ pressed }) => (
                   <>
@@ -92,6 +101,12 @@ const styles = StyleSheet.create({
     justifyContent: 'flex-start',
     padding: 15,
     backgroundColor: 'transparent',
+  },
+  flatListContentContainer: {
+    borderRadius: 15,
+    borderStyle: 'solid',
+    padding: 8,
+    paddingHorizontal: 16,
   },
   flatListContainer: {
     borderRadius: 15,

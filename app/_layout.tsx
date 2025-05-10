@@ -88,7 +88,7 @@ function RootLayoutNav() {
             headerStyle: {
               backgroundColor: Colors[colorScheme ?? 'light'].accent[colorScheme === 'dark' ? 'dark' : 'light'],
             },
-            headerTintColor: Colors[colorScheme ?? 'light'].secondary[colorScheme === 'dark' ? 'dark' : 'light'],    
+            headerTintColor: Colors[colorScheme ?? 'light'].contrast[colorScheme === 'dark' ? 'dark' : 'light'],    
             headerTitleStyle: {
               fontWeight: 'bold',
             }

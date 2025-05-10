@@ -30,6 +30,7 @@ export default function MasjidsScreen() {
         },
       ]}>
         <FlatList
+          contentContainerStyle={[styles.flatListContentContainer, { backgroundColor: Colors[colorScheme ?? 'light'].accent[colorScheme === 'dark' ? 'dark' : 'light'] }]}
           style={[
             styles.flatListContainer,
           ]}
@@ -42,8 +43,12 @@ export default function MasjidsScreen() {
                 params: { query: item.Masjid },
               }}
               asChild
-              style={styles.masjidContainer}
-            >
+              style={[
+                styles.masjidContainer,
+                {
+                  borderColor: Colors[colorScheme ?? 'light'].contrast[colorScheme === 'dark' ? 'dark' : 'light'],
+                },
+              ]}>
               <Pressable>
                 {({ pressed }) => (
                   <>
@@ -92,6 +97,12 @@ const styles = StyleSheet.create({
     justifyContent: 'flex-start',
     padding: 15,
     backgroundColor: 'transparent',
+  },
+  flatListContentContainer: {
+    borderRadius: 15,
+    borderStyle: 'solid',
+    padding: 8,
+    paddingHorizontal: 16,
   },
   flatListContainer: {
     borderRadius: 15,

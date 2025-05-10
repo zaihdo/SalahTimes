@@ -38,8 +38,7 @@ const Accordion = ({value, type}: Props) => {
       style={[
         styles.container,
         {
-          backgroundColor: Colors[colorScheme ?? 'light'].background[colorScheme === 'dark' ? 'dark' : 'light'],
-          borderColor: Colors[colorScheme ?? 'light'].secondary[colorScheme === 'dark' ? 'dark' : 'light'],
+          borderColor: Colors[colorScheme ?? 'light'].accent[colorScheme === 'dark' ? 'dark' : 'light'],
         },
       ]}>
       <Pressable
@@ -57,7 +56,7 @@ const Accordion = ({value, type}: Props) => {
         style={[
           styles.titleContainer,
           {
-            backgroundColor: Colors[colorScheme ?? 'light'].background[colorScheme === 'dark' ? 'dark' : 'light'],
+            backgroundColor: Colors[colorScheme ?? 'light'].accent[colorScheme === 'dark' ? 'dark' : 'light'],
           },
         ]}>
         <Text style={[
@@ -78,13 +77,13 @@ const Accordion = ({value, type}: Props) => {
                 <View key={i} style={[
                   styles.content,
                   {
-                    backgroundColor: Colors[colorScheme ?? 'light'].background[colorScheme === 'dark' ? 'dark' : 'light'],
+                    backgroundColor: Colors[colorScheme ?? 'light'].accent[colorScheme === 'dark' ? 'dark' : 'light'],
                   },
                 ]}>
                   <Text style={[
                     styles.textContent,
                     {
-                      color: Colors[colorScheme ?? 'light'].tint[colorScheme === 'dark' ? 'dark' : 'light'],
+                      color: Colors[colorScheme ?? 'light'].textSecondary[colorScheme === 'dark' ? 'dark' : 'light'],
                     },
                   ]}>{v}</Text>
                 </View>
@@ -126,10 +125,10 @@ export default Accordion;
 
 const styles = StyleSheet.create({
   container: {
-    marginHorizontal: 0,
+    marginHorizontal: 8,
     marginVertical: 10,
     borderRadius: 14,
-    borderWidth: 1,
+    borderWidth: 3,
     overflow: 'hidden',
   },
   textTitle: {
@@ -145,10 +144,9 @@ const styles = StyleSheet.create({
   contentContainer: {
     position: 'absolute',
     width: '100%',
-    top: 0,
   },
   content: {
-    padding: 18,
+    padding: 15,
   },
   textContent: {
     fontSize: 18,
