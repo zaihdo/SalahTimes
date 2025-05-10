@@ -41,7 +41,7 @@ export default function ListItem(props: { prayer: string, time: string }) {
     <View 
       style={[
         styles.container, 
-        { padding: isSmall ? 5 : 20, 
+        { padding: isSmall ? 6 : 20, 
           backgroundColor: Colors[colorScheme ?? 'light'].accent[colorScheme === 'dark' ? 'dark' : 'light']
         }
       ]} 

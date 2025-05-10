@@ -26,7 +26,7 @@ export type Category = {
           {'\n\n'}
           Due to many requests, we have decided to reproduce the original Botswana Prayer Times app and extend it to iOS too. I pray the app serves you well in being able to perform your daily salaah on time (with jamaat).
           {'\n\n'}
-          If you have any feedback or suggestions, please don\'t hesitate to reach out.
+          If you have any feedback or suggestions, please don't hesitate to reach out.
           {'\n\n'}
           May Allah accept our prayers and good deeds.
           {'\n\n'}

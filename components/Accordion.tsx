@@ -55,7 +55,6 @@ const Accordion = ({value, type, onPress}: Props) => {
       style={[
         styles.container,
         {
-          borderColor: Colors[colorScheme ?? 'light'].accent[colorScheme === 'dark' ? 'dark' : 'light'],
           marginVertical: isSmall ? 6 : isLarge ? 12 : 10
         },
       ]}>
@@ -137,7 +136,6 @@ const styles = StyleSheet.create({
     marginHorizontal: 8,
     marginVertical: 10,
     borderRadius: 14,
-    borderWidth: 3,
     overflow: 'hidden',
   },
   titleContainer: {

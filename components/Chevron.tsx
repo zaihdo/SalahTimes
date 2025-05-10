@@ -1,7 +1,8 @@
-import { View, Text } from 'react-native'
 import React from 'react'
 import FontAwesome6 from '@expo/vector-icons/FontAwesome6';
 import Animated, {useAnimatedStyle, useSharedValue} from 'react-native-reanimated';
+import Colors from '@/constants/Colors';
+import { useColorScheme } from '@/hooks/useColorScheme';
 
 type Props = {
   progress: Animated.SharedValue<number>;
@@ -15,12 +16,13 @@ function TabBarIcon(props: {
   }
 
 const Chevron = ({ progress }: Props) => {
+  const colorScheme = useColorScheme();
   const iconStyle = useAnimatedStyle(() => ({ 
     transform: [{ rotate: `${progress.value * 180}deg` }]
    }))
   return (
     <Animated.View style={iconStyle}>
-      <TabBarIcon name="chevron-down" color= "#fff"/>
+      <TabBarIcon name="chevron-down" color= {Colors[colorScheme ?? 'light'].contrast[colorScheme === 'dark' ? 'dark' : 'light']}/>
     </Animated.View>
   )
 }

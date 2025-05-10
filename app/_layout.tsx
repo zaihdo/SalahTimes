@@ -85,6 +85,7 @@ function RootLayoutNav() {
       <SQLiteProvider databaseName={'prayerTimes.db'} useSuspense assetSource={{assetId: require("../assets/databases/prayerTimes.db")}}>
         <Stack
           screenOptions={{ 
+            headerShadowVisible: false,
             headerStyle: {
               backgroundColor: Colors[colorScheme ?? 'light'].accent[colorScheme === 'dark' ? 'dark' : 'light'],
             },
@@ -97,7 +98,7 @@ function RootLayoutNav() {
             name="(tabs)" 
             options={{ 
               headerShown: false,
-              headerTitle: "Cities"  
+              headerTitle: "Cities",
             }} 
           />
           <Stack.Screen

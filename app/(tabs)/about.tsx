@@ -28,11 +28,11 @@ export default function AboutScreen() {
   const containerPadding = isSmall ? 12 : isLarge ? 24 : 16;
 
   const handleAccordionPress = (index: number) => {
-    if ((isSmall || isAndroid) && scrollViewRef.current) {
-      const accordionOffset = index * 200; // Replace with the actual height of the Accordion component
-      const screenHeight = Dimensions.get('window').height;
-      scrollViewRef.current?.scrollTo({ x: 0, y: accordionOffset - screenHeight / 2, animated: true });  
-    }
+    // if ((isSmall || isAndroid) && scrollViewRef.current) {
+    //   const accordionOffset = index * 200; // Replace with the actual height of the Accordion component
+    //   const screenHeight = Dimensions.get('window').height;
+    //   scrollViewRef.current?.scrollTo({ x: 0, y: accordionOffset - screenHeight / 2, animated: true });  
+    // }
   };
 
   return (
