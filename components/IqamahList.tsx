@@ -31,7 +31,9 @@ export default function List({iqamahs, masjid}: ListProps) {
       ListHeaderComponent={
       <Text 
       style={[{
-        color: Colors[colorScheme ?? 'light'].tint[colorScheme === 'dark' ? 'dark' : 'light']}, styles.header, fonts.heading
+        color: Colors[colorScheme ?? 'light'].textSecondary[colorScheme === 'dark' ? 'dark' : 'light']}, 
+        styles.header, 
+        fonts.heading
       ]}>
         {Utilities.toCapitalCase(masjid)}
         </Text>}

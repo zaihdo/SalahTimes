@@ -51,8 +51,8 @@ export default function ListItem(props: { prayer: string, time: string }) {
           styles.prayerText,
           fonts.title
         ]}
-        lightColor="rgba(0,0,0,0.5)"
-        darkColor="rgba(255,255,255,0.75)">
+        lightColor="rgb(16, 37, 64)"
+        darkColor="rgb(255, 200, 1)">
         {props.prayer}
       </Text>
       <Text 
@@ -60,8 +60,8 @@ export default function ListItem(props: { prayer: string, time: string }) {
           styles.prayerText,
           fonts.title
         ]}
-        lightColor="rgba(0,0,0,0.5)"
-        darkColor="rgba(255,255,255,0.75)">
+        lightColor="rgb(16, 37, 64)"
+        darkColor="rgb(255, 200, 1)">
         {props.time}
       </Text>
     </View>

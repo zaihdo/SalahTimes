@@ -85,7 +85,7 @@ export type Category = {
          </Text>
          <Text>
            {'\n\n'}
-           <Text style={{ fontWeight: 'bold' }}>Location data:</Text> Unlike most traditional apps, we do not request your location data as times for all locations are provided instead. In future, we may enable the ability to request location data based on user preferences, with the ability to opt-out
+           <Text style={{ fontWeight: 'bold' }}>Location data:</Text> Unlike most traditional apps, we do not request your location data. Instead, prayer times for all locations are provided. In future, we may enable the ability to request location data based on user preferences, with the ability to opt-out.
          </Text>
        </Text>
      ],

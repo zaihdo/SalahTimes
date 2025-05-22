@@ -31,7 +31,7 @@ export default function List({salaahs, city}: ListProps) {
       ListHeaderComponent={
       <Text 
        style={[
-        {color: Colors[colorScheme ?? 'light'].tint[colorScheme === 'dark' ? 'dark' : 'light']},
+        {color: Colors[colorScheme ?? 'light'].textSecondary[colorScheme === 'dark' ? 'dark' : 'light']},
         styles.header,
         fonts.heading
         ]}>
