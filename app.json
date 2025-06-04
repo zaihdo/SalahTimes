@@ -1,27 +1,31 @@
 {
   "expo": {
-    "name": "SalahTimes",
-    "slug": "SalahTimes",
+    "name": "Salah Times",
+    "slug": "SalahTimesBotswana",
     "version": "1.0.0",
     "orientation": "portrait",
     "icon": "./assets/images/icon.png",
+    "backgroundColor": "#102540",
     "scheme": "myapp",
     "userInterfaceStyle": "automatic",
     "splash": {
       "image": "./assets/images/splash-dark.png",
       "resizeMode": "cover",
-      "backgroundColor": "#ffffff"
+      "backgroundColor": "#102540"
     },
     "ios": {
       "supportsTablet": true,
-      "bundleIdentifier": "com.zaihdo.SalahTimes"
+      "bundleIdentifier": "com.zaihdo.SalahTimesBotswana",
+      "infoPlist": {
+        "ITSAppUsesNonExemptEncryption": false
+      }
     },
     "android": {
       "adaptiveIcon": {
         "foregroundImage": "./assets/images/adaptive-icon.png",
-        "backgroundColor": "#ffffff"
+        "backgroundColor": "#102540"
       },
-      "package": "com.zaihdo.SalahTimes"
+      "package": "com.zaihdo.SalahTimesBotswana"
     },
     "web": {
       "bundler": "metro",
@@ -34,6 +38,14 @@
     ],
     "experiments": {
       "typedRoutes": true
+    },
+    "extra": {
+      "router": {
+        "origin": false
+      },
+      "eas": {
+        "projectId": "49df005e-6bf9-4d9e-b547-e68b65af82d4"
+      }
     }
   }
 }
