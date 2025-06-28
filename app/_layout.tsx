@@ -1,71 +1,66 @@
-import FontAwesome from '@expo/vector-icons/FontAwesome';
-import { DarkTheme, DefaultTheme, ThemeProvider } from '@react-navigation/native';
-import { useFonts } from 'expo-font';
-import { Stack } from 'expo-router';
-import * as SplashScreen from 'expo-splash-screen';
+import React from 'react';
 import { useEffect, useState } from 'react';
+import { Stack } from 'expo-router';
+import { useFonts } from 'expo-font';
+import * as SplashScreen from 'expo-splash-screen';
+import { DarkTheme, DefaultTheme, ThemeProvider } from '@react-navigation/native';
+import { SQLiteProvider } from 'expo-sqlite';
+import * as SystemUI from 'expo-system-ui';
+import AsyncStorage from '@react-native-async-storage/async-storage';
+import FontAwesome from '@expo/vector-icons/FontAwesome';
 import 'react-native-reanimated';
 
 import { useColorScheme } from '@/hooks/useColorScheme';
 import { DataHandler } from '@/services/DataHandler';
-import { SQLiteProvider } from 'expo-sqlite';
-import React from 'react';
-import * as SystemUI from 'expo-system-ui';
 import Suspense from '@/components/Suspense';
 import Colors from '@/constants/Colors';
 
-export {
-  // Catch any errors thrown by the Layout component.
-  ErrorBoundary,
-} from 'expo-router';
+export { ErrorBoundary } from 'expo-router';
 
 export const unstable_settings = {
-  // Ensure that reloading on `/modal` keeps a back button present.
   initialRouteName: '(tabs)',
 };
 
-// Prevent the splash screen from auto-hiding before asset loading is complete.
+// Prevent splash screen from auto-hiding
 SplashScreen.preventAutoHideAsync();
 
 export default function RootLayout() {
-  const [loaded, error] = useFonts({
+  const colorScheme = useColorScheme();
+  const [appReady, setAppReady] = useState(false);
+  const [fontsLoaded] = useFonts({
     SpaceMono: require('../assets/fonts/SpaceMono-Regular.ttf'),
     ...FontAwesome.font,
   });
 
-  const [dbLoaded, setDbLoaded] = useState<boolean>(false);
-  const colorScheme = useColorScheme();
-
-  // Expo Router uses Error Boundaries to catch errors in the navigation tree.
+  // Initialize app resources
   useEffect(() => {
-    if (error) throw error;
-  }, [error]);
+    async function prepareApp() {
+      try {
+        // Set splash screen background color
+        await SystemUI.setBackgroundColorAsync(
+          Colors[colorScheme ?? 'light'].background[colorScheme === 'dark' ? 'dark' : 'light']
+        );
 
-  useEffect(() => {
-    const setSplashScreenColor = async () => {
+        // Load database and fonts in parallel
+        await Promise.all([
+          DataHandler.loadDatabase(),
+          fontsLoaded,
+        ]);
 
-      if (colorScheme === 'dark') {
-        await SystemUI.setBackgroundColorAsync(Colors[colorScheme ?? 'light'].background.dark);
-      } else {
-        await SystemUI.setBackgroundColorAsync(Colors[colorScheme ?? 'light'].background.light);
+        // Artificial delay for better UX (optional)
+        // await new Promise(resolve => setTimeout(resolve, 1000));
+      } catch (error) {
+        console.error('Initialization error:', error);
+      } finally {
+        setAppReady(true);
+        await SplashScreen.hideAsync();
       }
     }
 
-    setSplashScreenColor();
-    DataHandler.loadDatabase()
-    .then(() => {
-      setDbLoaded(true);
-    }
-    ).
-    catch((e: any) => console.error(e));
-    if (dbLoaded && loaded) {
-      setTimeout(()=>{
-        SplashScreen.hideAsync();
-      }, 2000);
-    }
-  }, [dbLoaded, loaded, colorScheme]);
+    prepareApp();
+  }, [fontsLoaded, colorScheme]);
 
-  if (!loaded || !dbLoaded) {
+  if (!appReady) {
     return null;
   }
 
@@ -74,42 +69,51 @@ export default function RootLayout() {
 
 function RootLayoutNav() {
   const colorScheme = useColorScheme();
+  const [onboarded, setOnboarded] = useState<boolean | null>(null);
 
-  return (
-    <React.Suspense
-      fallback={
-        <Suspense></Suspense>
+  // Check onboarding status
+  useEffect(() => {
+    async function checkOnboarding() {
+      try {
+        const value = await AsyncStorage.getItem('@viewedOnboarding');
+        setOnboarded(!!value);
+      } catch (error) {
+        console.error('Onboarding check error:', error);
+        setOnboarded(false); // Fallback to showing onboarding
       }
-    >
-    <ThemeProvider value={colorScheme === 'dark' ? DarkTheme : DefaultTheme}>
-      <SQLiteProvider databaseName={'prayerTimes.db'} useSuspense assetSource={{assetId: require("../assets/databases/prayerTimes.db")}}>
-        <Stack
-          screenOptions={{ 
-            headerShadowVisible: false,
-            headerStyle: {
-              backgroundColor: Colors[colorScheme ?? 'light'].accent[colorScheme === 'dark' ? 'dark' : 'light'],
-            },
-            headerTintColor: Colors[colorScheme ?? 'light'].contrast[colorScheme === 'dark' ? 'dark' : 'light'],    
-            headerTitleStyle: {
-              fontWeight: 'bold',
-            }
-        }}>
-          <Stack.Screen 
-            name="(tabs)" 
-            options={{ 
-              headerShown: false,
-              headerTitle: "Cities",
-            }} 
-          />
-          <Stack.Screen
-            name="Iqamah"
-            options={{
-              headerBackTitle: "Masaajid"  
-            }}
-          />
-        </Stack>
-      </SQLiteProvider>
-    </ThemeProvider>
-    </React.Suspense>
+    }
+
+    checkOnboarding();
+  }, []);
+
+  if (onboarded === null) {
+    return null;
+  }
+
+  const theme = colorScheme === 'dark' ? DarkTheme : DefaultTheme;
+  
+  return (
+      <ThemeProvider value={theme}>
+        <SQLiteProvider 
+          databaseName="prayerTimes.db"
+          useSuspense
+          assetSource={{ assetId: require("../assets/databases/prayerTimes.db") }}
+        >
+           {onboarded ? (
+          <Stack >
+            <Stack.Screen 
+              name="(tabs)" 
+              options={{ 
+                headerShown: false 
+              }} 
+            />
+          </Stack>
+        ) : (
+          <Stack screenOptions={{ headerShown: false }}>
+            <Stack.Screen name="(onboarding)" />
+          </Stack>
+        )}
+        </SQLiteProvider>
+      </ThemeProvider>
   );
 }
