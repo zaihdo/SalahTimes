@@ -99,8 +99,9 @@ function RootLayoutNav() {
           useSuspense
           assetSource={{ assetId: require("../assets/databases/prayerTimes.db") }}
         >
-           {onboarded ? (
-          <Stack >
+        {onboarded ? (
+          // TODO: remove the header shown: false and swap (tabs) with (onboarding) [tabs should be first but swap to test out onboarding]
+          <Stack screenOptions={{ headerShown: false }} >
             <Stack.Screen 
               name="(tabs)" 
               options={{ 
