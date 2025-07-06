@@ -28,7 +28,7 @@ export default function OnboardingLayout() {
 
         headerLeft: () => (
             <Pressable onPress={() => navigation.goBack()} style={{ marginLeft: 15 }}>
-                <Ionicons name="chevron-back" size={24} color={colors.primary} />
+                <Ionicons name="chevron-back" size={24} color={"#292D32"} />
             </Pressable>
             )
         }}/>  
