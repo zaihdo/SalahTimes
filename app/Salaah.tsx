@@ -2,16 +2,16 @@ import { StatusBar } from 'expo-status-bar';
 import { Platform, StyleSheet } from 'react-native';
 import React, { useEffect, useState } from 'react';
 import { useSQLiteContext } from 'expo-sqlite/next';
-import { Text, View } from '@/components/Themed';
-import Suspense from '@/components/Suspense';
-import { SalaahTime } from '@/types/dbTypes';
-import { DataHandler } from '@/services/DataHandler';
+import { Text, View } from '../components/Themed';
+import Suspense from '../components/Suspense';
+import { SalaahTime } from '../types/dbTypes';
+import { DataHandler } from '../services/DataHandler';
 import { useLocalSearchParams } from 'expo-router';
-import { Utilities } from '@/util/Utilities';
-import SalaahList from '@/components/SalaahList';
-import Colors from '@/constants/Colors';
-import fonts from '@/constants/Fonts';
-import { useColorScheme } from '@/hooks/useColorScheme';
+import { Utilities } from '../util/Utilities';
+import SalaahList from '../components/SalaahList';
+import Colors from '../constants/Colors';
+import fonts from '../constants/Fonts';
+import { useColorScheme } from '../hooks/useColorScheme';
 
 interface SalaahProps {
   Name: string;

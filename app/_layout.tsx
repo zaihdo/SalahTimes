@@ -10,10 +10,10 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 import FontAwesome from '@expo/vector-icons/FontAwesome';
 import 'react-native-reanimated';
 
-import { useColorScheme } from '@/hooks/useColorScheme';
-import { DataHandler } from '@/services/DataHandler';
-import Suspense from '@/components/Suspense';
-import Colors from '@/constants/Colors';
+import { useColorScheme } from '../hooks/useColorScheme';
+import { DataHandler } from '../services/DataHandler';
+import Suspense from '../components/Suspense';
+import Colors from '../constants/Colors';
 
 export { ErrorBoundary } from 'expo-router';
 

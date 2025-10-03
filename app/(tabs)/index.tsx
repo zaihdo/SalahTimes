@@ -1,14 +1,14 @@
 import React, { useEffect, useState } from 'react';
 import { useSQLiteContext } from 'expo-sqlite/next';
 import { FlatList, Pressable, StyleSheet } from 'react-native';
-import { Text, View } from '@/components/Themed';
-import Suspense from '@/components/Suspense';
-import { DataHandler } from '@/services/DataHandler';
+import { Text, View } from '../../components/Themed';
+import Suspense from '../../components/Suspense';
+import { DataHandler } from '../../services/DataHandler';
 import { Link } from 'expo-router';
-import Colors from '@/constants/Colors';
-import fonts from '@/constants/Fonts';
-import { useColorScheme } from '@/hooks/useColorScheme';
-import { Utilities } from '@/util/Utilities';
+import Colors from '../../constants/Colors';
+import fonts from '../../constants/Fonts';
+import { useColorScheme } from '../../hooks/useColorScheme';
+import { Utilities } from '../../util/Utilities';
 
 export default function CityScreen() {
   const [cities, setCities] = useState<any[]>([]);

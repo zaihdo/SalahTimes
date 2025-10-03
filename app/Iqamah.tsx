@@ -1,16 +1,16 @@
 import { StyleSheet } from 'react-native';
 import React, { useEffect, useState } from 'react';
 import { useSQLiteContext } from 'expo-sqlite/next';
-import { Text, View } from '@/components/Themed';
-import Suspense from '@/components/Suspense';
-import { IqamahTime } from '@/types/dbTypes';
-import { DataHandler } from '@/services/DataHandler';
+import { Text, View } from '../components/Themed';
+import Suspense from '../components/Suspense';
+import { IqamahTime } from '../types/dbTypes';
+import { DataHandler } from '../services/DataHandler';
 import { useLocalSearchParams } from 'expo-router';
-import { Utilities } from '@/util/Utilities';
-import IqamahList from '@/components/IqamahList';
-import Colors from '@/constants/Colors';
-import { useColorScheme } from '@/hooks/useColorScheme';
-import fonts from '@/constants/Fonts';
+import { Utilities } from '../util/Utilities';
+import IqamahList from '../components/IqamahList';
+import Colors from '../constants/Colors';
+import { useColorScheme } from '../hooks/useColorScheme';
+import fonts from '../constants/Fonts';
 
 interface IqamahProps {
   Name: string;

@@ -3,9 +3,9 @@ import { Link, useLocalSearchParams } from 'expo-router';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import React, { useEffect, useState } from 'react';
 import { useSQLiteContext } from 'expo-sqlite/next';
-import { useColorScheme } from '@/hooks/useColorScheme';
-import { DataHandler } from '@/services/DataHandler';
-import { IqamahTime } from '@/types/dbTypes';
+import { useColorScheme } from '../../hooks/useColorScheme';
+import { DataHandler } from '../../services/DataHandler';
+import { IqamahTime } from '../../types/dbTypes';
 
 export default function FinishOnboarding() {
 const [IqamahTimes, setIqamahTimes] = useState<IqamahTime[]>([]);
