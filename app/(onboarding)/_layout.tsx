@@ -32,6 +32,18 @@ export default function OnboardingLayout() {
             </Pressable>
             )
         }}/>  
+      <Stack.Screen name="onboarding3"  
+        options={{ 
+        headerBackTitleVisible: false,
+        headerTitle: '',
+        headerTransparent: true,
+
+        headerLeft: () => (
+            <Pressable onPress={() => navigation.goBack()} style={{ marginLeft: 15 }}>
+                <Ionicons name="chevron-back" size={24} color={"#292D32"}/>
+            </Pressable>
+            )
+        }}/>  
     </Stack>
   );
 }
