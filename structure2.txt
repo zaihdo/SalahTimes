@@ -1,0 +1,73 @@
+SalahTimes
+├── .eslintrc.js
+├── .expo-shared
+│   ├── README.md
+│   └── assets.json
+├── .gitignore
+├── app
+│   ├── (onboarding)
+│   │   ├── _layout.tsx
+│   │   ├── onboarding1.tsx
+│   │   └── onboarding2.tsx
+│   ├── (tabs)
+│   │   ├── _layout.tsx
+│   │   ├── about.tsx
+│   │   ├── index.tsx
+│   │   └── masjids.tsx
+│   ├── +html.tsx
+│   ├── +not-found.tsx
+│   ├── Iqamah.tsx
+│   ├── Salaah.tsx
+│   └── _layout.tsx
+├── app.json
+├── assets
+│   ├── data
+│   │   └── about-data.tsx
+│   ├── databases
+│   │   └── prayerTimes.db
+│   ├── fonts
+│   │   └── SpaceMono-Regular.ttf
+│   └── images
+│       ├── adaptive-icon.png
+│       ├── favicon.png
+│       ├── icon.png
+│       ├── onboardingBg.png
+│       └── splash.png
+├── babel.config.js
+├── components
+│   ├── Accordion.tsx
+│   ├── AccordionNested.tsx
+│   ├── Chevron.tsx
+│   ├── CityList.tsx
+│   ├── ExternalLink.tsx
+│   ├── IqamahList.tsx
+│   ├── ListItem.tsx
+│   ├── SalaahList.tsx
+│   ├── StyledText.tsx
+│   ├── Suspense.tsx
+│   └── Themed.tsx
+├── constants
+│   ├── Colors.ts
+│   └── Fonts.ts
+├── eas.json
+├── expo-env.d.ts
+├── hooks
+│   ├── useClientOnlyValue.ts
+│   ├── useClientOnlyValue.web.ts
+│   ├── useColorScheme.ts
+│   ├── useColorScheme.web.ts
+│   └── useScreenSize.tsx
+├── listStructure.js
+├── metro.config.js
+├── package-lock.json
+├── package.json
+├── services
+│   └── DataHandler.tsx
+├── structure.txt
+├── structure2.txt
+├── tsconfig.json
+├── types
+│   ├── dbTypes.ts
+│   └── hijri-date.d.ts
+└── util
+    └── Utilities.tsx
