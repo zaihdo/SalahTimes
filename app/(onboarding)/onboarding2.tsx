@@ -57,8 +57,12 @@ export default function FinishOnboarding() {
   }, [selectedCityIndex]);
 
   const handlePress = async () => {
+    if (selectedCityIndex === null) return; // Prevent action if not selected
+    await AsyncStorage.setItem('@viewedOnboarding', 'true');
     router.push('/(onboarding)/onboarding3');
   };
+
+  const isButtonDisabled = selectedCityIndex === null;
 
   return (
     <SafeAreaView style={{flex: 1, backgroundColor: '#FFFFFF', justifyContent: 'flex-end', alignItems: 'center', paddingBottom: 40}}>
@@ -136,12 +140,16 @@ export default function FinishOnboarding() {
         <Pressable
           style={({ pressed }) => [
             styles.wrapperCustom,
-            { opacity: pressed ? 0.5 : 1 }
+            {
+              opacity: isButtonDisabled ? 0.5 : pressed ? 0.7 : 1,
+              backgroundColor: isButtonDisabled ? '#e5e5e5' : '#ffc801',
+            }
           ]}
           onPress={handlePress}
+          disabled={isButtonDisabled}
         >
           <Text style={{
-            color: '#102540',
+            color: isButtonDisabled ? '#8D8D8D' : '#102540',
             fontSize: 18,
             fontWeight: '500',
             textAlign: 'center',

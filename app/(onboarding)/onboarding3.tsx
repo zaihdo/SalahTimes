@@ -39,9 +39,12 @@ export default function FinishOnboarding() {
   }, [selectedMadhabIndex]);
 
   const completeOnboarding = async () => {
+    if (selectedMadhabIndex === null) return; // Prevent action if not selected
     await AsyncStorage.setItem('@viewedOnboarding', 'true');
     router.replace('/(tabs)/');
   };
+
+  const isButtonDisabled = selectedMadhabIndex === null;
 
   return (
     <SafeAreaView style={{flex: 1, backgroundColor: '#FFFFFF', justifyContent: 'flex-end', alignItems: 'center', paddingBottom: 40}}>
@@ -67,7 +70,7 @@ export default function FinishOnboarding() {
                     borderRadius: 10,
                     width: '100%',
                     borderColor: isSelected ? '#102540' : '#E5E5E5',
-                    borderWidth: 1,
+                    borderWidth: isSelected ? 2 : 1,
                   }}
                 >
                   <Text style={{
@@ -111,12 +114,16 @@ export default function FinishOnboarding() {
         <Pressable
           style={({ pressed }) => [
             styles.wrapperCustom,
-            { opacity: pressed ? 0.5 : 1 }
+            {
+              opacity: isButtonDisabled ? 0.5 : pressed ? 0.7 : 1,
+              backgroundColor: isButtonDisabled ? '#e5e5e5' : '#ffc801',
+            }
           ]}
           onPress={completeOnboarding}
+          disabled={isButtonDisabled}
         >
           <Text style={{
-            color: '#102540',
+            color: isButtonDisabled ? '#8D8D8D' : '#102540',
             fontSize: 18,
             fontWeight: '500',
             textAlign: 'center',
