@@ -57,7 +57,6 @@ export default function FinishOnboarding() {
   }, [selectedCityIndex]);
 
   const handlePress = async () => {
-    await AsyncStorage.setItem('@viewedOnboarding', 'true');
     router.push('/(onboarding)/onboarding3');
   };
 
@@ -85,7 +84,7 @@ export default function FinishOnboarding() {
                     borderRadius: 10,
                     width: '100%',
                     borderColor: isSelected ? '#102540' : '#E5E5E5',
-                    borderWidth: isSelected ? 2 : 1,
+                    borderWidth: 1,
                   }}
                 >
                   <Ionicons

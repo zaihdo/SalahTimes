@@ -6,7 +6,6 @@ import { View, Text, ImageBackground, SafeAreaView, Pressable, StyleSheet } from
 function OnboardingScreen1() {
 
   const handlePress = async () => {
-    await AsyncStorage.setItem('@viewedOnboarding', 'true');
     router.push('/(onboarding)/onboarding2');
   };
 

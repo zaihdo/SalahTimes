@@ -2,6 +2,7 @@ import { View, Text, SafeAreaView, Pressable, ScrollView, StyleSheet, Animated }
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import React, { useEffect, useState, useRef } from 'react';
 import { Ionicons } from '@expo/vector-icons';
+import { router } from 'expo-router';
 
 export default function FinishOnboarding() {
   const [selectedMadhabIndex, setSelectedMadhabIndex] = useState<number | null>(null);
@@ -39,7 +40,7 @@ export default function FinishOnboarding() {
 
   const completeOnboarding = async () => {
     await AsyncStorage.setItem('@viewedOnboarding', 'true');
-    // Add navigation logic here if needed
+    router.replace('/(tabs)/');
   };
 
   return (
@@ -66,7 +67,7 @@ export default function FinishOnboarding() {
                     borderRadius: 10,
                     width: '100%',
                     borderColor: isSelected ? '#102540' : '#E5E5E5',
-                    borderWidth: isSelected ? 2 : 1,
+                    borderWidth: 1,
                   }}
                 >
                   <Text style={{
