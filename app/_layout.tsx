@@ -29,7 +29,8 @@ export default function RootLayout() {
   const [appReady, setAppReady] = useState(false);
   const [fontsLoaded] = useFonts({
     SpaceMono: require('../assets/fonts/SpaceMono-Regular.ttf'),
-    ...FontAwesome.font,
+    'PlusJakartaSans-Regular': require('../assets/fonts/PlusJakartaSans.ttf'),
+    'PlusJakartaSans-Italic': require('../assets/fonts/PlusJakartaSans-Italic.ttf')
   });
 
   // Initialize app resources
