@@ -1,7 +1,12 @@
 const { getDefaultConfig } = require('expo/metro-config');
 
-const config = getDefaultConfig(__dirname);
+const config = getDefaultConfig(process.cwd());
 
-config.watchFolders = [__dirname]; // Only watch project files, not node_modules
+config.resolver = {
+  ...config.resolver,
+  alias: {
+    '@/': './',
+  },
+};
 
 module.exports = config;
