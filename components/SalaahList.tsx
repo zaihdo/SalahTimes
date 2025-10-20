@@ -1,13 +1,13 @@
 import { FlatList } from 'react-native';
 import ListItem from './ListItem';
 import { StyleSheet } from 'react-native';
-import { SalaahTime } from '@/types/dbTypes';
-import { Text } from '@/components/Themed';
-import Colors from '@/constants/Colors';
-import { useColorScheme } from '@/hooks/useColorScheme';
+import { SalaahTime } from '../types/dbTypes';
+import { Text } from '../components/Themed';
+import Colors from '../constants/Colors';
+import { useColorScheme } from '../hooks/useColorScheme';
 import React from 'react';
-import { Utilities } from '@/util/Utilities';
-import fonts from '@/constants/Fonts';
+import { Utilities } from '../util/Utilities';
+import fonts from '../constants/Fonts';
 
 interface ListProps {
   salaahs: SalaahTime[];
@@ -41,7 +41,7 @@ export default function List({salaahs, city}: ListProps) {
       keyExtractor={(item) => item[0]}
       renderItem={renderItem}
       contentContainerStyle={styles.listContainer}
-      scrollEnabled={false}
+      scrollEnabled={true}
     />
   );
 }

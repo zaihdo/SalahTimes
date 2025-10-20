@@ -58,50 +58,61 @@ export default function ListItem(props: { prayer: string; time: string }) {
     <Ionicons name="time-outline" size={28} color="#102540" />
   );
 
+  // Get colors based on current theme
+  const currentColors = Colors[colorScheme ?? 'light'];
+  const isDarkMode = colorScheme === 'dark';
+
   return (
     <View
       style={[
         styles.container,
         {
-          padding: isSmall ? 6 : 20,
-          backgroundColor:
-            Colors[colorScheme ?? 'light'].accent[
-              colorScheme === 'dark' ? 'dark' : 'light'
-            ],
+          padding: isSmall ? 6 : 10,
         },
       ]}
-      lightColor="#fff"
+      lightColor={Colors.light.background.light}
+      darkColor={Colors.dark.background.dark}
     >
       {/* Icon */}
-      <View style={styles.iconContainer}>{icon}</View>
+      <View style={styles.iconContainer}>
+        {React.cloneElement(icon as React.ReactElement, {
+          color: isDarkMode ? currentColors.icon.tabBarOn : currentColors.text.primary
+        })}
+      </View>
+      
       {/* Prayer Name */}
       <Text
         style={[
           styles.prayerText,
           { fontFamily: 'PlusJakartaSans-Regular' },
         ]}
-        lightColor="rgb(16, 37, 64)"
-        darkColor="rgb(255, 200, 1)"
+        lightColor={Colors.light.text.primary.light}
+        darkColor={Colors.dark.text.primary.dark}
       >
         {props.prayer}
       </Text>
+      
       {/* Prayer Time */}
       <Text
         style={[
           styles.timeText,
           { fontFamily: 'PlusJakartaSans-Regular' },
         ]}
-        lightColor="rgb(16, 37, 64)"
-        darkColor="rgb(255, 200, 1)"
+        lightColor={Colors.light.text.primary.light}
+        darkColor={Colors.dark.text.primary.dark}
       >
         {props.time}
       </Text>
+      
       {/* Toggle */}
       <Switch
         value={isEnabled}
         onValueChange={setIsEnabled}
-        thumbColor={isEnabled ? '#FFC801' : '#ccc'}
-        trackColor={{ false: '#ccc', true: '#FFC801' }}
+        thumbColor={isEnabled ? '#FFFFFF' : '#F5F5F5'}
+        trackColor={({
+          false: currentColors.icon.switchOff[colorScheme === 'dark' ? 'dark' : 'light'],
+          true: currentColors.accent[colorScheme === 'dark' ? 'dark' : 'light'],
+        } as any)}
         style={styles.switch}
       />
     </View>
@@ -113,12 +124,13 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     alignItems: 'center',
     borderRadius: 15,
-    marginTop: 5,
+    marginTop: 4,
     justifyContent: 'space-between',
-    gap: 8,
+    borderWidth: 1,
+    borderColor: 'rgba(0, 0, 0, 0.1)',
   },
   iconContainer: {
-    marginRight: 10,
+    marginRight: 8,
   },
   prayerText: {
     lineHeight: 24,
