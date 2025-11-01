@@ -13,6 +13,7 @@ import Colors from '../constants/Colors';
 import fonts from '../constants/Fonts';
 import { useColorScheme } from '../hooks/useColorScheme';
 import { Ionicons } from '@expo/vector-icons';
+import DateNavigator from '../components/DateNavigator';
 
 interface SalaahProps {
   Name: string;
@@ -25,12 +26,15 @@ export default function SalaahScreen(City: SalaahProps) {
   const db = useSQLiteContext();
   const colorScheme = useColorScheme();
 
+  const [selectedDate, setSelectedDate] = useState<Date>(new Date());
+
   useEffect(() => {
+    if (!db) return;
     db.withTransactionAsync(async () => {
-      const results = await DataHandler.salaahQuery(db, query);
+      const results = await DataHandler.salaahQueryForDate(db, query, selectedDate);
       setSalaahTimes(results);
     });
-  }, [db]);
+  }, [db, query, selectedDate]);
 
   // Update current time every second
   useEffect(() => {
@@ -62,8 +66,14 @@ export default function SalaahScreen(City: SalaahProps) {
             </View>
           </RNView>
         </ImageBackground>
-        {/* Bottom 2/3: Salaah times */}
+        {/* Bottom 2/3: Date navigator (controls selectedDate) then Salaah times */}
         <View style={styles.bottomContainer}>
+          {/* DateNavigator inserted here — it returns the raw Date via onDateChange */}
+          <DateNavigator
+            initialDate={selectedDate}
+            onDateChange={(d) => setSelectedDate(d)}
+          />
+
           <SalaahList salaahs={salaahTimes} city={query?.toLowerCase?.() ?? ''} />
         </View>
       </View>

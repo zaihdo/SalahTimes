@@ -1,6 +1,6 @@
 import * as FileSystem from 'expo-file-system';
 import { Asset } from 'expo-asset';
-import { IqamahTime, SalaahTime } from '@/types/dbTypes';
+import { IqamahTime, SalaahTime } from '../types/dbTypes';
 import { SQLiteDatabase } from 'expo-sqlite/next';
 
 export class DataHandler {
@@ -25,7 +25,7 @@ export class DataHandler {
 
 
 static async iqamahQuery(db: SQLiteDatabase, masjid: string): Promise<IqamahTime[]> {
-  const date = this.formatDateQuery();
+  const date = this.formatDateQuery(new Date());
   return db.getAllSync<IqamahTime>(
     `SELECT Fajr, Dhuhr, DhuhrSunday, Asr, Maghrib, Isha FROM Iqamahs WHERE Date = ? AND Masjid = ?`,
     [date, masjid]
@@ -39,14 +39,6 @@ static async masjidQuery(db: SQLiteDatabase): Promise<any[]> {
   return result;
 }
 
-static async salaahQuery(db: SQLiteDatabase, city: string): Promise<SalaahTime[]> {
-  const date = this.formatDateQuery();
-  return db.getAllAsync<SalaahTime>(
-    `SELECT Fajr, Sunrise, Zawwal, AsrShafiee, AsrHanafee, Sunset, Maghrib, Isha FROM Salahs WHERE Date = ? AND City = ?`,
-    [date, city]
-  );
-}
-
 static async cityQuery(db: SQLiteDatabase): Promise<any[]> {
   const result =  db.getAllAsync<any>(
     `SELECT DISTINCT City FROM Salahs`
@@ -54,10 +46,18 @@ static async cityQuery(db: SQLiteDatabase): Promise<any[]> {
   return result;
 }
 
-static formatDateQuery() {
-    const today = new Date();
-    const day = today.getDate();
-    const month = today.toLocaleString('default', {month: 'short'});
+static async salaahQueryForDate(db: SQLiteDatabase, city: string, dateObj: Date): Promise<SalaahTime[]> {
+    const date = this.formatDateQuery(dateObj);
+    console.log('Querying salaah times for', city, 'on', date);
+    return db.getAllAsync<SalaahTime>(
+      `SELECT Fajr, Sunrise, Zawwal, AsrShafiee, AsrHanafee, Sunset, Maghrib, Isha FROM Salahs WHERE Date = ? AND City = ?`,
+      [date, city]
+    );
+  }
+
+static formatDateQuery(dateObj: Date) {
+    const day = dateObj.getDate();
+    const month = dateObj.toLocaleString('default', {month: 'short'});
     return `${day}-${month}`;
   }
 }

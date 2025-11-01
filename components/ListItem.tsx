@@ -43,16 +43,16 @@ export default function ListItem(props: { prayer: string; time: string }) {
   }, []);
 
   // Log when screen size changes
-  React.useEffect(() => {
-    // eslint-disable-next-line no-console
-    console.log(
-      '🔄 Screen Size Changed - New Dimensions:',
-      `Width: ${width} | Height: ${height}`,
-      `| isSmall: ${isSmall}`,
-      `| isLarge: ${isLarge}`,
-      `| Current Padding: ${isSmall ? 5 : 20}`
-    );
-  }, [isSmall, isLarge, width, height]);
+  // React.useEffect(() => {
+  //   // eslint-disable-next-line no-console
+  //   console.log(
+  //     '🔄 Screen Size Changed - New Dimensions:',
+  //     `Width: ${width} | Height: ${height}`,
+  //     `| isSmall: ${isSmall}`,
+  //     `| isLarge: ${isLarge}`,
+  //     `| Current Padding: ${isSmall ? 5 : 20}`
+  //   );
+  // }, [isSmall, isLarge, width, height]);
 
   const icon = prayerIcons[props.prayer] || (
     <Ionicons name="time-outline" size={28} color="#102540" />
