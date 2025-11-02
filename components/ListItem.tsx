@@ -84,7 +84,7 @@ export default function ListItem(props: { prayer: string; time: string }) {
         thumbColor={isEnabled ? '#FFFFFF' : '#F5F5F5'}
         trackColor={{
           false: currentColors.icon.switchOff[colorScheme === 'dark' ? 'dark' : 'light'],
-          true: currentColors.accent[colorScheme === 'dark' ? 'dark' : 'light'],
+          true: currentColors.icon.switchOn[colorScheme === 'dark' ? 'dark' : 'light'],
         } as any}
         style={styles.switch}
       />

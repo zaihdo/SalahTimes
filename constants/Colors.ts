@@ -11,7 +11,7 @@ const colors = {
   },
   accent: {
     light: '#FFC801', // 10% in light mode
-    dark: '#FFC801',  // 10% in dark mode
+    dark: '#182F47',  // 10% in dark mode
   },
   
   // State Colors (same for both modes)
@@ -43,6 +43,10 @@ const colors = {
     switchOff: {
       light: '#E6E6E6',
       dark: '#4A5C6C',
+    },
+    switchOn: {
+      light: '#FFD053',
+      dark: '#FFD053',
     },
     tabBarOff: {
       light: '#AAAAAA',

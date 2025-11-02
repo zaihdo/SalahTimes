@@ -1,4 +1,4 @@
-import { FlatList } from 'react-native';
+import { FlatList, View } from 'react-native';
 import ListItem from './ListItem';
 import { StyleSheet } from 'react-native';
 import { IqamahTime } from '../types/dbTypes';
@@ -8,6 +8,7 @@ import { useColorScheme } from '../hooks/useColorScheme';
 import React from 'react';
 import { Utilities } from '../util/Utilities';
 import fonts from '../constants/Fonts';
+import { Ionicons } from '@expo/vector-icons'; // added
 
 interface ListProps {
   iqamahs: IqamahTime[];
@@ -29,14 +30,37 @@ export default function List({iqamahs, masjid}: ListProps) {
   return (
     <FlatList
       ListHeaderComponent={
-      <Text 
-      style={[{
-        color: Colors[colorScheme ?? 'light'].textSecondary[colorScheme === 'dark' ? 'dark' : 'light']}, 
-        styles.header, 
-        fonts.heading
-      ]}>
-        {Utilities.toCapitalCase(masjid)}
-        </Text>}
+        <View style={styles.headerContainer}>
+          <Text
+            style={[
+              styles.mosqueName,
+              { color: Colors[colorScheme ?? 'light'].textSecondary[colorScheme === 'dark' ? 'dark' : 'light'] },
+              fonts.heading
+            ]}
+            numberOfLines={1}
+          >
+            {Utilities.toCapitalCase(masjid)}
+          </Text>
+
+          <View style={styles.locationRow}>
+            <Ionicons
+              name="location-sharp"
+              size={14}
+              color={Colors[colorScheme ?? 'light'].textSecondary[colorScheme === 'dark' ? 'dark' : 'light']}
+              style={styles.locationIcon}
+            />
+            <Text
+              style={[
+                styles.locationText,
+                { color: Colors[colorScheme ?? 'light'].textSecondary[colorScheme === 'dark' ? 'dark' : 'light'] }
+              ]}
+              numberOfLines={1}
+            >
+              {Utilities.toCapitalCase(masjid)}
+            </Text>
+          </View>
+        </View>
+      }
       data={data}
       keyExtractor={(item) => item[0]}
       renderItem={renderItem}
@@ -54,5 +78,30 @@ const styles = StyleSheet.create({
     header: {
       textAlign: 'center',
       padding: 15
-    }
+    },
+
+    // new styles
+    headerContainer: {
+      alignSelf: 'stretch',
+      paddingHorizontal: 8,
+      paddingVertical: 12,
+    },
+    mosqueName: {
+      fontSize: 18,
+      fontWeight: '700', // bold
+      textAlign: 'left',
+    },
+    locationRow: {
+      flexDirection: 'row',
+      alignItems: 'center',
+      marginTop: 4,
+    },
+    locationIcon: {
+      marginRight: 6,
+    },
+    locationText: {
+      fontSize: 12,
+      textAlign: 'left',
+      opacity: 0.9,
+    },
   });
