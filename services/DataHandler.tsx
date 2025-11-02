@@ -50,7 +50,7 @@ static async salaahQueryForDate(db: SQLiteDatabase, city: string, dateObj: Date)
     const date = this.formatDateQuery(dateObj);
     console.log('Querying salaah times for', city, 'on', date);
     return db.getAllAsync<SalaahTime>(
-      `SELECT Fajr, Sunrise, Zawwal, Dhuhr,AsrShafiee, AsrHanafee, Sunset, Maghrib, Isha FROM Salahs WHERE Date = ? AND City = ?`,
+      `SELECT Fajr, Sunrise, Zawwal, AsrShafiee, AsrHanafee, Sunset, Maghrib, Isha FROM Salahs WHERE Date = ? AND City = ?`,
       [date, city]
     );
   }
