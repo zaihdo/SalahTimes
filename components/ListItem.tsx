@@ -1,82 +1,123 @@
 import React from 'react';
-import { StyleSheet } from 'react-native';
+import { StyleSheet, Switch } from 'react-native';
 import { Text, View } from './Themed';
-import { useScreenSize } from '@/hooks/useScreenSize';
-import Colors from '@/constants/Colors';
-import { useColorScheme } from '@/hooks/useColorScheme';
-import fonts from '@/constants/Fonts';
+import { useScreenSize } from '../hooks/useScreenSize';
+import Colors from '../constants/Colors';
+import { useColorScheme } from '../hooks/useColorScheme';
+import fonts from '../constants/Fonts';
 
-export default function ListItem(props: { prayer: string, time: string }) {
-  const { isSmall, isLarge, width, height } = useScreenSize();
+// import SVGs as React components (requires react-native-svg & react-native-svg-transformer)
+import FajrIcon from '../assets/icons/Fajr.svg';
+import SunriseIcon from '../assets/icons/Sunrise.svg';
+import DhuhrIcon from '../assets/icons/Dhuhr.svg';
+import AsrIcon from '../assets/icons/Asr.svg';
+import MaghribIcon from '../assets/icons/Maghrib.svg';
+import IshaIcon from '../assets/icons/Esha.svg';
+import IshaDarkIcon from '../assets/icons/EshaDark.svg';
+
+const prayerIcons: Record<string, React.ComponentType<any>> = {
+  Fajr: FajrIcon,
+  Sunrise: SunriseIcon,
+  Zawwal: DhuhrIcon,
+  // Dhuhr: DhuhrIcon,
+  "Dhuhr-Sunday": DhuhrIcon,
+  "Asr-Shafiee": AsrIcon,
+  "Asr-Hanafee": AsrIcon,
+  Asr: AsrIcon,
+  Sunset: MaghribIcon,
+  Maghrib: MaghribIcon,
+  Isha: IshaDarkIcon
+};
+
+export default function ListItem(props: { prayer: string; time: string }) {
+  const { isSmall } = useScreenSize();
   const colorScheme = useColorScheme();
+  const [isEnabled, setIsEnabled] = React.useState(true);
 
-  // Log screen size info on initial render
-  React.useEffect(() => {
-    console.log(
-      '📱 ListItem Mounted - Screen Dimensions:',
-      JSON.stringify({
-        width,
-        height,
-        isSmallScreen: isSmall,
-        isLargeScreen: isLarge,
-        component: 'ListItem',
-        prayer: props.prayer,
-        calculatedPadding: isSmall ? 5 : 20
-      }, null, 2)
-    );
-  }, []);
+  // get SVG component (no fallback)
+  const Icon = prayerIcons[props.prayer];
 
-  // Log when screen size changes
-  React.useEffect(() => {
-    console.log(
-      '🔄 Screen Size Changed - New Dimensions:',
-      `Width: ${width} | Height: ${height}`,
-      `| isSmall: ${isSmall}`,
-      `| isLarge: ${isLarge}`,
-      `| Current Padding: ${isSmall ? 5 : 20}`
-    );
-  }, [isSmall, isLarge, width, height]);
+  // Get theme colors
+  const currentColors = Colors[colorScheme ?? 'light'];
 
   return (
-    <View 
+    <View
       style={[
-        styles.container, 
-        { padding: isSmall ? 6 : 20, 
-          backgroundColor: Colors[colorScheme ?? 'light'].accent[colorScheme === 'dark' ? 'dark' : 'light']
-        }
-      ]} 
-      lightColor='#fff'>
-      <Text 
+        styles.container,
+        {
+          padding: isSmall ? 6 : 10,
+        },
+      ]}
+      lightColor={Colors.light.background.light}
+      darkColor={Colors.dark.background.dark}
+    >
+      {/* Icon (SVG component) */}
+      {Icon ? <Icon width={28} height={28} /> : null}
+
+      {/* Prayer Name */}
+      <Text
         style={[
           styles.prayerText,
-          fonts.title
+          { fontFamily: 'PlusJakartaSans-Regular' },
         ]}
-        lightColor="rgb(16, 37, 64)"
-        darkColor="rgb(255, 200, 1)">
+        lightColor={currentColors.text.primary.light}
+        darkColor={currentColors.text.primary.dark}
+      >
         {props.prayer}
       </Text>
-      <Text 
+
+      {/* Prayer Time */}
+      <Text
         style={[
-          styles.prayerText,
-          fonts.title
+          styles.timeText,
+          { fontFamily: 'PlusJakartaSans-Regular' },
         ]}
-        lightColor="rgb(16, 37, 64)"
-        darkColor="rgb(255, 200, 1)">
+        lightColor={currentColors.text.primary.light}
+        darkColor={currentColors.text.primary.dark}
+      >
         {props.time}
       </Text>
+
+      {/* Toggle */}
+      <Switch
+        value={isEnabled}
+        onValueChange={setIsEnabled}
+        thumbColor={isEnabled ? '#FFFFFF' : '#F5F5F5'}
+        trackColor={{
+          false: currentColors.icon.switchOff[colorScheme === 'dark' ? 'dark' : 'light'],
+          true: currentColors.icon.switchOn[colorScheme === 'dark' ? 'dark' : 'light'],
+        } as any}
+        style={styles.switch}
+      />
     </View>
-  )
+  );
 }
 
 const styles = StyleSheet.create({
   container: {
     flexDirection: 'row',
     alignItems: 'center',
-    justifyContent: 'space-between',
     borderRadius: 15,
-    marginTop: 5,
+    marginTop: 4,
+    justifyContent: 'space-between',
+    borderWidth: 1,
+    borderColor: 'rgba(0, 0, 0, 0.1)',
   },
   prayerText: {
     lineHeight: 24,
+    fontSize: 16,
+    minWidth: 70,
+    flex: 1,
+    marginLeft: 8,
+  },
+  timeText: {
+    lineHeight: 24,
+    fontSize: 16,
+    minWidth: 60,
+    textAlign: 'right',
+    flex: 1,
+  },
+  switch: {
+    marginLeft: 10,
   },
 });

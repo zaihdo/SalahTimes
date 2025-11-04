@@ -1,12 +1,18 @@
 const { getDefaultConfig } = require('expo/metro-config');
 
-const config = getDefaultConfig(process.cwd());
-
-// Optimize file watching
-config.watchFolders = [process.cwd()];
-config.resolver.assetExts.push('db'); // Add any custom extensions
-
-// Reduce watched file types
-config.resolver.sourceExts = ['js', 'jsx', 'ts', 'tsx', 'json'];
-
-module.exports = config;
+module.exports = (() => {
+  const config = getDefaultConfig(process.cwd());
+  const { transformer, resolver } = config;
+  return {
+    ...config,
+    transformer: {
+      ...transformer,
+      babelTransformerPath: require.resolve('react-native-svg-transformer'),
+    },
+    resolver: {
+      ...resolver,
+      assetExts: resolver.assetExts.filter(ext => ext !== 'svg'),
+      sourceExts: [...resolver.sourceExts, 'svg'],
+    },
+  };
+})();

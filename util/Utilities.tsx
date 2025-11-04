@@ -1,4 +1,13 @@
 export class Utilities {
+
+    static getCurrentTime(date: Date = new Date(), use24Hour: boolean = true): string {
+        return date.toLocaleTimeString('en-GB', {
+            hour: '2-digit',
+            minute: '2-digit',
+            second: '2-digit',
+            hour12: !use24Hour,
+        });
+    }
     
     static getFormattedDate (date: Date): string {
         const dayName = date.toLocaleDateString('default', {weekday: 'long'});

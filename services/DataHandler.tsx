@@ -1,6 +1,6 @@
 import * as FileSystem from 'expo-file-system';
 import { Asset } from 'expo-asset';
-import { IqamahTime, SalaahTime } from '@/types/dbTypes';
+import { IqamahTime, SalaahTime } from '../types/dbTypes';
 import { SQLiteDatabase } from 'expo-sqlite/next';
 
 export class DataHandler {
@@ -25,7 +25,7 @@ export class DataHandler {
 
 
 static async iqamahQuery(db: SQLiteDatabase, masjid: string): Promise<IqamahTime[]> {
-  const date = this.formatDateQuery();
+  const date = this.formatDateQuery(new Date());
   return db.getAllSync<IqamahTime>(
     `SELECT Fajr, Dhuhr, DhuhrSunday, Asr, Maghrib, Isha FROM Iqamahs WHERE Date = ? AND Masjid = ?`,
     [date, masjid]
@@ -39,14 +39,6 @@ static async masjidQuery(db: SQLiteDatabase): Promise<any[]> {
   return result;
 }
 
-static async salaahQuery(db: SQLiteDatabase, city: string): Promise<SalaahTime[]> {
-  const date = this.formatDateQuery();
-  return db.getAllAsync<SalaahTime>(
-    `SELECT Fajr, Sunrise, Zawwal, AsrShafiee, AsrHanafee, Sunset, Maghrib, Isha FROM Salahs WHERE Date = ? AND City = ?`,
-    [date, city]
-  );
-}
-
 static async cityQuery(db: SQLiteDatabase): Promise<any[]> {
   const result =  db.getAllAsync<any>(
     `SELECT DISTINCT City FROM Salahs`
@@ -54,10 +46,105 @@ static async cityQuery(db: SQLiteDatabase): Promise<any[]> {
   return result;
 }
 
-static formatDateQuery() {
-    const today = new Date();
-    const day = today.getDate();
-    const month = today.toLocaleString('default', {month: 'short'});
+static async salaahQueryForDate(db: SQLiteDatabase, city: string, dateObj: Date): Promise<SalaahTime[]> {
+    const date = this.formatDateQuery(dateObj);
+    console.log('Querying salaah times for', city, 'on', date);
+    return db.getAllAsync<SalaahTime>(
+      `SELECT Fajr, Sunrise, Zawwal, AsrShafiee, AsrHanafee, Sunset, Maghrib, Isha FROM Salahs WHERE Date = ? AND City = ?`,
+      [date, city]
+    );
+  }
+
+static formatDateQuery(dateObj: Date) {
+    const day = dateObj.getDate();
+    const month = dateObj.toLocaleString('default', {month: 'short'});
     return `${day}-${month}`;
   }
+
+/**
+   * Return the current prayer name for given city/date.
+   * Uses today's salaah times for the city and finds which prayer period `now` falls into.
+   * Returns one of: 'Fajr' | 'Dhuhr' | 'Asr' | 'Maghrib' | 'Isha' or null if unknown.
+   */
+  static async getCurrentPrayer(db: SQLiteDatabase, city: string, dateObj: Date = new Date()): Promise<string | null> {
+    try {
+      const rows = await this.salaahQueryForDate(db, city, dateObj);
+      if (!Array.isArray(rows) || rows.length === 0) return null;
+
+      const row = rows[0] as any;
+
+      // pick the preferred Asr and Dhuhr columns if present
+      const fajr = row.Fajr;
+      const dhuhr = row.Zawwal ?? row.Dhuhr ?? row.DhuhrSunday;
+      const asr = row.AsrShafiee ?? row.AsrHanafee ?? row.Asr;
+      const maghrib = row.Maghrib ?? row.Sunset;
+      const isha = row.Isha;
+
+      const candidatePrayers: { name: string; timeStr: any }[] = [
+        { name: 'Fajr', timeStr: fajr },
+        { name: 'Dhuhr', timeStr: dhuhr },
+        { name: 'Asr', timeStr: asr },
+        { name: 'Maghrib', timeStr: maghrib },
+        { name: 'Isha', timeStr: isha },
+      ];
+
+      // helper: parse time string like "05:45" or "5:45" or "17:30:00"
+      const parseTimeToDate = (base: Date, t: string | number | undefined | null): Date | null => {
+        if (!t && t !== 0) return null;
+        if (typeof t === 'number') {
+          // asset id or numeric unexpected -> skip
+          return null;
+        }
+        const s = String(t).trim();
+        // try HH:MM[:SS] 24h
+        const m = s.match(/^(\d{1,2}):(\d{2})(?::(\d{2}))?/);
+        if (!m) return null;
+        const hh = parseInt(m[1], 10);
+        const mm = parseInt(m[2], 10);
+        const ss = m[3] ? parseInt(m[3], 10) : 0;
+        const d = new Date(base.getFullYear(), base.getMonth(), base.getDate(), hh, mm, ss, 0);
+        return d;
+      };
+
+      const baseDate = new Date(dateObj.getFullYear(), dateObj.getMonth(), dateObj.getDate(), 0, 0, 0, 0);
+      const now = dateObj;
+
+      const entries = candidatePrayers
+        .map(p => ({ name: p.name, date: parseTimeToDate(baseDate, p.timeStr) }))
+        .filter(e => e.date !== null) as { name: string; date: Date }[];
+
+      if (entries.length === 0) return null;
+
+      // sort ascending by time
+      entries.sort((a, b) => a.date.getTime() - b.date.getTime());
+
+      // find first entry with time > now
+      const idxNext = entries.findIndex(e => e.date.getTime() > now.getTime());
+
+      if (idxNext === -1) {
+        // now is after or equal to last prayer => current is last prayer
+        return entries[entries.length - 1].name;
+      }
+
+      if (idxNext === 0) {
+        // now is before the first prayer (i.e. before Fajr) => treat current as last prayer (previous day's Isha)
+        return entries[entries.length - 1].name;
+      }
+
+      // otherwise current prayer is previous entry
+      return entries[idxNext - 1].name;
+    } catch (err) {
+      // eslint-disable-next-line no-console
+      console.error('[DataHandler] getCurrentPrayer error', err);
+      return null;
+    }
+  }
+}
+
+ function capitalize(str: string): string {
+  if (!str) return '';
+  return str
+    .split(' ')
+    .map(word => word.charAt(0).toUpperCase() + word.slice(1).toLowerCase())
+    .join(' ');
 }

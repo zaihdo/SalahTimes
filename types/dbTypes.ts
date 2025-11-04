@@ -7,7 +7,7 @@ export interface SalaahTime {
     zawwal: string;
     'asr-shafiee': string;
     'asr-hanafee': string;
-    sunset: string;
+    // sunset: string;
     maghrib: string;
     isha: string;
 }
