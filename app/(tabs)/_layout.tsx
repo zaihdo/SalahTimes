@@ -63,6 +63,7 @@ export default function TabLayout() {
             ...fonts.textSmall
           },
           headerTintColor: headerTextColor,
+          headerShown: false,
         }}
       />
       <Tabs.Screen

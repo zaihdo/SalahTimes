@@ -51,8 +51,6 @@ export default function IqamahScreen(Masjid: IqamahProps) {
           // blurRadius={1}
         >
           <RNView style={styles.headerContent}>
-            
-
             <RNView style={styles.timeContainer}>
               <Text style={styles.time}>{currentTime}</Text>
               <Text style={styles.smallDate}>{Utilities.getFormattedDate(new Date())}</Text>

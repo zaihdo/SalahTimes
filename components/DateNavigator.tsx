@@ -14,10 +14,10 @@ export default function DateNavigator({
 }) {
   const [date, setDate] = useState<Date>(initialDate ?? new Date());
   const colorScheme = useColorScheme();
-  const theme = colorScheme ?? 'light';
+  const theme = colorScheme ?? 'dark';
   const themeColors = (Colors as any)[theme] ?? {};
-  const textColor = themeColors.text?.primary ?? (theme === 'dark' ? '#fff' : '#102540');
-  const subTextColor = themeColors.text?.secondary ?? (theme === 'dark' ? 'rgba(255,255,255,0.9)' : '#666');
+  const textColor = Colors[colorScheme ?? 'light'].text.primary[colorScheme === 'dark' ? 'dark' : 'light']
+  const subTextColor = Colors[colorScheme ?? 'light'].text.secondary[colorScheme === 'dark' ? 'dark' : 'light']
 
   useEffect(() => {
     onDateChange(date);
