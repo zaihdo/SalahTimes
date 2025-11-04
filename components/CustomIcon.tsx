@@ -22,28 +22,28 @@ const iconMap: Record<string, { active: ImageSourcePropType; inactive: ImageSour
   },
   // Prayer time icons (these might not need active/inactive states)
   fajr: {
-    active: require('../assets/icons/Fajr.png'),
-    inactive: require('../assets/icons/Fajr.png'), // Same for both states
+    active: require('../assets/icons/Fajr.svg'),
+    inactive: require('../assets/icons/Fajr.svg'), // Same for both states
   },
   dhuhr: {
-    active: require('../assets/icons/Dhuhr.png'),
-    inactive: require('../assets/icons/Dhuhr.png'), // Same for both states
+    active: require('../assets/icons/Dhuhr.svg'),
+    inactive: require('../assets/icons/Dhuhr.svg'), // Same for both states
   },
   asr: {
-    active: require('../assets/icons/Asr.png'),
-    inactive: require('../assets/icons/Asr.png'), // Same for both states
+    active: require('../assets/icons/Asr.svg'),
+    inactive: require('../assets/icons/Asr.svg'), // Same for both states
   },
   maghrib: {
-    active: require('../assets/icons/Maghrib.png'),
-    inactive: require('../assets/icons/Maghrib.png'), // Same for both states
+    active: require('../assets/icons/Maghrib.svg'),
+    inactive: require('../assets/icons/Maghrib.svg'), // Same for both states
   },
-  esha: {
-    active: require('../assets/icons/Esha.png'),
-    inactive: require('../assets/icons/Esha.png'), // Same for both states
+  isha: {
+    active: require('../assets/icons/Esha.svg'),
+    inactive: require('../assets/icons/Esha.svg'), // Same for both states
   },
   sunrise: {
-    active: require('../assets/icons/Sunrise.png'),
-    inactive: require('../assets/icons/Sunrise.png'), // Same for both states
+    active: require('../assets/icons/Sunrise.svg'),
+    inactive: require('../assets/icons/Sunrise.svg'), // Same for both states
   }
 };
 

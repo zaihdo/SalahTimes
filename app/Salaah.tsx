@@ -284,7 +284,7 @@ const styles = StyleSheet.create({
     padding: 16,
     borderTopRightRadius: 24,
     borderTopLeftRadius: 24,
-    marginTop: -24,
+    marginTop: -32,
     backgroundColor: Colors.light.background.light,
   },
   timeText: {

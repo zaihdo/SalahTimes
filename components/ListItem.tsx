@@ -13,6 +13,7 @@ import DhuhrIcon from '../assets/icons/Dhuhr.svg';
 import AsrIcon from '../assets/icons/Asr.svg';
 import MaghribIcon from '../assets/icons/Maghrib.svg';
 import IshaIcon from '../assets/icons/Esha.svg';
+import IshaDarkIcon from '../assets/icons/EshaDark.svg';
 
 const prayerIcons: Record<string, React.ComponentType<any>> = {
   Fajr: FajrIcon,
@@ -25,7 +26,7 @@ const prayerIcons: Record<string, React.ComponentType<any>> = {
   Asr: AsrIcon,
   Sunset: MaghribIcon,
   Maghrib: MaghribIcon,
-  Isha: IshaIcon
+  Isha: IshaDarkIcon
 };
 
 export default function ListItem(props: { prayer: string; time: string }) {

@@ -11,7 +11,6 @@ import { Utilities } from '../util/Utilities';
 import IqamahList from '../components/IqamahList';
 import Colors from '../constants/Colors';
 import { useColorScheme } from '../hooks/useColorScheme';
-import { Ionicons } from '@expo/vector-icons';
 
 interface IqamahProps {
   Name: string;
@@ -48,7 +47,6 @@ export default function IqamahScreen(Masjid: IqamahProps) {
           source={require('../assets/images/homeScreenHeader.png')}
           style={styles.headerBackground}
           resizeMode="cover"
-          // blurRadius={1}
         >
           <RNView style={styles.headerContent}>
             <RNView style={styles.timeContainer}>
@@ -58,7 +56,12 @@ export default function IqamahScreen(Masjid: IqamahProps) {
           </RNView>
         </ImageBackground>
 
-        <View style={styles.bottomContainer}>
+        <View
+          style={[
+            styles.bottomContainer,
+            { backgroundColor: Colors[colorScheme ?? 'light'].background[colorScheme === 'dark' ? 'dark' : 'light'] },
+          ]}
+        >
           <IqamahList iqamahs={IqamahTimes} masjid={query?.toLowerCase?.()} />
         </View>
       </View>
@@ -72,7 +75,6 @@ const styles = StyleSheet.create({
     flex: 1,
     justifyContent: 'center',
     alignItems: 'center',
-    minHeight: 0,
   },
   headerContent: {
     flex: 1,
@@ -118,7 +120,7 @@ const styles = StyleSheet.create({
     padding: 16,
     borderTopRightRadius: 24,
     borderTopLeftRadius: 24,
-    backgroundColor: Colors.light.background.light,
+    marginTop: -24, // overlap the header (same technique as Salaah.tsx)
     ...Platform.select({
       ios: {
         shadowColor: '#000',
