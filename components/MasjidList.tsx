@@ -115,9 +115,14 @@ export default function MasjidList({ columns = DEFAULT_COLUMNS, contentStyle }: 
             style={{ width: tileWidth, height: tileHeight, borderRadius: 16, overflow: 'hidden', flex: 0, justifyContent: 'flex-start' }}
             accessibilityLabel={`Open ${displayName}`}
           >
-            <ImageBackground source={image} imageStyle={styles.imageStyle} resizeMode="cover">
-              <View style={styles.overlay}>
-                <Text numberOfLines={2} ellipsizeMode="tail" style={[fonts.text, styles.nameText, { color: '#fff'}]}>
+            <ImageBackground
+              source={image}
+              style={styles.imageBg} // ensure background fills tile
+              imageStyle={styles.imageStyle}
+              resizeMode="cover"
+            >
+              <View style={[styles.overlay, { position: 'absolute', left: 12, right: 12, bottom: 12 }]}>
+                <Text numberOfLines={2} ellipsizeMode="tail" style={[fonts.text, styles.nameText, { color: '#fff' }]}>
                   {displayName}
                 </Text>
               </View>
@@ -169,8 +174,7 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     paddingHorizontal: 20,
-    paddingTop: 18,
-    
+    paddingTop: 18
   },
   header: {
     marginBottom: 16,
@@ -185,6 +189,11 @@ const styles = StyleSheet.create({
   },
   columnWrapper: {
     justifyContent: 'flex-start',
+  },
+  imageBg: {
+    width: '100%', 
+    height: '100%',
+    borderRadius: 16,
   },
   imageStyle: {
     flex: 1,
