@@ -129,7 +129,7 @@ export default function MasjidList({ columns = DEFAULT_COLUMNS, contentStyle }: 
               />
 
               <View style={[styles.overlay, { position: 'absolute', left: 12, right: 12, bottom: 12 }]}>
-                <Text numberOfLines={2} ellipsizeMode="tail" style={[fonts.textBold, { color: '#fff' }]}>
+                <Text numberOfLines={2} ellipsizeMode="tail" style={[fonts.poppinsBold, { color: '#fff' }]}>
                   {displayName}
                 </Text>
               </View>
@@ -152,7 +152,7 @@ export default function MasjidList({ columns = DEFAULT_COLUMNS, contentStyle }: 
     <React.Suspense fallback={<Suspense />}>
       <View style={[styles.container, contentStyle, { backgroundColor: Colors[theme].background[theme === 'dark' ? 'dark' : 'light'] }]}>
         <View style={styles.header}>
-          <Text style={[fonts.headingLarge, styles.title, { color: Colors[theme].text[theme === 'dark' ? 'dark' : 'light'] }]}>Mosques</Text>
+          <Text style={[fonts.headingXLarge, { color: Colors[theme].text.primary[theme === 'dark' ? 'dark' : 'light'] }]}>Mosques</Text>
         </View>
 
         <FlatList
@@ -185,7 +185,7 @@ const styles = StyleSheet.create({
   },
   header: {
     marginBottom: 16,
-    marginTop: 18,
+    marginTop: 32,
   },
   title: {
     fontSize: 24,

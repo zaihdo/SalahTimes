@@ -5,12 +5,29 @@ const fontFamilies = {
   medium: 'PlusJakartaSans-Medium',      // Add these
   bold: 'PlusJakartaSans-Bold',          // Add these
   italic: 'PlusJakartaSans-Italic',
-  // Add other variants if you have them
+  poppinsBlack: 'Poppins-Black',
+  poppinsBlackItalic: 'Poppins-BlackItalic',
+  poppinsBold: 'Poppins-Bold',
+  poppinsBoldItalic: 'Poppins-BoldItalic',
+  poppinsExtraBold: 'Poppins-ExtraBold',
+  poppinsExtraBoldItalic: 'Poppins-ExtraBoldItalic',
+  poppinsExtraLight: 'Poppins-ExtraLight',
+  poppinsExtraLightItalic: 'Poppins-ExtraLightItalic',
+  poppinsItalic: 'Poppins-Italic',
+  poppinsLight: 'Poppins-Light',
+  poppinsLightItalic: 'Poppins-LightItalic',
+  poppinsMedium: 'Poppins-Medium',
+  poppinsMediumItalic: 'Poppins-MediumItalic',
+  poppinsRegular: 'Poppins-Regular',
+  poppinsSemiBold: 'Poppins-SemiBold',
+  poppinsSemiBoldItalic: 'Poppins-SemiBoldItalic',
+  poppinsThin: 'Poppins-Thin',
+  poppinsThinItalic: 'Poppins-ThinItalic'
 };
 
 const fontSizes = {
   small: 14,
-  medium: 18,
+  medium: 16,
   large: 20,
   xlarge: 24,
   xxlarge: 28,
@@ -72,13 +89,22 @@ const fonts = StyleSheet.create({
   },
   headingLarge: {
     fontSize: fontSizes.xlarge,
-    fontFamily: fontFamilies.medium,
+    fontFamily: fontFamilies.bold,
   },
   headingXLarge: {
     fontSize: fontSizes.xxlarge,
     fontFamily: fontFamilies.bold,
   },
 
+  // Poppins styles
+  poppinsRegular: {
+    fontSize: fontSizes.medium,
+    fontFamily: fontFamilies.poppinsRegular,
+  },
+  poppinsBold: {
+    fontSize: fontSizes.medium,
+    fontFamily: fontFamilies.poppinsBold,
+  },
   // Remove fontWeight from everywhere - it's not needed!
 });
 

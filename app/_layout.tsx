@@ -30,7 +30,11 @@ export default function RootLayout() {
   const [fontsLoaded] = useFonts({
     SpaceMono: require('../assets/fonts/SpaceMono-Regular.ttf'),
     'PlusJakartaSans-Regular': require('../assets/fonts/PlusJakartaSans.ttf'),
-    'PlusJakartaSans-Italic': require('../assets/fonts/PlusJakartaSans-Italic.ttf')
+    'PlusJakartaSans-Italic': require('../assets/fonts/PlusJakartaSans-Italic.ttf'),
+    'Poppins': require('../assets/fonts/Poppins-Regular.ttf'),
+    'Poppins-Bold': require('../assets/fonts/Poppins-Bold.ttf'),
+    'Poppins-SemiBold': require('../assets/fonts/Poppins-SemiBold.ttf'),
+    'Poppins-Italic': require('../assets/fonts/Poppins-Italic.ttf'),    
   });
 
   // Initialize app resources
