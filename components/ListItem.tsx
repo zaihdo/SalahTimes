@@ -19,7 +19,7 @@ const prayerIcons: Record<string, React.ComponentType<any>> = {
   Fajr: FajrIcon,
   Sunrise: SunriseIcon,
   Zawwal: DhuhrIcon,
-  // Dhuhr: DhuhrIcon,
+  Dhuhr: DhuhrIcon,
   "Dhuhr-Sunday": DhuhrIcon,
   "Asr-Shafiee": AsrIcon,
   "Asr-Hanafee": AsrIcon,

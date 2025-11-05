@@ -11,6 +11,7 @@ import { Utilities } from '../util/Utilities';
 import IqamahList from '../components/IqamahList';
 import Colors from '../constants/Colors';
 import { useColorScheme } from '../hooks/useColorScheme';
+import fonts from '../constants/Fonts'; // added import
 
 interface IqamahProps {
   Name: string;
@@ -91,29 +92,28 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     alignItems: 'center',
   },
+  // use font definitions from Fonts.ts (safe fallback to empty object)
   cityText: {
+    ...(fonts.heading ?? {}),
     color: '#fff',
     fontSize: 16,
-    fontFamily: 'PlusJakartaSans-Regular',
     fontWeight: '600',
   },
   timeContainer: {
     justifyContent: 'center',
     alignItems: 'center',
   },
+  // apply heading styles from Fonts.ts
   time: {
-    fontSize: 36,
-    fontWeight: '700',
-    letterSpacing: 1,
+    ...(fonts.headingXLarge ?? {}),
     color: '#fff',
-    fontFamily: 'PlusJakartaSans-Regular',
     textAlign: 'center',
   },
   smallDate: {
+    ...(fonts.textMedium ?? {}),
     marginTop: 6,
     fontSize: 14,
     color: 'rgba(255,255,255,0.9)',
-    fontFamily: 'PlusJakartaSans-Regular',
   },
   bottomContainer: {
     flex: 2,

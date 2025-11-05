@@ -34,8 +34,8 @@ export default function List({iqamahs, masjid}: ListProps) {
           <Text
             style={[
               styles.mosqueName,
-              { color: Colors[colorScheme ?? 'light'].textSecondary[colorScheme === 'dark' ? 'dark' : 'light'] },
-              fonts.heading
+              { color: Colors[colorScheme ?? 'light'].textSecondary[colorScheme === 'dark' ? 'dark' : 'light'], fontWeight: '700' },
+              fonts.headingLarge
             ]}
             numberOfLines={1}
           >
