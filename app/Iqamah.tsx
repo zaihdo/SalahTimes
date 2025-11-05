@@ -12,6 +12,7 @@ import IqamahList from '../components/IqamahList';
 import Colors from '../constants/Colors';
 import { useColorScheme } from '../hooks/useColorScheme';
 import fonts from '../constants/Fonts'; // added import
+import { resolveMasjidImage } from '../constants/MasjidImages'; // added imports
 
 interface IqamahProps {
   Name: string;
@@ -20,9 +21,12 @@ interface IqamahProps {
 export default function IqamahScreen(Masjid: IqamahProps) {
   const [IqamahTimes, setIqamahTimes] = useState<IqamahTime[]>([]);
   const [currentTime, setCurrentTime] = useState<string>(Utilities.getCurrentTime(new Date()));
-  const { query } = useLocalSearchParams<{ query: string }>();
+  const { query, img } = useLocalSearchParams<{ query: string; img?: string }>();
   const db = useSQLiteContext();
   const colorScheme = useColorScheme();
+
+  // resolve header image from passed img key; fallback to default header
+  const headerImage = resolveMasjidImage(img as string) ?? require('../assets/images/homeScreenHeader.png');
 
   useEffect(() => {
     db.withTransactionAsync(async () => {
@@ -45,7 +49,7 @@ export default function IqamahScreen(Masjid: IqamahProps) {
     <React.Suspense fallback={<Suspense />}>
       <View style={{ flex: 1, backgroundColor: Colors[colorScheme ?? 'light'].background[colorScheme === 'dark' ? 'dark' : 'light'] }}>
         <ImageBackground
-          source={require('../assets/images/homeScreenHeader.png')}
+          source={headerImage}
           style={styles.headerBackground}
           resizeMode="cover"
         >

@@ -107,11 +107,12 @@ export default function MasjidList({ columns = DEFAULT_COLUMNS, contentStyle }: 
   const renderTile = ({ item }: { item: MasjidItem }) => {
     const raw = typeof item === 'string' ? item : item?.Masjid ?? String(item);
     const displayName = Utilities.toCapitalCase(String(raw));
+    const lookupKey = normalizeNameForLookup(String(raw));
     const image = findImageForName(raw);
 
     return (
-      <View style={[ { width: tileWidth, marginRight: tileSpacing, marginBottom: tileSpacing}]}>
-        <Link href={{ pathname: '/Iqamah', params: { query: String(raw) } }} asChild>
+      <View style={[{ width: tileWidth, marginRight: tileSpacing, marginBottom: tileSpacing }]}>
+        <Link href={{ pathname: '/Iqamah', params: { query: String(raw), img: lookupKey } }} asChild>
           <Pressable
             style={{ width: tileWidth, height: tileHeight, borderRadius: 16, overflow: 'hidden', flex: 0, justifyContent: 'flex-start' }}
             accessibilityLabel={`Open ${displayName}`}

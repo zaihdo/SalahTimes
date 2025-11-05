@@ -33,32 +33,13 @@ export default function List({iqamahs, masjid}: ListProps) {
         <View style={styles.headerContainer}>
           <Text
             style={[
-              styles.mosqueName,
               { color: Colors[colorScheme ?? 'light'].textSecondary[colorScheme === 'dark' ? 'dark' : 'light'], fontWeight: '700' },
-              fonts.headingLarge
+              fonts.heading
             ]}
             numberOfLines={1}
           >
-            {Utilities.toCapitalCase(masjid)}
+            Iqamah Times
           </Text>
-
-          <View style={styles.locationRow}>
-            <Ionicons
-              name="location-sharp"
-              size={14}
-              color={Colors[colorScheme ?? 'light'].textSecondary[colorScheme === 'dark' ? 'dark' : 'light']}
-              style={styles.locationIcon}
-            />
-            <Text
-              style={[
-                styles.locationText,
-                { color: Colors[colorScheme ?? 'light'].textSecondary[colorScheme === 'dark' ? 'dark' : 'light'] }
-              ]}
-              numberOfLines={1}
-            >
-              {Utilities.toCapitalCase(masjid)}
-            </Text>
-          </View>
         </View>
       }
       data={data}
@@ -79,29 +60,9 @@ const styles = StyleSheet.create({
       textAlign: 'center',
       padding: 15
     },
-
-    // new styles
     headerContainer: {
       alignSelf: 'stretch',
       paddingHorizontal: 8,
       paddingVertical: 12,
-    },
-    mosqueName: {
-      fontSize: 18,
-      fontWeight: '700', // bold
-      textAlign: 'left',
-    },
-    locationRow: {
-      flexDirection: 'row',
-      alignItems: 'center',
-      marginTop: 4,
-    },
-    locationIcon: {
-      marginRight: 6,
-    },
-    locationText: {
-      fontSize: 12,
-      textAlign: 'left',
-      opacity: 0.9,
-    },
+    }
   });
