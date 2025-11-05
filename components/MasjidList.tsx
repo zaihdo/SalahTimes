@@ -10,6 +10,7 @@ import {
 } from 'react-native';
 import { useSQLiteContext } from 'expo-sqlite/next';
 import { Link } from 'expo-router';
+import { LinearGradient } from 'expo-linear-gradient';
 import { Text } from './Themed';
 import { DataHandler } from '../services/DataHandler';
 import { Utilities } from '../util/Utilities';
@@ -109,7 +110,7 @@ export default function MasjidList({ columns = DEFAULT_COLUMNS, contentStyle }: 
     const image = findImageForName(raw);
 
     return (
-      <View style={[{ width: tileWidth, marginRight: tileSpacing, marginBottom: tileSpacing}]}>
+      <View style={[ { width: tileWidth, marginRight: tileSpacing, marginBottom: tileSpacing}]}>
         <Link href={{ pathname: '/Iqamah', params: { query: String(raw) } }} asChild>
           <Pressable
             style={{ width: tileWidth, height: tileHeight, borderRadius: 16, overflow: 'hidden', flex: 0, justifyContent: 'flex-start' }}
@@ -121,8 +122,14 @@ export default function MasjidList({ columns = DEFAULT_COLUMNS, contentStyle }: 
               imageStyle={styles.imageStyle}
               resizeMode="cover"
             >
+              <LinearGradient
+                colors={['transparent', 'rgba(0,0,0,0.3)', 'rgba(0,0,0,0.9)']}
+                locations={[0.3, 0.6, 1]} // Adjust these to control the gradient spread
+                style={styles.gradientOverlay}
+              />
+
               <View style={[styles.overlay, { position: 'absolute', left: 12, right: 12, bottom: 12 }]}>
-                <Text numberOfLines={2} ellipsizeMode="tail" style={[fonts.text, styles.nameText, { color: '#fff' }]}>
+                <Text numberOfLines={2} ellipsizeMode="tail" style={[fonts.textBold, { color: '#fff' }]}>
                   {displayName}
                 </Text>
               </View>
@@ -190,6 +197,10 @@ const styles = StyleSheet.create({
   columnWrapper: {
     justifyContent: 'flex-start',
   },
+  gradientOverlay: {
+    ...StyleSheet.absoluteFillObject,
+    // backgroundColor: 'linear-gradient(to top, rgba(0,0,0,0.7) 0%, rgba(0,0,0,0.3) 50%, transparent 100%)',
+  },
   imageBg: {
     width: '100%', 
     height: '100%',
@@ -204,11 +215,6 @@ const styles = StyleSheet.create({
   overlay: {
     paddingHorizontal: 12,
     paddingVertical: 12,
-  },
-  nameText: {
-    fontSize: 16,
-    textTransform: 'capitalize',
-    lineHeight: 20,
   },
   empty: {
     padding: 28,
