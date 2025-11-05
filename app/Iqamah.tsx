@@ -67,6 +67,14 @@ export default function IqamahScreen(Masjid: IqamahProps) {
             { backgroundColor: Colors[colorScheme ?? 'light'].background[colorScheme === 'dark' ? 'dark' : 'light'] },
           ]}
         >
+          <Text
+            style={[
+              fonts.headingLarge,
+              { color: Colors[colorScheme ?? 'light'].text.primary[colorScheme === 'dark' ? 'dark' : 'light'], marginHorizontal: 16},
+            ]}
+          >
+            {Utilities.toCapitalCase(String(query ?? ''))}
+          </Text>
           <IqamahList iqamahs={IqamahTimes} masjid={query?.toLowerCase?.()} />
         </View>
       </View>
@@ -77,7 +85,7 @@ export default function IqamahScreen(Masjid: IqamahProps) {
 
 const styles = StyleSheet.create({
   headerBackground: {
-    flex: 1,
+    flex: 1.5,
     justifyContent: 'center',
     alignItems: 'center',
   },
