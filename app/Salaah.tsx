@@ -20,7 +20,7 @@ interface SalaahProps {
   Name: string;
 }
 
-export default function SalaahScreen(City: SalaahProps) {
+export default function SalaahScreen({ Name }: SalaahProps) {
   const [salaahTimes, setSalaahTimes] = useState<SalaahTime[]>([]);
   const [currentTime, setCurrentTime] = useState<string>(Utilities.getCurrentTime(new Date()));
   const [currentPrayer, setCurrentPrayer] = useState<string | null>(null);
@@ -33,7 +33,7 @@ export default function SalaahScreen(City: SalaahProps) {
   // city selector state
   const [cities, setCities] = useState<string[]>([]);
   const [selectorVisible, setSelectorVisible] = useState(false);
-  const [selectedCity, setSelectedCity] = useState<string | undefined>(query ?? undefined);
+  const [selectedCity, setSelectedCity] = useState<string | undefined>(query ?? (Name || undefined));
 
   // load city list from DB (avoid withTransactionAsync)
   useEffect(() => {
@@ -59,15 +59,26 @@ export default function SalaahScreen(City: SalaahProps) {
       }
     })();
     // eslint-disable-next-line react-hooks/exhaustive-deps
+    console.log('Loaded cities from DB' + cities);
   }, [db]);
+
+  // use saved city prop as default when there is no query override
+  useEffect(() => {
+    if (!query && Name) {
+      setSelectedCity(Name);
+    }
+    console.log('SalaahScreen received Name prop:', Name);
+  }, [Name, query]);
 
   useEffect(() => {
     if (!db) return;
     (async () => {
       try {
         const cityToUse = selectedCity ?? query ?? '';
+        console.log(`Querying salaah times for city: ${cityToUse} on date: ${selectedDate.toDateString()}`);
         const results = await DataHandler.salaahQueryForDate(db, cityToUse, selectedDate);
         setSalaahTimes(Array.isArray(results) ? results : []);
+        console.log(`Loaded salaah times for city: ${cityToUse} on date: ${selectedDate.toDateString()}`, results);
       } catch (err) {
         // eslint-disable-next-line no-console
         console.error('[Salaah] salaahQueryForDate error', err);
@@ -85,21 +96,21 @@ export default function SalaahScreen(City: SalaahProps) {
   }, []);
 
   // update currentPrayer whenever city/time changes (uses DataHandler.getCurrentPrayer)
-  useEffect(() => {
-    if (!db) return;
-    (async () => {
-      try {
-        const cityToUse = (selectedCity ?? query ?? '').toString();
-        const p = await DataHandler.getCurrentPrayer(db, cityToUse, new Date());
-        setCurrentPrayer(p);
-      } catch (err) {
-        // eslint-disable-next-line no-console
-        console.error('[Salaah] getCurrentPrayer error', err);
-        setCurrentPrayer(null);
-      }
-    })();
-    // run whenever db, selectedCity, query or currentTime (so it updates as time passes)
-  }, [db, selectedCity, query, currentTime]);
+  // useEffect(() => {
+  //   if (!db) return;
+  //   (async () => {
+  //     try {
+  //       const cityToUse = (selectedCity ?? query ?? '').toString();
+  //       const p = await DataHandler.getCurrentPrayer(db, cityToUse, new Date());
+  //       setCurrentPrayer(p);
+  //     } catch (err) {
+  //       // eslint-disable-next-line no-console
+  //       console.error('[Salaah] getCurrentPrayer error', err);
+  //       setCurrentPrayer(null);
+  //     }
+  //   })();
+  //   // run whenever db, selectedCity, query or currentTime (so it updates as time passes)
+  // }, [db, selectedCity, query, currentTime]);
 
   return (
     <React.Suspense fallback={<Suspense />}>
@@ -284,7 +295,7 @@ const styles = StyleSheet.create({
     padding: 16,
     borderTopRightRadius: 24,
     borderTopLeftRadius: 24,
-    marginTop: -32,
+    marginTop: -26,
     backgroundColor: Colors.light.background.light,
   },
   timeText: {

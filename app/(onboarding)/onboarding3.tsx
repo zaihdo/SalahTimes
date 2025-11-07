@@ -8,8 +8,8 @@ export default function FinishOnboarding() {
   const [selectedMadhabIndex, setSelectedMadhabIndex] = useState<number | null>(null);
 
   const madhabs = [
-    { id: 1, name: 'Hanafi' },
-    { id: 2, name: "Shafi'ee" },
+    { id: 1, name: 'Hanafee' },
+    { id: 2, name: "Shafiee" },
   ];
 
   // Animated values for tick icons
@@ -40,7 +40,10 @@ export default function FinishOnboarding() {
 
   const completeOnboarding = async () => {
     if (selectedMadhabIndex === null) return; // Prevent action if not selected
-    await AsyncStorage.setItem('@viewedOnboarding', 'true');
+    await AsyncStorage.multiSet([
+      ['@onboardingComplete', 'true'],
+      ['@selectedMadhab', 'Asr' + madhabs[selectedMadhabIndex].name],
+    ]);
     router.replace('/(tabs)/');
   };
 

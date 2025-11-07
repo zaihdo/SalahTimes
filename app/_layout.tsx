@@ -110,7 +110,7 @@ function RootLayoutNav() {
             <Stack.Screen name="(onboarding)" />
           </Stack>
         ) : (
-          <Stack screenOptions={{ headerShown: false }}>
+          <Stack screenOptions={{ headerShown: true }}>
             {/* <Stack.Screen 
               name="(tabs)" 
               options={{ 
