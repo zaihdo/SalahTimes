@@ -41,7 +41,7 @@ export default function RootLayout() {
       try {
         // Set splash screen background color
         await SystemUI.setBackgroundColorAsync(
-          Colors[colorScheme ?? 'light'].background[colorScheme === 'dark' ? 'dark' : 'light']
+          Colors[colorScheme ?? 'light'].primary[colorScheme === 'dark' ? 'dark' : 'light']
         );
 
         // Load database and fonts in parallel

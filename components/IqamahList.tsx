@@ -51,7 +51,7 @@ export default function List({iqamahs, masjid}: ListProps) {
         <View style={styles.headerContainer}>
           <Text
             style={[
-              { color: Colors[colorScheme ?? 'light'].textSecondary[colorScheme === 'dark' ? 'dark' : 'light'], fontWeight: '700' },
+              { color: Colors[colorScheme ?? 'light'].text?.secondary?.[colorScheme === 'dark' ? 'dark' : 'light'], fontWeight: '700' },
               fonts.heading
             ]}
             numberOfLines={1}

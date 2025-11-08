@@ -35,7 +35,7 @@ export default function TabLayout() {
 
   const activeTintColor = resolveColor(currentColors.text.primary);
   const inactiveTintColor = resolveColor(currentColors.icon?.tabBarOff);
-  const backgroundColor = resolveColor(currentColors.background);
+  const backgroundColor = resolveColor(currentColors.primary);
   const headerTextColor = resolveColor(currentColors.text.primary);
 
   return (

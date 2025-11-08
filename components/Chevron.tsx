@@ -1,8 +1,8 @@
 import React from 'react'
 import FontAwesome6 from '@expo/vector-icons/FontAwesome6';
-import Animated, {useAnimatedStyle, useSharedValue} from 'react-native-reanimated';
-import Colors from '@/constants/Colors';
-import { useColorScheme } from '@/hooks/useColorScheme';
+import Animated, {useAnimatedStyle} from 'react-native-reanimated';
+import Colors from '../constants/Colors';
+import { useColorScheme } from '../hooks/useColorScheme';
 
 type Props = {
   progress: Animated.SharedValue<number>;
@@ -22,7 +22,7 @@ const Chevron = ({ progress }: Props) => {
    }))
   return (
     <Animated.View style={iconStyle}>
-      <TabBarIcon name="chevron-down" color= {Colors[colorScheme ?? 'light'].contrast[colorScheme === 'dark' ? 'dark' : 'light']}/>
+      <TabBarIcon name="chevron-down" color= {Colors[colorScheme ?? 'light'].icon.tabBarOn[colorScheme === 'dark' ? 'dark' : 'light']}/>
     </Animated.View>
   )
 }

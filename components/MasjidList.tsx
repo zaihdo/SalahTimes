@@ -143,7 +143,7 @@ export default function MasjidList({ columns = DEFAULT_COLUMNS, contentStyle }: 
 
   if (masjids === null) {
     return (
-      <View style={[styles.container, { backgroundColor: Colors[theme].background[theme === 'dark' ? 'dark' : 'light'] }]}>
+      <View style={[styles.container, { backgroundColor: Colors[theme].primary[theme === 'dark' ? 'dark' : 'light'] }]}>
         <ActivityIndicator style={{ marginTop: 32 }} />
       </View>
     );
@@ -151,7 +151,7 @@ export default function MasjidList({ columns = DEFAULT_COLUMNS, contentStyle }: 
 
   return (
     <React.Suspense fallback={<Suspense />}>
-      <View style={[styles.container, contentStyle, { backgroundColor: Colors[theme].background[theme === 'dark' ? 'dark' : 'light'] }]}>
+      <View style={[styles.container, contentStyle, { backgroundColor: Colors[theme].primary[theme === 'dark' ? 'dark' : 'light'] }]}>
         <View style={styles.header}>
           <Text style={[fonts.headingXLarge, { color: Colors[theme].text.primary[theme === 'dark' ? 'dark' : 'light'] }]}>Mosques</Text>
         </View>

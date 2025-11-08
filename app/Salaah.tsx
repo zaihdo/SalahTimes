@@ -124,7 +124,7 @@ export default function SalaahScreen({ Name }: SalaahProps) {
 
   return (
     <React.Suspense fallback={<Suspense />}>
-      <View style={{ flex: 1, backgroundColor: Colors[colorScheme ?? 'light'].background[colorScheme === 'dark' ? 'dark' : 'light'] }}>
+      <View style={{ flex: 1, backgroundColor: Colors[colorScheme ?? 'light'].primary[colorScheme === 'dark' ? 'dark' : 'light'] }}>
         {/* Top 1/3: Header with background and time */}
         <ImageBackground
           source={require('../assets/images/homeScreenHeader.png')}
@@ -182,7 +182,7 @@ export default function SalaahScreen({ Name }: SalaahProps) {
             {/* Android modal selector */}
             <Modal visible={selectorVisible} transparent animationType="slide" onRequestClose={() => setSelectorVisible(false)}>
               <RNView style={styles.modalOverlay}>
-                <RNView style={[styles.modalContent, { backgroundColor: Colors[colorScheme ?? 'light'].background[colorScheme === 'dark' ? 'dark' : 'light'] }]}>
+                <RNView style={[styles.modalContent, { backgroundColor: Colors[colorScheme ?? 'light'].primary[colorScheme === 'dark' ? 'dark' : 'light'] }]}>
                   <RNView style={styles.modalHeader}>
                     <Text style={[styles.modalTitle, { color: Colors[colorScheme ?? 'light'].text.primary[colorScheme === 'dark' ? 'dark' : 'light'] }]}>
                       View Prayer Times
@@ -227,7 +227,7 @@ export default function SalaahScreen({ Name }: SalaahProps) {
         <View
           style={[
             styles.bottomContainer,
-            { backgroundColor: Colors[colorScheme ?? 'light'].background[colorScheme === 'dark' ? 'dark' : 'light'] },
+            { backgroundColor: Colors[colorScheme ?? 'light'].primary[colorScheme === 'dark' ? 'dark' : 'light'] },
           ]}
         >
           <DateNavigator
@@ -327,7 +327,6 @@ const styles = StyleSheet.create({
     borderTopRightRadius: 24,
     borderTopLeftRadius: 24,
     marginTop: -26,
-    backgroundColor: Colors.light.background.light,
   },
   modalOverlay: {
     flex: 1,

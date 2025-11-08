@@ -13,6 +13,18 @@ const colors = {
     light: '#FFD053', // 10% in light mode
     dark: '#FFD053',  // 10% in dark mode
   },
+  complement: {
+    light: '#FFFFFF',
+    dark: '#182F47'
+  },
+  outlineActive: {
+    light: '#243C57',
+    dark: '#E6E6E6',
+  },
+  outlineInactive: {
+    light: '#E6E6E6',
+    dark: '#243C57',
+  },
   
   // State Colors (same for both modes)
   state: {
@@ -56,19 +68,7 @@ const colors = {
       light: '#102540', // Using secondary color for active tab
       dark: '#FFFFFF',  // Using secondary color for active tab
     },
-  },
-  
-  // Background Colors (for different sections)
-  background: {
-    light: '#FFFFFF',   // Primary in light mode
-    dark: '#102540',    // Primary in dark mode
-  },
-  
-  // Legacy colors (keeping for backward compatibility)
-  textSecondary: {
-    light: '#8D8D8D',   // Using Gray 1
-    dark: '#AAB4BE',    // Using Gray 1
-  },
+  }
 };
 
 const theme = {
