@@ -10,8 +10,8 @@ const colors = {
     dark: '#FFFFFF',  // 30% in dark mode
   },
   accent: {
-    light: '#FFC801', // 10% in light mode
-    dark: '#182F47',  // 10% in dark mode
+    light: '#FFD053', // 10% in light mode
+    dark: '#FFD053',  // 10% in dark mode
   },
   
   // State Colors (same for both modes)
@@ -63,46 +63,8 @@ const colors = {
     light: '#FFFFFF',   // Primary in light mode
     dark: '#102540',    // Primary in dark mode
   },
-  card: {
-    light: '#F8F9FA',   // Light background for cards
-    dark: '#1A2E48',    // Dark background for cards
-  },
-  
-  // Border Colors
-  border: {
-    light: '#E6E6E6',
-    dark: '#4A5C6C',
-  },
   
   // Legacy colors (keeping for backward compatibility)
-  tint: {
-    light: '#102540',
-    dark: '#FFC801',
-  },
-  tabIconDefault: {
-    light: '#AAAAAA',   // Using tabBarOff color
-    dark: '#6D88A0',    // Using tabBarOff color
-  },
-  tabIconSelected: {
-    light: '#102540',   // Using tabBarOn color
-    dark: '#FFFFFF',    // Using tabBarOn color
-  },
-  main: {
-    light: '#FFC801',
-    dark: '#102540',
-  },
-  contrast: {
-    light: '#102540',
-    dark: '#FFC801',
-  },
-  lightNavy: {
-    light: 'rgba(16, 37, 64, 0.25)',
-    dark: 'rgba(16, 37, 64, 0.25)',
-  },
-  gold: {
-    light: '#FFC801',
-    dark: '#FFC801',
-  },
   textSecondary: {
     light: '#8D8D8D',   // Using Gray 1
     dark: '#AAB4BE',    // Using Gray 1
