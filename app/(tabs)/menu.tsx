@@ -7,10 +7,10 @@ import MenuListItem from '../../components/MenuIconListItem';
 import ListItem from '../../components/ListItem';
 
 const MENU_ITEMS = [
-  { key: 'about', title: 'About Us', icon: require('../../assets/icons/about-us.svg'), route: '../AboutUs' },
-  { key: 'contact', title: 'Contact Us', icon: require('../../assets/icons/contact-us.svg'), route: '../ContactUs' },
-  { key: 'privacy', title: 'Privacy & Security', icon: require('../../assets/icons/privacy-security.svg'), route: '../PrivacySecurity' },
-  { key: 'settings', title: 'Settings', icon: require('../../assets/icons/settings.svg'), route: '../Settings' },
+  { key: 'about', title: 'About Us', icon: require('../../assets/icons/about-us.svg'), route: '../about-us/AboutUs' },
+  { key: 'contact', title: 'Contact Us', icon: require('../../assets/icons/contact-us.svg'), route: '../contact-us/ContactUs' },
+  { key: 'privacy', title: 'Privacy & Security', icon: require('../../assets/icons/privacy-security.svg'), route: '../privacy-security/PrivacySecurity' },
+  { key: 'settings', title: 'Settings', icon: require('../../assets/icons/settings.svg'), route: '../settings/Settings' },
 ];
 
 export default function MenuScreen() {
