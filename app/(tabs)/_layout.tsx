@@ -35,7 +35,7 @@ export default function TabLayout() {
 
   const activeTintColor = resolveColor(currentColors.text.primary);
   const inactiveTintColor = resolveColor(currentColors.icon?.tabBarOff);
-  const backgroundColor = resolveColor(currentColors.background);
+  const backgroundColor = resolveColor(currentColors.primary);
   const headerTextColor = resolveColor(currentColors.text.primary);
 
   return (
@@ -81,6 +81,7 @@ export default function TabLayout() {
             ...fonts.textSmall
           },
           headerTintColor: headerTextColor, 
+          headerShown: false,
         }}
       />
       <Tabs.Screen
@@ -97,7 +98,32 @@ export default function TabLayout() {
             color: headerTextColor,
             ...fonts.textSmall
           },
-          headerTintColor: headerTextColor
+          headerTintColor: headerTextColor,
+          headerShown: false,
+        }}
+      />
+      <Tabs.Screen
+        name="menu"
+        options={{
+          title: 'Menu',
+          tabBarIcon: ({ focused }) => (
+            <TabBarIcon name="menu" focused={focused} />
+          ),
+          headerStyle: {
+            backgroundColor: backgroundColor,
+            elevation: 0,
+          },
+          headerTitleStyle: {
+            color: headerTextColor,
+            ...fonts.headingXLarge,
+          },
+          headerTitleAlign: 'left',
+          tabBarLabelStyle: {
+            color: headerTextColor,
+            ...fonts.textSmall
+          },
+          headerTintColor: headerTextColor,
+          headerShown: true,
         }}
       />
     </Tabs>

@@ -6,7 +6,7 @@ import { Text, View } from '../components/Themed';
 import Suspense from '../components/Suspense';
 import { SalaahTime } from '../types/dbTypes';
 import { DataHandler } from '../services/DataHandler';
-import { useLocalSearchParams } from 'expo-router';
+import { useLocalSearchParams, useFocusEffect } from 'expo-router';
 import { Utilities } from '../util/Utilities';
 import SalaahList from '../components/SalaahList';
 import Colors from '../constants/Colors';
@@ -20,7 +20,7 @@ interface SalaahProps {
   Name: string;
 }
 
-export default function SalaahScreen(City: SalaahProps) {
+export default function SalaahScreen({ Name }: SalaahProps) {
   const [salaahTimes, setSalaahTimes] = useState<SalaahTime[]>([]);
   const [currentTime, setCurrentTime] = useState<string>(Utilities.getCurrentTime(new Date()));
   const [currentPrayer, setCurrentPrayer] = useState<string | null>(null);
@@ -33,9 +33,23 @@ export default function SalaahScreen(City: SalaahProps) {
   // city selector state
   const [cities, setCities] = useState<string[]>([]);
   const [selectorVisible, setSelectorVisible] = useState(false);
-  const [selectedCity, setSelectedCity] = useState<string | undefined>(query ?? undefined);
+  const [selectedCity, setSelectedCity] = useState<string | undefined>(undefined);
 
-  // load city list from DB (avoid withTransactionAsync)
+  // Reset to preferred city whenever the screen comes into focus or Name prop changes
+  useFocusEffect(
+    React.useCallback(() => {
+      console.log('Screen focused, resetting to preferred city:', Name);
+      setSelectedCity(Name || query || undefined);
+    }, [Name, query])
+  );
+
+  // Also reset when Name prop changes (in case async storage updates)
+  useEffect(() => {
+    console.log('Name prop changed, resetting to:', Name);
+    setSelectedCity(Name || query || undefined);
+  }, [Name, query]);
+
+  // load city list from DB
   useEffect(() => {
     if (!db) return;
     (async () => {
@@ -48,33 +62,34 @@ export default function SalaahScreen(City: SalaahProps) {
               .map((c: any) => String(c))
           : [];
         setCities(list);
-        // if no selectedCity, seed from query or first in list
+        console.log('Loaded cities from DB:', list.length);
+        
+        // Only set initial city if not already set by focus effect
         if (!selectedCity) {
-          setSelectedCity(query ?? list[0]);
+          setSelectedCity(Name || query || list[0]);
         }
       } catch (err) {
-        // eslint-disable-next-line no-console
         console.error('[Salaah] cityQuery error', err);
         setCities([]);
       }
     })();
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [db]);
 
   useEffect(() => {
-    if (!db) return;
+    if (!db || !selectedCity) return;
     (async () => {
       try {
-        const cityToUse = selectedCity ?? query ?? '';
+        const cityToUse = selectedCity;
+        console.log(`Querying salaah times for city: ${cityToUse} on date: ${selectedDate.toDateString()}`);
         const results = await DataHandler.salaahQueryForDate(db, cityToUse, selectedDate);
         setSalaahTimes(Array.isArray(results) ? results : []);
+        console.log(`Loaded ${results.length} salaah times for city: ${cityToUse}`);
       } catch (err) {
-        // eslint-disable-next-line no-console
         console.error('[Salaah] salaahQueryForDate error', err);
         setSalaahTimes([]);
       }
     })();
-  }, [db, query, selectedDate, selectedCity]);
+  }, [db, selectedDate, selectedCity]);
 
   // Update current time every second
   useEffect(() => {
@@ -84,26 +99,32 @@ export default function SalaahScreen(City: SalaahProps) {
     return () => clearInterval(interval);
   }, []);
 
-  // update currentPrayer whenever city/time changes (uses DataHandler.getCurrentPrayer)
+  // update currentPrayer whenever city/time changes
   useEffect(() => {
-    if (!db) return;
+    if (!db || !selectedCity) return;
     (async () => {
       try {
-        const cityToUse = (selectedCity ?? query ?? '').toString();
+        const cityToUse = selectedCity.toString();
         const p = await DataHandler.getCurrentPrayer(db, cityToUse, new Date());
         setCurrentPrayer(p);
       } catch (err) {
-        // eslint-disable-next-line no-console
         console.error('[Salaah] getCurrentPrayer error', err);
         setCurrentPrayer(null);
       }
     })();
-    // run whenever db, selectedCity, query or currentTime (so it updates as time passes)
-  }, [db, selectedCity, query, currentTime]);
+  }, [db, selectedCity, currentTime]);
+
+  const handleCitySelect = (city: string) => {
+    console.log('User selected temporary city:', city);
+    setSelectedCity(city);
+    setSelectorVisible(false);
+  };
+
+  const isViewingPreferredCity = selectedCity === Name;
 
   return (
     <React.Suspense fallback={<Suspense />}>
-      <View style={{ flex: 1, backgroundColor: Colors[colorScheme ?? 'light'].background[colorScheme === 'dark' ? 'dark' : 'light'] }}>
+      <View style={{ flex: 1, backgroundColor: Colors[colorScheme ?? 'light'].primary[colorScheme === 'dark' ? 'dark' : 'light'] }}>
         {/* Top 1/3: Header with background and time */}
         <ImageBackground
           source={require('../assets/images/homeScreenHeader.png')}
@@ -123,7 +144,7 @@ export default function SalaahScreen(City: SalaahProps) {
                     { options, cancelButtonIndex: options.length - 1 },
                     (buttonIndex) => {
                       if (buttonIndex >= 0 && buttonIndex < cities.length) {
-                        setSelectedCity(cities[buttonIndex]);
+                        handleCitySelect(cities[buttonIndex]);
                       }
                     }
                   );
@@ -133,28 +154,50 @@ export default function SalaahScreen(City: SalaahProps) {
               }}
             >
               <RNView style={styles.cityLeft}>
-                <Ionicons name="location-sharp" size={18} color="#fff" style={{ marginRight: 8 }} />
+                <Ionicons 
+                  name={isViewingPreferredCity ? "location-sharp" : "eye-outline"} 
+                  size={18} 
+                  color="#fff" 
+                  style={{ marginRight: 8 }} 
+                />
                 <Text style={styles.cityText} numberOfLines={1}>
                   {selectedCity ? capitalize(selectedCity) : (query ? capitalize(query) : 'City')}
+                  {!isViewingPreferredCity && ' (Viewing)'}
                 </Text>
                 <Ionicons name="chevron-down" size={16} color="#fff" />
               </RNView>
             </Pressable>
 
+            {/* Reset button when viewing non-preferred city */}
+            {!isViewingPreferredCity && selectedCity && (
+              <Pressable
+                style={({ pressed }) => [styles.resetButton, pressed && styles.cityPressed]}
+                onPress={() => setSelectedCity(Name)}
+                hitSlop={8}
+              >
+                <Ionicons name="refresh" size={18} color="#fff" />
+              </Pressable>
+            )}
+
             {/* Android modal selector */}
             <Modal visible={selectorVisible} transparent animationType="slide" onRequestClose={() => setSelectorVisible(false)}>
               <RNView style={styles.modalOverlay}>
-                <RNView style={[styles.modalContent, { backgroundColor: Colors[colorScheme ?? 'light'].background[colorScheme === 'dark' ? 'dark' : 'light'] }]}>
+                <RNView style={[styles.modalContent, { backgroundColor: Colors[colorScheme ?? 'light'].primary[colorScheme === 'dark' ? 'dark' : 'light'] }]}>
+                  <RNView style={styles.modalHeader}>
+                    <Text style={[styles.modalTitle, { color: Colors[colorScheme ?? 'light'].text.primary[colorScheme === 'dark' ? 'dark' : 'light'] }]}>
+                      View Prayer Times
+                    </Text>
+                    <Text style={[styles.modalSubtitle, { color: Colors[colorScheme ?? 'light'].text.secondary[colorScheme === 'dark' ? 'dark' : 'light'] }]}>
+                      Your preferred city: {Name ? capitalize(Name) : 'Not set'}
+                    </Text>
+                  </RNView>
                   <FlatList
                     data={cities}
                     keyExtractor={(c) => c}
                     renderItem={({ item }) => (
                       <Pressable
                         style={({ pressed }) => [{ paddingVertical: 12, paddingHorizontal: 16, backgroundColor: pressed ? 'rgba(0,0,0,0.04)' : 'transparent' }]}
-                        onPress={() => {
-                          setSelectedCity(item);
-                          setSelectorVisible(false);
-                        }}
+                        onPress={() => handleCitySelect(item)}
                       >
                         <Text style={{ color: Colors[colorScheme ?? 'light'].text.primary[colorScheme === 'dark' ? 'dark' : 'light'], fontSize: 16 }}>
                           {Utilities.toCapitalCase(item)}
@@ -179,20 +222,20 @@ export default function SalaahScreen(City: SalaahProps) {
             </View>
           </RNView>
         </ImageBackground>
-{/* Bottom 2/3: Date navigator (controls selectedDate) then Salaah times */}
-<View
-  style={[
-    styles.bottomContainer,
-    { backgroundColor: Colors[colorScheme ?? 'light'].background[colorScheme === 'dark' ? 'dark' : 'light'] },
-  ]}
->
-  {/* DateNavigator inserted here — it returns the raw Date via onDateChange */}
-  <DateNavigator
-    initialDate={selectedDate}
-    onDateChange={(d) => setSelectedDate(d)}
-  />
-  <SalaahList salaahs={salaahTimes} city={(selectedCity ?? query ?? '').toString().toLowerCase?.() ?? ''} />
-</View>
+
+        {/* Bottom 2/3: Date navigator and Salaah times */}
+        <View
+          style={[
+            styles.bottomContainer,
+            { backgroundColor: Colors[colorScheme ?? 'light'].primary[colorScheme === 'dark' ? 'dark' : 'light'] },
+          ]}
+        >
+          <DateNavigator
+            initialDate={selectedDate}
+            onDateChange={(d) => setSelectedDate(d)}
+          />
+          <SalaahList salaahs={salaahTimes} city={(selectedCity ?? '').toString().toLowerCase?.() ?? ''} />
+        </View>
       </View>
       <StatusBar style="light" />
     </React.Suspense>
@@ -208,17 +251,11 @@ function capitalize(str: string): string {
     .join(' ');
 }
 
-// Utility function for 24hr time (if not already in Utilities)
-if (!Utilities.getFormattedDate) {
-  Utilities.getFormattedDate = (date: Date) =>
-    date.toLocaleTimeString('en-GB', { hour: '2-digit', minute: '2-digit', second: '2-digit', hour12: false });
-}
-
 const styles = StyleSheet.create({
   headerBackground: {
     flex: 1,
-    justifyContent: 'center', // Center vertically
-    alignItems: 'center',     // Center horizontally
+    justifyContent: 'center',
+    alignItems: 'center',
   },
   headerContent: {
     flex: 1,
@@ -226,7 +263,7 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     alignItems: 'center',
     position: 'relative',
-    padding: Platform.OS === 'ios' ? 50 : 20, // Adjust for status bar
+    padding: Platform.OS === 'ios' ? 50 : 20,
     marginVertical: Platform.OS === 'ios' ? 40 : 20,
   },
   cityContainer: {
@@ -239,7 +276,6 @@ const styles = StyleSheet.create({
     borderRadius: 16,
   },
   cityDropdown: {
-    // make the touchable compact so chevron stays next to text
     paddingHorizontal: 10,
     paddingVertical: 6,
     maxWidth: 220,
@@ -250,7 +286,6 @@ const styles = StyleSheet.create({
   cityLeft: {
     flexDirection: 'row',
     alignItems: 'center',
-    // allow text to truncate while keeping chevron next to it
     flexShrink: 1,
   },
   cityText: {
@@ -259,6 +294,13 @@ const styles = StyleSheet.create({
     fontFamily: 'PlusJakartaSans-Regular',
     fontWeight: '600',
     marginRight: 6,
+  },
+  resetButton: {
+    position: 'absolute',
+    top: 16,
+    right: 16,
+    padding: 6,
+    borderRadius: 16,
   },
   timeContainer: {
     justifyContent: 'center',
@@ -284,20 +326,8 @@ const styles = StyleSheet.create({
     padding: 16,
     borderTopRightRadius: 24,
     borderTopLeftRadius: 24,
-    marginTop: -32,
-    backgroundColor: Colors.light.background.light,
+    marginTop: -26,
   },
-  timeText: {
-    fontSize: 48,
-    fontWeight: 'bold',
-    color: '#fff',
-  },
-  date: {
-    textAlign: 'center',
-    padding: 10,
-  },
-
-  /* modal / selector styles */
   modalOverlay: {
     flex: 1,
     justifyContent: 'flex-end',
@@ -308,6 +338,19 @@ const styles = StyleSheet.create({
     borderTopLeftRadius: 12,
     borderTopRightRadius: 12,
     paddingVertical: 8,
+  },
+  modalHeader: {
+    padding: 16,
+    borderBottomWidth: 1,
+    borderBottomColor: '#e6e6e6',
+  },
+  modalTitle: {
+    fontSize: 18,
+    fontWeight: '600',
+    marginBottom: 4,
+  },
+  modalSubtitle: {
+    fontSize: 14,
   },
   separator: {
     height: 1,

@@ -40,7 +40,7 @@ export default function AboutScreen() {
       <SafeAreaView style={[
         styles.safeArea, 
         { 
-          backgroundColor: Colors[colorScheme ?? 'light'].background[colorScheme === 'dark' ? 'dark' : 'light']
+          backgroundColor: Colors[colorScheme ?? 'light'].primary[colorScheme === 'dark' ? 'dark' : 'light']
         }
       ]}>
         <View style={[

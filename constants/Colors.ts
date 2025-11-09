@@ -10,8 +10,28 @@ const colors = {
     dark: '#FFFFFF',  // 30% in dark mode
   },
   accent: {
-    light: '#FFC801', // 10% in light mode
-    dark: '#182F47',  // 10% in dark mode
+    light: '#FFD053', // 10% in light mode
+    dark: '#FFD053',  // 10% in dark mode
+  },
+  tertiary: {
+      light: '#7C7C7C', // Gray 2 in light mode
+      dark: '#B0BEC5',  // Gray 2 in dark mode
+  },
+  quartery: {
+    light: '#F5F5F5',
+    dark: '#7C7C7C',
+  },
+  complement: {
+    light: '#FFFFFF',
+    dark: '#182F47'
+  },
+  outlineActive: {
+    light: '#243C57',
+    dark: '#E6E6E6',
+  },
+  outlineInactive: {
+    light: '#E6E6E6',
+    dark: '#243C57',
   },
   
   // State Colors (same for both modes)
@@ -56,57 +76,7 @@ const colors = {
       light: '#102540', // Using secondary color for active tab
       dark: '#FFFFFF',  // Using secondary color for active tab
     },
-  },
-  
-  // Background Colors (for different sections)
-  background: {
-    light: '#FFFFFF',   // Primary in light mode
-    dark: '#102540',    // Primary in dark mode
-  },
-  card: {
-    light: '#F8F9FA',   // Light background for cards
-    dark: '#1A2E48',    // Dark background for cards
-  },
-  
-  // Border Colors
-  border: {
-    light: '#E6E6E6',
-    dark: '#4A5C6C',
-  },
-  
-  // Legacy colors (keeping for backward compatibility)
-  tint: {
-    light: '#102540',
-    dark: '#FFC801',
-  },
-  tabIconDefault: {
-    light: '#AAAAAA',   // Using tabBarOff color
-    dark: '#6D88A0',    // Using tabBarOff color
-  },
-  tabIconSelected: {
-    light: '#102540',   // Using tabBarOn color
-    dark: '#FFFFFF',    // Using tabBarOn color
-  },
-  main: {
-    light: '#FFC801',
-    dark: '#102540',
-  },
-  contrast: {
-    light: '#102540',
-    dark: '#FFC801',
-  },
-  lightNavy: {
-    light: 'rgba(16, 37, 64, 0.25)',
-    dark: 'rgba(16, 37, 64, 0.25)',
-  },
-  gold: {
-    light: '#FFC801',
-    dark: '#FFC801',
-  },
-  textSecondary: {
-    light: '#8D8D8D',   // Using Gray 1
-    dark: '#AAB4BE',    // Using Gray 1
-  },
+  }
 };
 
 const theme = {

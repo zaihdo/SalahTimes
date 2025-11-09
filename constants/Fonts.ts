@@ -1,24 +1,36 @@
 import { StyleSheet } from 'react-native';
 
+const fontFamilies = {
+  regular: 'PlusJakartaSans-Regular',
+  medium: 'PlusJakartaSans-Medium',      // Add these
+  bold: 'PlusJakartaSans-Bold',          // Add these
+  italic: 'PlusJakartaSans-Italic',
+  poppinsBlack: 'Poppins-Black',
+  poppinsBlackItalic: 'Poppins-BlackItalic',
+  poppinsBold: 'Poppins-Bold',
+  poppinsBoldItalic: 'Poppins-BoldItalic',
+  poppinsExtraBold: 'Poppins-ExtraBold',
+  poppinsExtraBoldItalic: 'Poppins-ExtraBoldItalic',
+  poppinsExtraLight: 'Poppins-ExtraLight',
+  poppinsExtraLightItalic: 'Poppins-ExtraLightItalic',
+  poppinsItalic: 'Poppins-Italic',
+  poppinsLight: 'Poppins-Light',
+  poppinsLightItalic: 'Poppins-LightItalic',
+  poppinsMedium: 'Poppins-Medium',
+  poppinsMediumItalic: 'Poppins-MediumItalic',
+  poppinsRegular: 'Poppins-Regular',
+  poppinsSemiBold: 'Poppins-SemiBold',
+  poppinsSemiBoldItalic: 'Poppins-SemiBoldItalic',
+  poppinsThin: 'Poppins-Thin',
+  poppinsThinItalic: 'Poppins-ThinItalic'
+};
+
 const fontSizes = {
   small: 14,
-  medium: 18,
+  medium: 16,
   large: 20,
   xlarge: 24,
   xxlarge: 28,
-};
-
-const fontFamilies = {
-  regular: 'PlusJakartaSans-Regular',
-  italic: 'PlusJakartaSans-Italic',
-};
-
-type FontWeight = 'normal' | 'bold' | 100 | 200 | 300 | 400 | 500 | 600 | 700 | 800 | 900;
-
-const fontWeights = {
-  regular: '400' as FontWeight,
-  medium: '500' as FontWeight,
-  bold: 'bold' as FontWeight,
 };
 
 const fonts = StyleSheet.create({
@@ -26,118 +38,74 @@ const fonts = StyleSheet.create({
   text: {
     fontSize: fontSizes.medium,
     fontFamily: fontFamilies.regular,
-    fontWeight: fontWeights.regular,
   },
   textSmall: {
     fontSize: fontSizes.small,
     fontFamily: fontFamilies.regular,
-    fontWeight: fontWeights.regular,
   },
   textLarge: {
     fontSize: fontSizes.large,
     fontFamily: fontFamilies.regular,
-    fontWeight: fontWeights.regular,
   },
 
-  // Bold styles (using font-weight since we don't have bold font file)
+  // Medium weight
+  textMedium: {
+    fontSize: fontSizes.medium,
+    fontFamily: fontFamilies.medium,
+  },
+  textSmallMedium: {
+    fontSize: fontSizes.small,
+    fontFamily: fontFamilies.medium,
+  },
+
+  // Bold styles - use actual bold font family
   textBold: {
     fontSize: fontSizes.medium,
-    fontFamily: fontFamilies.regular,
-    fontWeight: fontWeights.bold,
+    fontFamily: fontFamilies.bold,
   },
   textSmallBold: {
     fontSize: fontSizes.small,
-    fontFamily: fontFamilies.regular,
-    fontWeight: fontWeights.bold,
+    fontFamily: fontFamilies.bold,
   },
   textLargeBold: {
     fontSize: fontSizes.large,
-    fontFamily: fontFamilies.regular,
-    fontWeight: fontWeights.bold,
+    fontFamily: fontFamilies.bold,
   },
 
   // Italic styles
   textItalic: {
     fontSize: fontSizes.medium,
     fontFamily: fontFamilies.italic,
-    fontStyle: 'italic',
   },
   textSmallItalic: {
     fontSize: fontSizes.small,
     fontFamily: fontFamilies.italic,
-    fontStyle: 'italic',
-  },
-  textLargeItalic: {
-    fontSize: fontSizes.large,
-    fontFamily: fontFamilies.italic,
-    fontStyle: 'italic',
   },
 
   // Heading styles
   heading: {
     fontSize: fontSizes.large,
-    fontFamily: fontFamilies.regular,
-    fontWeight: fontWeights.bold,
+    fontFamily: fontFamilies.bold,
   },
   headingLarge: {
     fontSize: fontSizes.xlarge,
-    fontFamily: fontFamilies.regular,
-    fontWeight: fontWeights.bold,
+    fontFamily: fontFamilies.bold,
   },
   headingXLarge: {
     fontSize: fontSizes.xxlarge,
-    fontFamily: fontFamilies.regular,
-    fontWeight: fontWeights.bold,
-  },
-  headingItalic: {
-    fontSize: fontSizes.large,
-    fontFamily: fontFamilies.italic,
-    fontStyle: 'italic',
-    fontWeight: fontWeights.bold,
+    fontFamily: fontFamilies.bold,
   },
 
-  // Title styles
-  title: {
+  // Poppins styles
+  poppinsRegular: {
     fontSize: fontSizes.medium,
-    fontFamily: fontFamilies.regular,
-    fontWeight: fontWeights.bold,
+    fontFamily: fontFamilies.poppinsRegular,
   },
-  titleItalic: {
+  poppinsBold: {
     fontSize: fontSizes.medium,
-    fontFamily: fontFamilies.italic,
-    fontStyle: 'italic',
-    fontWeight: fontWeights.bold,
+    fontFamily: fontFamilies.poppinsBold,
   },
-
-  // Caption styles
-  caption: {
-    fontSize: fontSizes.small,
-    fontFamily: fontFamilies.regular,
-    fontWeight: fontWeights.regular,
-  },
-  captionItalic: {
-    fontSize: fontSizes.small,
-    fontFamily: fontFamilies.italic,
-    fontStyle: 'italic',
-  },
-  captionBold: {
-    fontSize: fontSizes.small,
-    fontFamily: fontFamilies.regular,
-    fontWeight: fontWeights.bold,
-  },
-
-  // Button styles
-  button: {
-    fontSize: fontSizes.medium,
-    fontFamily: fontFamilies.regular,
-    fontWeight: fontWeights.bold,
-  },
-  buttonItalic: {
-    fontSize: fontSizes.medium,
-    fontFamily: fontFamilies.italic,
-    fontStyle: 'italic',
-    fontWeight: fontWeights.bold,
-  },
+  // Remove fontWeight from everywhere - it's not needed!
 });
 
 export default fonts;

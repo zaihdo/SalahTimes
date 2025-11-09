@@ -16,14 +16,9 @@ export default function FinishOnboarding() {
   const tickAnimations = useRef<Animated.Value[]>([]);
 
   function capitalize(str: string): string {
-    if (!str) return '';
-    return str
-      .split(' ')
-      .map(word =>
-        word.charAt(0).toUpperCase() + word.slice(1).toLowerCase()
-      )
-      .join(' ');
-  }
+  if (!str) return '';
+  return str.toUpperCase();
+}
 
   useEffect(() => {
     db.withTransactionAsync(async () => {
@@ -57,10 +52,19 @@ export default function FinishOnboarding() {
   }, [selectedCityIndex]);
 
   const handlePress = async () => {
-    if (selectedCityIndex === null) return; // Prevent action if not selected
-    await AsyncStorage.setItem('@viewedOnboarding', 'true');
+    if (selectedCityIndex === null) return;
+    
+    const selectedCity = cities[selectedCityIndex].City; 
+    const normalizedCity = capitalize(selectedCity);
+    console.log('Selected City:', normalizedCity);
+
+    await AsyncStorage.multiSet([
+      ['@viewedOnboarding', 'true'],
+      ['@selectedCity', JSON.stringify(normalizedCity)]
+    ]);
+    
     router.push('/(onboarding)/onboarding3');
-  };
+};
 
   const isButtonDisabled = selectedCityIndex === null;
 

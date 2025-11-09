@@ -1,6 +1,6 @@
 import {Pressable, StyleSheet, Text, View} from 'react-native';
 import React from 'react';
-import {Category, NestedItem} from '@/assets/data/about-data';
+import {Category, NestedItem} from '../assets/data/about-data';
 import Animated, {
   useAnimatedRef,
   useSharedValue,
@@ -12,10 +12,10 @@ import Animated, {
 } from 'react-native-reanimated';
 import Chevron from './Chevron';
 import AccordionNested from './AccordionNested';
-import { useColorScheme } from '@/hooks/useColorScheme';
-import Colors from '@/constants/Colors';
-import fonts from '@/constants/Fonts';
-import { useScreenSize } from '@/hooks/useScreenSize';
+import { useColorScheme } from '../hooks/useColorScheme';
+import Colors from '../constants/Colors';
+import fonts from '../constants/Fonts';
+import { useScreenSize } from '../hooks/useScreenSize';
 
 type Props = {
   value: Category;
@@ -60,16 +60,22 @@ const Accordion = ({value, type, onPress}: Props) => {
       ]}>
       <Pressable
         onPress={handlePress}
+        hitSlop={10}
         style={[
           styles.titleContainer,
           {
-            backgroundColor: Colors[colorScheme ?? 'light'].accent[colorScheme === 'dark' ? 'dark' : 'light'],
+            backgroundColor: Colors[colorScheme ?? 'light'].complement[colorScheme === 'dark' ? 'dark' : 'light'],
+            borderColor: Colors[colorScheme ?? 'light'].outlineInactive[colorScheme === 'dark' ? 'dark' : 'light'],
+            borderWidth: 1,
+            borderTopRightRadius: 16,
+            borderTopLeftRadius: 16,
+            borderStyle: 'solid',
           },
         ]}>
         <Text style={[
           fonts.heading,
           {
-            color: Colors[colorScheme ?? 'light'].tint[colorScheme === 'dark' ? 'dark' : 'light'],
+            color: Colors[colorScheme ?? 'light'].text.primary[colorScheme === 'dark' ? 'dark' : 'light'],
           },
         ]}>{value.title}</Text>
         <Chevron progress={progress} />
@@ -84,14 +90,21 @@ const Accordion = ({value, type, onPress}: Props) => {
                 <View key={i} style={[
                   styles.content,
                   {
-                    backgroundColor: Colors[colorScheme ?? 'light'].accent[colorScheme === 'dark' ? 'dark' : 'light'],
+                    backgroundColor: Colors[colorScheme ?? 'light'].complement[colorScheme === 'dark' ? 'dark' : 'light'],
+                    borderColor: Colors[colorScheme ?? 'light'].outlineInactive[colorScheme === 'dark' ? 'dark' : 'light'],
+                    borderBottomWidth: 1,
+                    borderRightWidth: 1,
+                    borderLeftWidth: 1,
+                    borderBottomRightRadius: 16,
+                    borderBottomLeftRadius: 16,
+                    borderStyle: 'solid',
                   },
                 ]}>
                   <Text style={[
                     styles.textContent,
                     fonts.text,
                     {
-                      color: Colors[colorScheme ?? 'light'].textSecondary[colorScheme === 'dark' ? 'dark' : 'light'],
+                      color: Colors[colorScheme ?? 'light'].text.secondary[colorScheme === 'dark' ? 'dark' : 'light'],
                     },
                   ]}>{v}</Text>
                 </View>
@@ -102,13 +115,13 @@ const Accordion = ({value, type, onPress}: Props) => {
               <View style={[
                 styles.content,
                 {
-                  backgroundColor: Colors[colorScheme ?? 'light'].background[colorScheme === 'dark' ? 'dark' : 'light'],
+                  backgroundColor: Colors[colorScheme ?? 'light'].primary[colorScheme === 'dark' ? 'dark' : 'light'],
                 },
               ]}>
                 <Text style={[
                   styles.textContent,
                   {
-                    color: Colors[colorScheme ?? 'light'].tint[colorScheme === 'dark' ? 'dark' : 'light'],
+                    color: Colors[colorScheme ?? 'light'].text.secondary[colorScheme === 'dark' ? 'dark' : 'light'],
                   },
                 ]}>{value.content}</Text>
               </View>

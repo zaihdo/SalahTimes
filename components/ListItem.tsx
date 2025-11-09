@@ -19,7 +19,7 @@ const prayerIcons: Record<string, React.ComponentType<any>> = {
   Fajr: FajrIcon,
   Sunrise: SunriseIcon,
   Zawwal: DhuhrIcon,
-  // Dhuhr: DhuhrIcon,
+  Dhuhr: DhuhrIcon,
   "Dhuhr-Sunday": DhuhrIcon,
   "Asr-Shafiee": AsrIcon,
   "Asr-Hanafee": AsrIcon,
@@ -48,8 +48,8 @@ export default function ListItem(props: { prayer: string; time: string }) {
           padding: isSmall ? 6 : 10,
         },
       ]}
-      lightColor={Colors.light.background.light}
-      darkColor={Colors.dark.background.dark}
+      lightColor={Colors.light.primary.light}
+      darkColor={Colors.dark.primary.dark}
     >
       {/* Icon (SVG component) */}
       {Icon ? <Icon width={28} height={28} /> : null}

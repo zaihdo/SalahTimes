@@ -11,6 +11,8 @@ import { Utilities } from '../util/Utilities';
 import IqamahList from '../components/IqamahList';
 import Colors from '../constants/Colors';
 import { useColorScheme } from '../hooks/useColorScheme';
+import fonts from '../constants/Fonts'; // added import
+import { resolveMasjidImage } from '../constants/MasjidImages'; // added imports
 
 interface IqamahProps {
   Name: string;
@@ -19,9 +21,12 @@ interface IqamahProps {
 export default function IqamahScreen(Masjid: IqamahProps) {
   const [IqamahTimes, setIqamahTimes] = useState<IqamahTime[]>([]);
   const [currentTime, setCurrentTime] = useState<string>(Utilities.getCurrentTime(new Date()));
-  const { query } = useLocalSearchParams<{ query: string }>();
+  const { query, img } = useLocalSearchParams<{ query: string; img?: string }>();
   const db = useSQLiteContext();
   const colorScheme = useColorScheme();
+
+  // resolve header image from passed img key; fallback to default header
+  const headerImage = resolveMasjidImage(img as string) ?? require('../assets/images/homeScreenHeader.png');
 
   useEffect(() => {
     db.withTransactionAsync(async () => {
@@ -42,9 +47,9 @@ export default function IqamahScreen(Masjid: IqamahProps) {
 
   return (
     <React.Suspense fallback={<Suspense />}>
-      <View style={{ flex: 1, backgroundColor: Colors[colorScheme ?? 'light'].background[colorScheme === 'dark' ? 'dark' : 'light'] }}>
+      <View style={{ flex: 1, backgroundColor: Colors[colorScheme ?? 'light'].primary[colorScheme === 'dark' ? 'dark' : 'light'] }}>
         <ImageBackground
-          source={require('../assets/images/homeScreenHeader.png')}
+          source={headerImage}
           style={styles.headerBackground}
           resizeMode="cover"
         >
@@ -59,9 +64,17 @@ export default function IqamahScreen(Masjid: IqamahProps) {
         <View
           style={[
             styles.bottomContainer,
-            { backgroundColor: Colors[colorScheme ?? 'light'].background[colorScheme === 'dark' ? 'dark' : 'light'] },
+            { backgroundColor: Colors[colorScheme ?? 'light'].primary[colorScheme === 'dark' ? 'dark' : 'light'] },
           ]}
         >
+          <Text
+            style={[
+              fonts.headingLarge,
+              { color: Colors[colorScheme ?? 'light'].text.primary[colorScheme === 'dark' ? 'dark' : 'light'], marginHorizontal: 16},
+            ]}
+          >
+            {Utilities.toCapitalCase(String(query ?? ''))}
+          </Text>
           <IqamahList iqamahs={IqamahTimes} masjid={query?.toLowerCase?.()} />
         </View>
       </View>
@@ -72,7 +85,7 @@ export default function IqamahScreen(Masjid: IqamahProps) {
 
 const styles = StyleSheet.create({
   headerBackground: {
-    flex: 1,
+    flex: 1.5,
     justifyContent: 'center',
     alignItems: 'center',
   },
@@ -91,29 +104,28 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     alignItems: 'center',
   },
+  // use font definitions from Fonts.ts (safe fallback to empty object)
   cityText: {
+    ...(fonts.heading ?? {}),
     color: '#fff',
     fontSize: 16,
-    fontFamily: 'PlusJakartaSans-Regular',
     fontWeight: '600',
   },
   timeContainer: {
     justifyContent: 'center',
     alignItems: 'center',
   },
+  // apply heading styles from Fonts.ts
   time: {
-    fontSize: 36,
-    fontWeight: '700',
-    letterSpacing: 1,
+    ...(fonts.headingXLarge ?? {}),
     color: '#fff',
-    fontFamily: 'PlusJakartaSans-Regular',
     textAlign: 'center',
   },
   smallDate: {
+    ...(fonts.textMedium ?? {}),
     marginTop: 6,
     fontSize: 14,
     color: 'rgba(255,255,255,0.9)',
-    fontFamily: 'PlusJakartaSans-Regular',
   },
   bottomContainer: {
     flex: 2,

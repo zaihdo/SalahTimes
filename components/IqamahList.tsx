@@ -6,9 +6,7 @@ import { Text } from '../components/Themed';
 import Colors from '../constants/Colors';
 import { useColorScheme } from '../hooks/useColorScheme';
 import React from 'react';
-import { Utilities } from '../util/Utilities';
 import fonts from '../constants/Fonts';
-import { Ionicons } from '@expo/vector-icons'; // added
 
 interface ListProps {
   iqamahs: IqamahTime[];
@@ -21,7 +19,27 @@ export default function List({iqamahs, masjid}: ListProps) {
     return name.replace(/([a-z])([A-Z])/g, '$1-$2');
   };
 
-  const data = iqamahs.flatMap(iqamah => Object.entries(iqamah));
+  // flatten entries, filter Dhuhr/DhuhrSunday according to current day,
+  // and limit to 5 items so the list always shows 5 iqamah times
+  const isSunday = new Date().getDay() === 0; // 0 === Sunday
+
+  const rawEntries = iqamahs.flatMap(iqamah => Object.entries(iqamah));
+
+  const filteredEntries = rawEntries.filter(([key]) => {
+    const normalized = formatColumnName(key).toLowerCase();
+    if (isSunday) {
+      // on Sunday, prefer 'dhuhr-sunday' and remove plain 'dhuhr'
+      if (normalized === 'dhuhr') return false;
+      return true;
+    } else {
+      // non-Sunday, remove 'dhuhr-sunday' and keep plain 'dhuhr'
+      if (normalized === 'dhuhr-sunday') return false;
+      return true;
+    }
+  });
+
+  // preserve order, but ensure only 5 items are shown
+  const data = filteredEntries.slice(0, 5);
 
   const renderItem = ({ item }: { item: [string, string] }) => (
     <ListItem prayer={formatColumnName(item[0])} time={item[1]}></ListItem>
@@ -33,39 +51,20 @@ export default function List({iqamahs, masjid}: ListProps) {
         <View style={styles.headerContainer}>
           <Text
             style={[
-              styles.mosqueName,
-              { color: Colors[colorScheme ?? 'light'].textSecondary[colorScheme === 'dark' ? 'dark' : 'light'] },
+              { color: Colors[colorScheme ?? 'light'].text?.secondary?.[colorScheme === 'dark' ? 'dark' : 'light'], fontWeight: '700' },
               fonts.heading
             ]}
             numberOfLines={1}
           >
-            {Utilities.toCapitalCase(masjid)}
+            Iqamah Times
           </Text>
-
-          <View style={styles.locationRow}>
-            <Ionicons
-              name="location-sharp"
-              size={14}
-              color={Colors[colorScheme ?? 'light'].textSecondary[colorScheme === 'dark' ? 'dark' : 'light']}
-              style={styles.locationIcon}
-            />
-            <Text
-              style={[
-                styles.locationText,
-                { color: Colors[colorScheme ?? 'light'].textSecondary[colorScheme === 'dark' ? 'dark' : 'light'] }
-              ]}
-              numberOfLines={1}
-            >
-              {Utilities.toCapitalCase(masjid)}
-            </Text>
-          </View>
         </View>
       }
       data={data}
       keyExtractor={(item) => item[0]}
       renderItem={renderItem}
       contentContainerStyle={styles.listContainer}
-      scrollEnabled={false}
+      scrollEnabled={true}
     />
   );
 }
@@ -79,29 +78,9 @@ const styles = StyleSheet.create({
       textAlign: 'center',
       padding: 15
     },
-
-    // new styles
     headerContainer: {
       alignSelf: 'stretch',
       paddingHorizontal: 8,
       paddingVertical: 12,
-    },
-    mosqueName: {
-      fontSize: 18,
-      fontWeight: '700', // bold
-      textAlign: 'left',
-    },
-    locationRow: {
-      flexDirection: 'row',
-      alignItems: 'center',
-      marginTop: 4,
-    },
-    locationIcon: {
-      marginRight: 6,
-    },
-    locationText: {
-      fontSize: 12,
-      textAlign: 'left',
-      opacity: 0.9,
-    },
+    }
   });

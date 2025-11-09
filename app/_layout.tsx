@@ -7,12 +7,10 @@ import { DarkTheme, DefaultTheme, ThemeProvider } from '@react-navigation/native
 import { SQLiteProvider } from 'expo-sqlite';
 import * as SystemUI from 'expo-system-ui';
 import AsyncStorage from '@react-native-async-storage/async-storage';
-import FontAwesome from '@expo/vector-icons/FontAwesome';
 import 'react-native-reanimated';
 
 import { useColorScheme } from '../hooks/useColorScheme';
 import { DataHandler } from '../services/DataHandler';
-import Suspense from '../components/Suspense';
 import Colors from '../constants/Colors';
 
 export { ErrorBoundary } from 'expo-router';
@@ -30,7 +28,11 @@ export default function RootLayout() {
   const [fontsLoaded] = useFonts({
     SpaceMono: require('../assets/fonts/SpaceMono-Regular.ttf'),
     'PlusJakartaSans-Regular': require('../assets/fonts/PlusJakartaSans.ttf'),
-    'PlusJakartaSans-Italic': require('../assets/fonts/PlusJakartaSans-Italic.ttf')
+    'PlusJakartaSans-Italic': require('../assets/fonts/PlusJakartaSans-Italic.ttf'),
+    'Poppins': require('../assets/fonts/Poppins-Regular.ttf'),
+    'Poppins-Bold': require('../assets/fonts/Poppins-Bold.ttf'),
+    'Poppins-SemiBold': require('../assets/fonts/Poppins-SemiBold.ttf'),
+    'Poppins-Italic': require('../assets/fonts/Poppins-Italic.ttf'),    
   });
 
   // Initialize app resources
@@ -39,7 +41,7 @@ export default function RootLayout() {
       try {
         // Set splash screen background color
         await SystemUI.setBackgroundColorAsync(
-          Colors[colorScheme ?? 'light'].background[colorScheme === 'dark' ? 'dark' : 'light']
+          Colors[colorScheme ?? 'light'].primary[colorScheme === 'dark' ? 'dark' : 'light']
         );
 
         // Load database and fonts in parallel
@@ -106,7 +108,7 @@ function RootLayoutNav() {
             <Stack.Screen name="(onboarding)" />
           </Stack>
         ) : (
-          <Stack screenOptions={{ headerShown: false }}>
+          <Stack screenOptions={{ headerShown: true }}>
             {/* <Stack.Screen 
               name="(tabs)" 
               options={{ 
