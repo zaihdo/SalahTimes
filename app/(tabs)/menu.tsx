@@ -4,7 +4,6 @@ import Suspense from '../../components/Suspense';
 import Colors from '../../constants/Colors';
 import { useColorScheme } from '../../hooks/useColorScheme';
 import MenuListItem from '../../components/MenuIconListItem';
-import ListItem from '../../components/ListItem';
 
 const MENU_ITEMS = [
   { key: 'about', title: 'About Us', icon: require('../../assets/icons/about-us.svg'), route: '../about-us/AboutUs' },
