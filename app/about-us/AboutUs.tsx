@@ -16,7 +16,7 @@ export default function AboutUs() {
   return (
     <ScrollView style={[styles.container, { backgroundColor: Colors[theme].primary?.[theme === 'dark' ? 'dark' : 'light'] }]}>
       <View style={styles.inner}>
-        {aboutSections.about.map((section, index) => (
+        {aboutSections.about.map((section: any, index: number) => (
           <SectionCard
             key={`${section.title}-${index}`}
             icon={section.icon}
