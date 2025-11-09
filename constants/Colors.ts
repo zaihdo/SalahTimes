@@ -33,6 +33,14 @@ const colors = {
     light: '#E6E6E6',
     dark: '#243C57',
   },
+  cardBg: {
+    light: '#FFFFFF',
+    dark: '#182F47',
+  },
+  cardOutline: {
+    light: '#E6E6E6',
+    dark: '#243C57',
+  },
   
   // State Colors (same for both modes)
   state: {
