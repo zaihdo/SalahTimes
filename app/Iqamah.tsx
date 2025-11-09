@@ -47,7 +47,7 @@ export default function IqamahScreen(Masjid: IqamahProps) {
 
   return (
     <React.Suspense fallback={<Suspense />}>
-      <View style={{ flex: 1, backgroundColor: Colors[colorScheme ?? 'light'].background[colorScheme === 'dark' ? 'dark' : 'light'] }}>
+      <View style={{ flex: 1, backgroundColor: Colors[colorScheme ?? 'light'].primary[colorScheme === 'dark' ? 'dark' : 'light'] }}>
         <ImageBackground
           source={headerImage}
           style={styles.headerBackground}
@@ -64,7 +64,7 @@ export default function IqamahScreen(Masjid: IqamahProps) {
         <View
           style={[
             styles.bottomContainer,
-            { backgroundColor: Colors[colorScheme ?? 'light'].background[colorScheme === 'dark' ? 'dark' : 'light'] },
+            { backgroundColor: Colors[colorScheme ?? 'light'].primary[colorScheme === 'dark' ? 'dark' : 'light'] },
           ]}
         >
           <Text
