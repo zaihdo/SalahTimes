@@ -32,7 +32,7 @@ function OnboardingScreen1() {
     >
         <SafeAreaView style={{flex: 1, justifyContent: 'flex-end', alignItems: 'center', paddingBottom: 40}}>
             <View style={{ width: '90%'}}>
-                <Text style={[fonts.headingXLarge, styles.title, { color: Colors[theme].text?.primary?.[theme === 'dark' ? 'dark' : 'light'] ?? '#fff' }]}>
+                <Text style={[fonts.headingXLarge, styles.title, { color: Colors[theme].text?.primary?.[theme === 'dark' ? '' : 'dark'] ?? '#fff' }]}>
                   Start Your Prayer Journey
                 </Text>
                 <Text style={[fonts.text, styles.subtitle, { color: Colors[theme].text?.secondary?.[theme === 'dark' ? 'dark' : 'light'] ?? 'white' }]}>
