@@ -85,24 +85,6 @@ export default function TabLayout() {
         }}
       />
       <Tabs.Screen
-        name="about"
-        options={{
-          title: 'About',
-          tabBarIcon: ({ focused }) => (
-            <TabBarIcon name="menu" focused={focused} />
-          ),
-          headerStyle: {
-            backgroundColor: backgroundColor,
-          },
-          tabBarLabelStyle: {
-            color: headerTextColor,
-            ...fonts.textSmall
-          },
-          headerTintColor: headerTextColor,
-          headerShown: false,
-        }}
-      />
-      <Tabs.Screen
         name="menu"
         options={{
           title: 'Menu',
