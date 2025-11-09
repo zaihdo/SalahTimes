@@ -12,9 +12,9 @@ function OnboardingScreen1() {
 
   // resolve tint to a concrete color string (Colors[theme].tint can be string or { light, dark })
   const tintColor =
-    typeof Colors[theme]?.accent === 'string'
-      ? Colors[theme]?.accent
-      : Colors[theme]?.accent?.[theme === 'dark' ? 'dark' : 'light'] ?? '#ffc801';
+    typeof Colors[theme]?.state.warning === 'string'
+      ? Colors[theme]?.state.warning
+      : Colors[theme]?.state.warning?.[theme === 'dark' ? 'dark' : 'light'] ?? '#ffc801';
 
   const handlePress = async () => {
     router.push('/(onboarding)/onboarding2');
