@@ -13,6 +13,14 @@ const colors = {
     light: '#FFD053', // 10% in light mode
     dark: '#FFD053',  // 10% in dark mode
   },
+  tertiary: {
+      light: '#7C7C7C', // Gray 2 in light mode
+      dark: '#B0BEC5',  // Gray 2 in dark mode
+  },
+  quartery: {
+    light: '#F5F5F5',
+    dark: '#7C7C7C',
+  },
   complement: {
     light: '#FFFFFF',
     dark: '#182F47'
