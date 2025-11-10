@@ -69,7 +69,7 @@ const fonts = StyleSheet.create({
   },
   textLargeBold: {
     fontSize: fontSizes.large,
-    fontFamily: fontFamilies.bold,
+    fontWeight: '600', // Ensure no fontWeight is applied
   },
 
   // Italic styles

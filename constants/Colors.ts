@@ -10,8 +10,8 @@ const colors = {
     dark: '#FFFFFF',  // 30% in dark mode
   },
   accent: {
-    light: '#FFD053', // 10% in light mode
-    dark: '#FFD053',  // 10% in dark mode
+    light: '#FFC107', // 10% in light mode
+    dark: '#FFC107',  // 10% in dark mode
   },
   tertiary: {
       light: '#7C7C7C', // Gray 2 in light mode
