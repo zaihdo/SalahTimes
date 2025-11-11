@@ -46,10 +46,12 @@ export default function ListItem(props: { prayer: string; time: string }) {
         styles.container,
         {
           padding: isSmall ? 6 : 10,
+          borderColor: currentColors.cardOutline?.[colorScheme === 'dark' ? 'dark' : 'light'] ?? 'rgba(0, 0, 0, 0.1)',
+          borderWidth: 1,
         },
       ]}
-      lightColor={Colors.light.primary.light}
-      darkColor={Colors.dark.primary.dark}
+      lightColor={Colors.light.cardBg.light}
+      darkColor={Colors.dark.cardBg.dark}
     >
       {/* Icon (SVG component) */}
       {Icon ? <Icon width={28} height={28} /> : null}
@@ -101,7 +103,7 @@ const styles = StyleSheet.create({
     marginTop: 4,
     justifyContent: 'space-between',
     borderWidth: 1,
-    borderColor: 'rgba(0, 0, 0, 0.1)',
+
   },
   prayerText: {
     lineHeight: 24,

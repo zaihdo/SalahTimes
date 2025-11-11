@@ -139,12 +139,19 @@ static formatDateQuery(dateObj: Date) {
       return null;
     }
   }
+
+  static capitalize(str: string): string {
+    if (!str) return '';
+    return str
+      .split(' ')
+      .map(word => word.charAt(0).toUpperCase() + word.slice(1).toLowerCase())
+      .join(' ');
+  }
+
+  static toUpperCase(str: string): string {
+    if (!str) return '';
+    return str.toUpperCase();
+  }
+
 }
 
- function capitalize(str: string): string {
-  if (!str) return '';
-  return str
-    .split(' ')
-    .map(word => word.charAt(0).toUpperCase() + word.slice(1).toLowerCase())
-    .join(' ');
-}

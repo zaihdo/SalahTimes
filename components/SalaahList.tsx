@@ -22,6 +22,7 @@ export default function List({salaahs, city}: ListProps) {
     (async () => {
       try {
         const stored = await AsyncStorage.getItem('@selectedMadhab');
+        console.log('Retrieved madhab from storage:', stored);
         if (mounted) setUserMadhab(stored);
       } catch {
         if (mounted) setUserMadhab(null);

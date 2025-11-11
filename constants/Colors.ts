@@ -10,8 +10,8 @@ const colors = {
     dark: '#FFFFFF',  // 30% in dark mode
   },
   accent: {
-    light: '#FFD053', // 10% in light mode
-    dark: '#FFD053',  // 10% in dark mode
+    light: '#FFC107', // 10% in light mode
+    dark: '#FFC107',  // 10% in dark mode
   },
   tertiary: {
       light: '#7C7C7C', // Gray 2 in light mode
@@ -30,6 +30,14 @@ const colors = {
     dark: '#E6E6E6',
   },
   outlineInactive: {
+    light: '#E6E6E6',
+    dark: '#243C57',
+  },
+  cardBg: {
+    light: '#FFFFFF',
+    dark: '#182F47',
+  },
+  cardOutline: {
     light: '#E6E6E6',
     dark: '#243C57',
   },

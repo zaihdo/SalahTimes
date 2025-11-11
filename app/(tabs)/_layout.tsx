@@ -67,39 +67,27 @@ export default function TabLayout() {
         }}
       />
       <Tabs.Screen
-        name="masjids"
+        name="mosques"
         options={{
-          title: 'Masjids',
+          title: 'Mosques',
           tabBarIcon: ({ focused }) => (
             <TabBarIcon name="mosque" focused={focused} />
           ),
           headerStyle: {
-            backgroundColor: backgroundColor, 
-          },
-          tabBarLabelStyle: {
-            color: headerTextColor, 
-            ...fonts.textSmall
-          },
-          headerTintColor: headerTextColor, 
-          headerShown: false,
-        }}
-      />
-      <Tabs.Screen
-        name="about"
-        options={{
-          title: 'About',
-          tabBarIcon: ({ focused }) => (
-            <TabBarIcon name="menu" focused={focused} />
-          ),
-          headerStyle: {
             backgroundColor: backgroundColor,
+            elevation: 0,
           },
+          headerTitleStyle: {
+            color: headerTextColor,
+            ...fonts.headingXLarge,
+          },
+          headerTitleAlign: 'left',
           tabBarLabelStyle: {
             color: headerTextColor,
             ...fonts.textSmall
           },
           headerTintColor: headerTextColor,
-          headerShown: false,
+          headerShown: true,
         }}
       />
       <Tabs.Screen

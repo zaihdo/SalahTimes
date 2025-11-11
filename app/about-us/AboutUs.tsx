@@ -4,6 +4,10 @@ import { Text } from '../../components/Themed';
 import Colors from '../../constants/Colors';
 import fonts from '../../constants/Fonts';
 import { useColorScheme } from '../../hooks/useColorScheme';
+import SectionCard from '../../components/SectionCard';
+
+// Import your structured data (adjust path as needed)
+import { appContent as aboutSections } from '../../assets/data/menu-data';
 
 export default function AboutUs() {
   const colorScheme = useColorScheme();
@@ -12,16 +16,38 @@ export default function AboutUs() {
   return (
     <ScrollView style={[styles.container, { backgroundColor: Colors[theme].primary?.[theme === 'dark' ? 'dark' : 'light'] }]}>
       <View style={styles.inner}>
-        <Text style={[fonts.text, { color: Colors[theme].text?.secondary?.[theme === 'dark' ? 'dark' : 'light'] }]}>
-          {/* Replace with real content */}
-          We provide accurate prayer times and nearby mosque information. Our mission is to make prayer observance easy and accessible.
-        </Text>
+        {aboutSections.about.map((section: any, index: number) => (
+          <SectionCard
+            key={`${section.title}-${index}`}
+            icon={section.icon}
+            title={section.title}
+            content={section.content}
+            onPress={section.onPress}
+          />
+        ))}
       </View>
     </ScrollView>
   );
 }
 
 const styles = StyleSheet.create({
-  container: { flex: 1 },
-  inner: { padding: 16 },
+  container: {
+    flex: 1,
+  },
+  inner: {
+    padding: 16,
+  },
+  // kept for compatibility if other local elements reference them
+  section: {
+    marginBottom: 12,
+    borderWidth: 1,
+    borderRadius: 8,
+    padding: 12,
+  },
+  sectionTitle: {
+    marginBottom: 2,
+  },
+  sectionContent: {
+    lineHeight: 22,
+  },
 });

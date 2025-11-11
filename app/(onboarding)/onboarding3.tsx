@@ -1,88 +1,117 @@
-import { View, Text, SafeAreaView, Pressable, ScrollView, StyleSheet, Animated } from 'react-native';
-import AsyncStorage from '@react-native-async-storage/async-storage';
-import React, { useEffect, useState, useRef } from 'react';
-import { Ionicons } from '@expo/vector-icons';
+import { View, SafeAreaView, Pressable, ScrollView, StyleSheet, Animated } from 'react-native';
 import { router } from 'expo-router';
+import AsyncStorage from '@react-native-async-storage/async-storage';
+import React, { useEffect, useState, useRef, useMemo } from 'react';
+import { useColorScheme } from '../../hooks/useColorScheme';
+import { Ionicons } from '@expo/vector-icons';
+import Colors from '../../constants/Colors';
+import fonts from '../../constants/Fonts';
+import { Text } from '../../components/Themed';
+import { DataHandler } from '../../services/DataHandler';
 
-export default function FinishOnboarding() {
+export default function CompleteOnboarding() {
   const [selectedMadhabIndex, setSelectedMadhabIndex] = useState<number | null>(null);
-
-  const madhabs = [
+  const madhabs = useMemo(() => [
     { id: 1, name: 'Hanafee' },
-    { id: 2, name: "Shafiee" },
-  ];
-
-  // Animated values for tick icons
+    { id: 2, name: 'Shafiee' },
+  ], []);
+  const colorScheme = useColorScheme();
+  const theme = colorScheme ?? 'light';
   const tickAnimations = useRef<Animated.Value[]>([]);
 
   useEffect(() => {
-    // Initialize animated values for each madhab
-    tickAnimations.current = madhabs.map(() => new Animated.Value(0));
-  }, []);
+      // Initialize tick animations based on the local madhabs array
+      tickAnimations.current = madhabs.map(() => new Animated.Value(0));
+    }, [madhabs]);
 
   useEffect(() => {
-    if (
-      selectedMadhabIndex !== null &&
-      tickAnimations.current[selectedMadhabIndex]
-    ) {
-      Animated.timing(tickAnimations.current[selectedMadhabIndex], {
-        toValue: 1,
-        duration: 300,
-        useNativeDriver: true,
-      }).start();
-    }
-    tickAnimations.current.forEach((anim, idx) => {
-      if (idx !== selectedMadhabIndex) {
-        anim.setValue(0);
+      if (selectedMadhabIndex !== null && tickAnimations.current[selectedMadhabIndex]) {
+        Animated.timing(tickAnimations.current[selectedMadhabIndex], {
+          toValue: 1,
+          duration: 300,
+          useNativeDriver: true,
+        }).start();
       }
-    });
+      tickAnimations.current.forEach((anim, idx) => {
+        if (idx !== selectedMadhabIndex) {
+          anim.setValue(0);
+        }
+      });
   }, [selectedMadhabIndex]);
 
-  const completeOnboarding = async () => {
-    if (selectedMadhabIndex === null) return; // Prevent action if not selected
+  const handlePress = async () => {
+    if (selectedMadhabIndex === null) return;
+
+    const selectedMadhab = madhabs[selectedMadhabIndex].name;
+    const normalizedMadhab = selectedMadhab;
+    console.log('Selected Madhab:', "Asr" + normalizedMadhab);
+
     await AsyncStorage.multiSet([
-      ['@onboardingComplete', 'true'],
-      ['@selectedMadhab', 'Asr' + madhabs[selectedMadhabIndex].name],
+      ['@viewedOnboarding', 'true'],
+      ['@selectedMadhab', "Asr" + normalizedMadhab],
     ]);
+
     router.replace('/(tabs)/');
   };
 
   const isButtonDisabled = selectedMadhabIndex === null;
+  const currentColors = Colors[theme];
+
+  const resolveColor = (val: any, fallback: string) =>
+    typeof val === 'string'
+      ? val
+      : val?.[theme === 'dark' ? 'dark' : 'light'] ?? fallback;
 
   return (
-    <SafeAreaView style={{flex: 1, backgroundColor: '#FFFFFF', justifyContent: 'flex-end', alignItems: 'center', paddingBottom: 40}}>
-      <View style={{maxWidth: '90%'}}>
-        <View style={{marginTop: 10}}>
-          <Text style={{ fontSize: 20, fontWeight: '600', marginBottom: 10, color: '#102540' }}>Select Your Madhab</Text>
-          <Text style={{ fontSize: 16, fontWeight: '400', marginBottom: 20, color: '#8D8D8D', minHeight: 24 }} numberOfLines={2}>
-            This is used to determine the prayer times for Asr. It can be changed later in Settings.
+    <SafeAreaView
+      style={[
+        styles.safe,
+        { backgroundColor: currentColors.primary?.[theme === 'dark' ? 'dark' : 'light'] ?? (theme === 'dark' ? '#000' : '#fff') },
+      ]}
+    >
+      <View>
+        <View style={{ marginTop: 0 }}>
+          <Text style={[fonts.text ?? {}, styles.sub, { color: currentColors.text?.secondary?.[theme === 'dark' ? 'dark' : 'light'] }]}>
+            Choose your city in Botswana to view nearby mosques and get accurate prayer times.
           </Text>
         </View>
-        <ScrollView>
+
+        <ScrollView style={{ marginBottom: 10 }}>
           {madhabs.map((madhab, index) => {
             const isSelected = selectedMadhabIndex === index;
+            const borderColor = isSelected
+              ? resolveColor(currentColors.outlineActive, '#102540')
+              : currentColors.cardOutline?.[theme === 'dark' ? 'dark' : 'light'] ?? '#E5E5E5';
+            const bg = currentColors.cardBg?.[theme === 'dark' ? 'dark' : 'light'] ?? (theme === 'dark' ? '#0B0B0B' : '#FFFEFE');
+            const iconColor = currentColors.text?.primary?.[theme === 'dark' ? 'dark' : 'light'];
+
             return (
-              <View key={index} style={{flexDirection: 'column', justifyContent: 'space-between', marginBottom: 8}}>
+              <View key={index} style={{ flexDirection: 'column', justifyContent: 'space-between', marginBottom: 8 }}>
                 <Pressable
                   onPress={() => setSelectedMadhabIndex(index)}
-                  style={{
-                    flexDirection: 'row',
-                    alignItems: 'center',
-                    backgroundColor: '#FFFEFE',
-                    padding: 10,
-                    borderRadius: 10,
-                    width: '100%',
-                    borderColor: isSelected ? '#102540' : '#E5E5E5',
-                    borderWidth: isSelected ? 2 : 1,
-                  }}
+                  style={({ pressed }) => [
+                    {
+                      flexDirection: 'row',
+                      alignItems: 'center',
+                      backgroundColor: pressed ? resolveColor(currentColors.complement, bg) : bg,
+                      padding: 10,
+                      borderRadius: 10,
+                      width: '100%',
+                      borderColor,
+                      borderWidth: 1,
+                    },
+                  ]}
                 >
-                  <Text style={{
-                    flex: 1,
-                    textAlign: 'left',
-                    color: '#102540',
-                    fontSize: 16,
-                    fontWeight: '500'
-                  }}>
+                  <Text
+                    style={[
+                      fonts.text,
+                      {
+                        flex: 1,
+                        textAlign: 'left',
+                        color: iconColor,
+                      },
+                    ]}
+                  >
                     {madhab.name}
                   </Text>
                   <Animated.View
@@ -105,7 +134,7 @@ export default function FinishOnboarding() {
                       <Ionicons
                         name="checkmark-circle"
                         size={22}
-                        color="green"
+                        color={resolveColor(currentColors.state.success, 'green')}
                       />
                     )}
                   </Animated.View>
@@ -114,23 +143,29 @@ export default function FinishOnboarding() {
             );
           })}
         </ScrollView>
+
         <Pressable
           style={({ pressed }) => [
-            styles.wrapperCustom,
+            styles.button,
             {
-              opacity: isButtonDisabled ? 0.5 : pressed ? 0.7 : 1,
-              backgroundColor: isButtonDisabled ? '#e5e5e5' : '#ffc801',
-            }
+              opacity: isButtonDisabled ? 0.6 : pressed ? 0.85 : 1,
+              backgroundColor: isButtonDisabled
+                ? resolveColor(currentColors.complement, '#e5e5e5')
+                : resolveColor(currentColors.accent, '#ffc801'),
+            },
           ]}
-          onPress={completeOnboarding}
+          onPress={handlePress}
           disabled={isButtonDisabled}
         >
-          <Text style={{
-            color: isButtonDisabled ? '#8D8D8D' : '#102540',
-            fontSize: 18,
-            fontWeight: '500',
-            textAlign: 'center',
-          }}>
+          <Text
+            style={[
+              fonts.textLargeBold,
+              {
+                color: isButtonDisabled ? currentColors.text?.secondary?.[theme === 'dark' ? 'dark' : 'light'] : currentColors.text?.primary?.[theme === 'dark' ? 'light' : 'light'],
+                textAlign: 'center',
+              },
+            ]}
+          >
             Save and Continue
           </Text>
         </Pressable>
@@ -140,11 +175,19 @@ export default function FinishOnboarding() {
 }
 
 const styles = StyleSheet.create({
-  wrapperCustom: {
+  safe: {
+    flex: 1,
+    justifyContent: 'flex-end',
+    alignItems: 'center',
+    paddingBottom: 40,
+  },
+  sub: {
+    marginBottom: 20,
+  },
+  button: {
     borderRadius: 24,
     paddingVertical: 10,
     paddingHorizontal: 20,
-    backgroundColor: '#ffc801',
     marginTop: 10,
   },
 });

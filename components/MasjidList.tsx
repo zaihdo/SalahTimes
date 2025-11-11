@@ -152,10 +152,6 @@ export default function MasjidList({ columns = DEFAULT_COLUMNS, contentStyle }: 
   return (
     <React.Suspense fallback={<Suspense />}>
       <View style={[styles.container, contentStyle, { backgroundColor: Colors[theme].primary[theme === 'dark' ? 'dark' : 'light'] }]}>
-        <View style={styles.header}>
-          <Text style={[fonts.headingXLarge, { color: Colors[theme].text.primary[theme === 'dark' ? 'dark' : 'light'] }]}>Mosques</Text>
-        </View>
-
         <FlatList
           data={masjids}
           keyExtractor={(item, idx) => {
