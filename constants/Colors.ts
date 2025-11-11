@@ -49,6 +49,18 @@ const colors = {
     warning: '#FFC107',
     error: '#EB5757',
   },
+
+  tabBarIcon: {
+    light: {
+      active: '#FFC107', 
+      inactive: '#AAAAAA',
+    },
+    dark: {
+      active: '#FFC107',
+      inactive: '#6D88A0',
+    }
+    
+  },
   
   // Text Colors
   text: {

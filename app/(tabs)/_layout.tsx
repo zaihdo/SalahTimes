@@ -2,28 +2,14 @@ import React from 'react';
 import { Tabs } from 'expo-router';
 import Colors from '../../constants/Colors';
 import { useColorScheme } from '../../hooks/useColorScheme';
-import CustomIcon from '../../components/CustomIcon'; // Import your custom component
+import Icon from '../../components/Icon';
 import fonts from '../../constants/Fonts';
-
-function TabBarIcon(props: {
-  name: 'home' | 'calendar' | 'mosque' | 'menu'; // Use your custom icon names
-  focused: boolean;
-}) {
-  return (
-    <CustomIcon 
-      name={props.name} 
-      size={22} 
-      focused={props.focused}
-    />
-  );
-}
 
 export default function TabLayout() {
   const colorScheme = useColorScheme();
   const currentTheme = colorScheme ?? 'light';
   const currentColors = Colors[currentTheme];
 
-  // helper to resolve themed tokens (objects like { light: '#fff', dark: '#000' }) to a string
   const resolveColor = (val: any) => {
     if (val == null) return val;
     if (typeof val === 'string') return val;
@@ -33,10 +19,17 @@ export default function TabLayout() {
     return val;
   };
 
-  const activeTintColor = resolveColor(currentColors.text.primary);
-  const inactiveTintColor = resolveColor(currentColors.icon?.tabBarOff);
+  const activeTintColor = resolveColor(currentColors.tabBarIcon?.dark.active);
+  const inactiveTintColor = resolveColor(currentColors.tabBarIcon?.dark.inactive);
   const backgroundColor = resolveColor(currentColors.primary);
   const headerTextColor = resolveColor(currentColors.text.primary);
+
+  const tabIcons: Record<string, any> = {
+    home: require('../../assets/icons/home2.svg'),
+    calendar: require('../../assets/icons/calendar.svg'),
+    mosque: require('../../assets/icons/mosque2.svg'),
+    menu: require('../../assets/icons/menu.svg'),
+  };
 
   return (
     <Tabs
@@ -46,70 +39,51 @@ export default function TabLayout() {
         tabBarStyle: {
           backgroundColor: backgroundColor,
           borderTopWidth: 0,
-        }
-      }}>
+          padding: 4,
+        },
+      }}
+    >
       <Tabs.Screen
         name="index"
         options={{
           title: 'Home',
-          tabBarIcon: ({ focused }) => (
-            <TabBarIcon name="home" focused={focused} />
+          tabBarIcon: ({ color }) => (
+            <Icon source={tabIcons.home} width={22} height={22} color={color} stroke={color} />
           ),
-          headerStyle: {
-            backgroundColor: backgroundColor, 
-          },
-          tabBarLabelStyle: {
-            color: headerTextColor,
-            ...fonts.textSmall
-          },
+          headerStyle: { backgroundColor},
+          tabBarLabelStyle: { color: headerTextColor, ...fonts.textSmall },
           headerTintColor: headerTextColor,
           headerShown: false,
         }}
       />
+
       <Tabs.Screen
         name="mosques"
         options={{
           title: 'Mosques',
-          tabBarIcon: ({ focused }) => (
-            <TabBarIcon name="mosque" focused={focused} />
+          tabBarIcon: ({ color }) => (
+            <Icon source={tabIcons.mosque} width={28} height={28} color={color} stroke={color}/>
           ),
-          headerStyle: {
-            backgroundColor: backgroundColor,
-            elevation: 0,
-          },
-          headerTitleStyle: {
-            color: headerTextColor,
-            ...fonts.headingXLarge,
-          },
+          headerStyle: { backgroundColor, elevation: 0 },
+          headerTitleStyle: { color: headerTextColor, ...fonts.headingXLarge },
           headerTitleAlign: 'left',
-          tabBarLabelStyle: {
-            color: headerTextColor,
-            ...fonts.textSmall
-          },
+          tabBarLabelStyle: { color: headerTextColor, ...fonts.textSmall },
           headerTintColor: headerTextColor,
           headerShown: true,
         }}
       />
+
       <Tabs.Screen
         name="menu"
         options={{
           title: 'Menu',
-          tabBarIcon: ({ focused }) => (
-            <TabBarIcon name="menu" focused={focused} />
+          tabBarIcon: ({ color }) => (
+            <Icon source={tabIcons.menu} width={22} height={22} fill='none' color={color} stroke={color} />
           ),
-          headerStyle: {
-            backgroundColor: backgroundColor,
-            elevation: 0,
-          },
-          headerTitleStyle: {
-            color: headerTextColor,
-            ...fonts.headingXLarge,
-          },
+          headerStyle: { backgroundColor, elevation: 0 },
+          headerTitleStyle: { color: headerTextColor, ...fonts.headingXLarge },
           headerTitleAlign: 'left',
-          tabBarLabelStyle: {
-            color: headerTextColor,
-            ...fonts.textSmall
-          },
+          tabBarLabelStyle: { color: headerTextColor, ...fonts.textSmall },
           headerTintColor: headerTextColor,
           headerShown: true,
         }}
