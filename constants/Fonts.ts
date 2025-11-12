@@ -66,6 +66,7 @@ const fonts = StyleSheet.create({
   textSmallBold: {
     fontSize: fontSizes.small,
     fontFamily: fontFamilies.bold,
+    fontWeight: '600'
   },
   textLargeBold: {
     fontSize: fontSizes.large,

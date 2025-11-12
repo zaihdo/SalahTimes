@@ -58,8 +58,18 @@ const colors = {
     dark: {
       active: '#FFC107',
       inactive: '#6D88A0',
-    }
-    
+    } 
+  },
+
+  tabBarLabel: {
+    light: {
+      active: '#102540', 
+      inactive: '#AAAAAA',
+    },
+    dark: {
+      active: '#FFFFFF',
+      inactive: '#6D88A0',
+    } 
   },
   
   // Text Colors

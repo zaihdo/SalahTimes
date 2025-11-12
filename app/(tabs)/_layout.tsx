@@ -4,6 +4,7 @@ import Colors from '../../constants/Colors';
 import { useColorScheme } from '../../hooks/useColorScheme';
 import Icon from '../../components/Icon';
 import fonts from '../../constants/Fonts';
+import { Text } from '../../components/Themed';
 
 export default function TabLayout() {
   const colorScheme = useColorScheme();
@@ -19,10 +20,32 @@ export default function TabLayout() {
     return val;
   };
 
-  const activeTintColor = resolveColor(currentColors.tabBarIcon?.dark.active);
-  const inactiveTintColor = resolveColor(currentColors.tabBarIcon?.dark.inactive);
+  const activeIconColor = resolveColor(
+    currentColors.tabBarIcon?.[currentTheme]?.active ??
+      currentColors.icon?.tabBarOn ??
+      currentColors.text?.primary
+  );
+
+  const inactiveIconColor = resolveColor(
+    currentColors.tabBarIcon?.[currentTheme]?.inactive ??
+      currentColors.icon?.tabBarOff ??
+      currentColors.text?.secondary
+  );
+
+  const activeTabLabelColor = resolveColor(
+    currentColors.tabBarLabel?.[currentTheme]?.active ??
+      currentColors.icon?.tabBarOn ??
+      currentColors.text?.primary
+  );
+
+  const inactiveTabLabelColor = resolveColor(
+    currentColors.tabBarLabel?.[currentTheme]?.inactive ??
+      currentColors.icon?.tabBarOff ??
+      currentColors.text?.secondary
+  );
+
   const backgroundColor = resolveColor(currentColors.primary);
-  const headerTextColor = resolveColor(currentColors.text.primary);
+  const headerTextColor = resolveColor(currentColors.text?.primary);
 
   const tabIcons: Record<string, any> = {
     home: require('../../assets/icons/home2.svg'),
@@ -34,8 +57,8 @@ export default function TabLayout() {
   return (
     <Tabs
       screenOptions={{
-        tabBarActiveTintColor: activeTintColor,
-        tabBarInactiveTintColor: inactiveTintColor,
+        tabBarActiveTintColor: activeIconColor,
+        tabBarInactiveTintColor: inactiveIconColor,
         tabBarStyle: {
           backgroundColor: backgroundColor,
           borderTopWidth: 0,
@@ -50,8 +73,12 @@ export default function TabLayout() {
           tabBarIcon: ({ color }) => (
             <Icon source={tabIcons.home} width={22} height={22} color={color} stroke={color} />
           ),
-          headerStyle: { backgroundColor},
-          tabBarLabelStyle: { color: headerTextColor, ...fonts.textSmall },
+          tabBarLabel: ({ focused }) => (
+            <Text style={[focused ? fonts.textSmallBold : fonts.textSmall, { color: focused ? activeTabLabelColor : inactiveTabLabelColor }]}>
+              Home
+            </Text>
+          ),
+          headerStyle: { backgroundColor },
           headerTintColor: headerTextColor,
           headerShown: false,
         }}
@@ -62,12 +89,16 @@ export default function TabLayout() {
         options={{
           title: 'Mosques',
           tabBarIcon: ({ color }) => (
-            <Icon source={tabIcons.mosque} width={28} height={28} color={color} stroke={color}/>
+            <Icon source={tabIcons.mosque} width={28} height={28} color={color} stroke={color} />
+          ),
+          tabBarLabel: ({ focused }) => (
+            <Text style={[focused ? fonts.textSmallBold : fonts.textSmall, { color: focused ? activeTabLabelColor : inactiveTabLabelColor }]}>
+              Mosques
+            </Text>
           ),
           headerStyle: { backgroundColor, elevation: 0 },
           headerTitleStyle: { color: headerTextColor, ...fonts.headingXLarge },
           headerTitleAlign: 'left',
-          tabBarLabelStyle: { color: headerTextColor, ...fonts.textSmall },
           headerTintColor: headerTextColor,
           headerShown: true,
         }}
@@ -78,12 +109,16 @@ export default function TabLayout() {
         options={{
           title: 'Menu',
           tabBarIcon: ({ color }) => (
-            <Icon source={tabIcons.menu} width={22} height={22} fill='none' color={color} stroke={color} />
+            <Icon source={tabIcons.menu} width={22} height={22} fill="none" color={color} stroke={color} />
+          ),
+          tabBarLabel: ({ focused }) => (
+            <Text style={[focused ? fonts.textSmallBold : fonts.textSmall, { color: focused ? activeTabLabelColor : inactiveTabLabelColor }]}>
+              Menu
+            </Text>
           ),
           headerStyle: { backgroundColor, elevation: 0 },
           headerTitleStyle: { color: headerTextColor, ...fonts.headingXLarge },
           headerTitleAlign: 'left',
-          tabBarLabelStyle: { color: headerTextColor, ...fonts.textSmall },
           headerTintColor: headerTextColor,
           headerShown: true,
         }}
