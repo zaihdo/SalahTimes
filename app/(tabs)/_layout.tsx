@@ -105,7 +105,7 @@ export default function TabLayout() {
         }}
       />
 
-      <Tabs.Screen
+      {/* <Tabs.Screen
         name="calendar"
         options={{
           title: 'Calendar',
@@ -124,7 +124,9 @@ export default function TabLayout() {
           headerTintColor: headerTextColor,
           headerShown: false,
         }}
-      />
+      /> */
+      // Calendar tab is temporarily disabled. Move calendar.tsx from (misc) to (tabs) to re-enable.
+      }
 
       <Tabs.Screen
         name="menu"
