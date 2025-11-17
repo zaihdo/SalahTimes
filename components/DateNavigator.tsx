@@ -20,6 +20,7 @@ export default function DateNavigator({
   initialDate?: Date;
   onDateChange: (date: Date) => void;
 }) {
+
   const [date, setDate] = useState<Date>(initialDate ?? new Date());
   const [showPicker, setShowPicker] = useState(false);
   const colorScheme = useColorScheme();
@@ -97,12 +98,11 @@ export default function DateNavigator({
             {/* custom calendar */}
             <CalendarPicker
               value={date}
-              onChange={(d) => {
-                setDate(d);
+              onChange={(date) => {
+                setDate(date);
                 setShowPicker(false);
               }}
-              minDate={undefined}
-              maxDate={undefined}
+              onCancel={() => setShowPicker(false)} // This will now work!
             />
           </TouchableOpacity>
         </TouchableOpacity>
