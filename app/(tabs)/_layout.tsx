@@ -92,15 +92,37 @@ export default function TabLayout() {
             <Icon source={tabIcons.mosque} width={28} height={28} color={color} stroke={color} />
           ),
           tabBarLabel: ({ focused }) => (
-            <Text style={[focused ? fonts.textSmallBold : fonts.textSmall, { color: focused ? activeTabLabelColor : inactiveTabLabelColor }]}>
+            <Text style={[focused ? fonts.textSmallBold : fonts.textSmall, { color: focused ? activeIconColor : inactiveIconColor }]}>
               Mosques
             </Text>
           ),
           headerStyle: { backgroundColor, elevation: 0 },
           headerTitleStyle: { color: headerTextColor, ...fonts.headingXLarge },
           headerTitleAlign: 'left',
+          tabBarLabelStyle: { color: headerTextColor, ...fonts.textSmall },
           headerTintColor: headerTextColor,
           headerShown: true,
+        }}
+      />
+
+      <Tabs.Screen
+        name="calendar"
+        options={{
+          title: 'Calendar',
+          tabBarIcon: ({ color }) => (
+            <Icon source={tabIcons.calendar} width={22} height={22} color={color} stroke={color} />
+          ),
+          tabBarLabel: ({ focused }) => (
+            <Text style={[focused ? fonts.textSmallBold : fonts.textSmall, { color: focused ? activeIconColor : inactiveIconColor }]}>
+              Calendar
+            </Text>
+          ),
+          headerStyle: { backgroundColor, elevation: 0 },
+          headerTitleStyle: { color: headerTextColor, ...fonts.headingXLarge },
+          headerTitleAlign: 'left',
+          tabBarLabelStyle: { color: headerTextColor, ...fonts.textSmall },
+          headerTintColor: headerTextColor,
+          headerShown: false,
         }}
       />
 
@@ -112,13 +134,14 @@ export default function TabLayout() {
             <Icon source={tabIcons.menu} width={22} height={22} fill="none" color={color} stroke={color} />
           ),
           tabBarLabel: ({ focused }) => (
-            <Text style={[focused ? fonts.textSmallBold : fonts.textSmall, { color: focused ? activeTabLabelColor : inactiveTabLabelColor }]}>
+            <Text style={[focused ? fonts.textSmallBold : fonts.textSmall, { color: focused ? activeIconColor : inactiveIconColor }]}>
               Menu
             </Text>
           ),
           headerStyle: { backgroundColor, elevation: 0 },
           headerTitleStyle: { color: headerTextColor, ...fonts.headingXLarge },
           headerTitleAlign: 'left',
+          tabBarLabelStyle: { color: headerTextColor, ...fonts.textSmall },
           headerTintColor: headerTextColor,
           headerShown: true,
         }}
