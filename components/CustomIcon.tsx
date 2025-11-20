@@ -5,19 +5,19 @@ import { Image, ImageSourcePropType, StyleSheet } from 'react-native';
 // Define your icon mappings with active and inactive states
 const iconMap: Record<string, { active: ImageSourcePropType; inactive: ImageSourcePropType }> = {
   mosque: {
-    active: require('../assets/icons/Mosque_Active.png'),
+    active: require('../assets/icons/mosque.svg'),
     inactive: require('../assets/icons/Mosque_Inactive.png'),
   },
   menu: {
-    active: require('../assets/icons/Menu_Active.png'),
+    active: require('../assets/icons/menu.svg'),
     inactive: require('../assets/icons/Menu_Inactive.png'),
   },
   calendar: {
-    active: require('../assets/icons/Calendar_Active.png'),
+    active: require('../assets/icons/calendar.svg'),
     inactive: require('../assets/icons/Calendar_Inactive.png'),
   },
   home: {
-    active: require('../assets/icons/Home_Active.png'),
+    active: require('../assets/icons/home.svg'),
     inactive: require('../assets/icons/Home_Inactive.png'),
   },
   // Prayer time icons (these might not need active/inactive states)
