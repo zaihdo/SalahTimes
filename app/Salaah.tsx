@@ -253,7 +253,7 @@ function capitalize(str: string): string {
 
 const styles = StyleSheet.create({
   headerBackground: {
-    flex: 1,
+    flex: 1.5,
     justifyContent: 'center',
     alignItems: 'center',
   },
@@ -326,7 +326,7 @@ const styles = StyleSheet.create({
     padding: 16,
     borderTopRightRadius: 24,
     borderTopLeftRadius: 24,
-    marginTop: -26,
+    marginTop: '-25%',
   },
   modalOverlay: {
     flex: 1,
