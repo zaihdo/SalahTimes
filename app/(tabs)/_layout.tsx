@@ -61,7 +61,6 @@ export default function TabLayout() {
         tabBarInactiveTintColor: inactiveIconColor,
         tabBarStyle: {
           backgroundColor: backgroundColor,
-          borderTopWidth: 0,
           padding: 4,
         },
       }}
@@ -81,6 +80,7 @@ export default function TabLayout() {
           headerStyle: { backgroundColor },
           headerTintColor: headerTextColor,
           headerShown: false,
+          headerShadowVisible: false
         }}
       />
 
@@ -102,6 +102,7 @@ export default function TabLayout() {
           tabBarLabelStyle: { color: headerTextColor, ...fonts.textSmall },
           headerTintColor: headerTextColor,
           headerShown: true,
+          headerShadowVisible: false
         }}
       />
 
@@ -123,6 +124,7 @@ export default function TabLayout() {
           tabBarLabelStyle: { color: headerTextColor, ...fonts.textSmall },
           headerTintColor: headerTextColor,
           headerShown: false,
+          headerShadowVisible: false
         }}
       /> */
       // Calendar tab is temporarily disabled. Move calendar.tsx from (misc) to (tabs) to re-enable.
@@ -146,6 +148,7 @@ export default function TabLayout() {
           tabBarLabelStyle: { color: headerTextColor, ...fonts.textSmall },
           headerTintColor: headerTextColor,
           headerShown: true,
+          headerShadowVisible: false
         }}
       />
     </Tabs>
