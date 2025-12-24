@@ -81,7 +81,8 @@ export default function ListItem(props: { prayer: string; time: string }) {
       </Text>
 
       {/* Toggle */}
-      <Switch
+      {/* // TODO: Enable toggle functionality in future with notification system */}
+      {/* <Switch
         value={isEnabled}
         onValueChange={setIsEnabled}
         thumbColor={isEnabled ? '#FFFFFF' : '#F5F5F5'}
@@ -90,7 +91,7 @@ export default function ListItem(props: { prayer: string; time: string }) {
           true: currentColors.icon.switchOn[colorScheme === 'dark' ? 'dark' : 'light'],
         } as any}
         style={styles.switch}
-      />
+      /> */}
     </View>
   );
 }
