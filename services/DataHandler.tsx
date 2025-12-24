@@ -75,6 +75,8 @@ static formatDateQuery(dateObj: Date) {
 
       // pick the preferred Asr and Dhuhr columns if present
       const fajr = row.Fajr;
+      const sunrise = row.Sunrise;
+      const zawwal = row.Zawwal;
       const dhuhr = row.Zawwal ?? row.Dhuhr ?? row.DhuhrSunday;
       const asr = row.AsrShafiee ?? row.AsrHanafee ?? row.Asr;
       const maghrib = row.Maghrib ?? row.Sunset;
@@ -108,6 +110,16 @@ static formatDateQuery(dateObj: Date) {
 
       const baseDate = new Date(dateObj.getFullYear(), dateObj.getMonth(), dateObj.getDate(), 0, 0, 0, 0);
       const now = dateObj;
+
+      // Check if current time is between Sunrise and Zawwal (Dhuha time)
+      const sunriseDate = parseTimeToDate(baseDate, sunrise);
+      const zawwalDate = parseTimeToDate(baseDate, zawwal);
+      if (sunriseDate && zawwalDate) {
+        const nowTime = now.getTime();
+        if (nowTime >= sunriseDate.getTime() && nowTime < zawwalDate.getTime()) {
+          return 'Dhuha';
+        }
+      }
 
       const entries = candidatePrayers
         .map(p => ({ name: p.name, date: parseTimeToDate(baseDate, p.timeStr) }))
