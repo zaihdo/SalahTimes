@@ -97,11 +97,12 @@ export default function TabLayout() {
             </Text>
           ),
           headerStyle: { backgroundColor, elevation: 0 },
+          headerShadowVisible: false,
           headerTitleStyle: { color: headerTextColor, ...fonts.headingXLarge },
           headerTitleAlign: 'left',
           tabBarLabelStyle: { color: headerTextColor, ...fonts.textSmall },
           headerTintColor: headerTextColor,
-          headerShown: true,
+          headerShown: true
         }}
       />
 
