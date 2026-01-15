@@ -1,5 +1,5 @@
 import React from 'react';
-import { StyleSheet, Switch } from 'react-native';
+import { StyleSheet, Switch, Platform } from 'react-native';
 import { Text, View } from './Themed';
 import { useScreenSize } from '../hooks/useScreenSize';
 import Colors from '../constants/Colors';
@@ -45,7 +45,7 @@ export default function ListItem(props: { prayer: string; time: string }) {
       style={[
         styles.container,
         {
-          padding: isSmall ? 6 : 10,
+          padding: isSmall ? 6 : 12,
           borderColor: currentColors.cardOutline?.[colorScheme === 'dark' ? 'dark' : 'light'] ?? 'rgba(0, 0, 0, 0.1)',
           borderWidth: 1,
         },
@@ -101,7 +101,7 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     alignItems: 'center',
     borderRadius: 15,
-    marginTop: 4,
+    marginTop: Platform.OS === 'ios' ? 10 : 4,
     justifyContent: 'space-between',
     borderWidth: 1,
 
