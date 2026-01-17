@@ -40,6 +40,8 @@ export default function SalaahScreen({ Name }: SalaahProps) {
     React.useCallback(() => {
       console.log('Screen focused, resetting to preferred city:', Name);
       setSelectedCity(Name || query || undefined);
+      // Also reset date to today when screen comes into focus
+      setSelectedDate(new Date());
     }, [Name, query])
   );
 
