@@ -14,6 +14,7 @@ export default function ContactUsLayout() {
   return (
     <Stack
       screenOptions={({ route }) => ({
+        title: 'Contact Us',
         header: ({ navigation, options, back }) => (
           <View
             style={{
