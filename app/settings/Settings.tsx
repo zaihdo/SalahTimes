@@ -92,7 +92,6 @@ export default function Settings() {
       await AsyncStorage.setItem('@selectedCity', JSON.stringify(normalizedCity));
       setSelectedCity(normalizedCity);
       setShowCitySelector(false);
-      Alert.alert('Success', 'City updated successfully');
     } catch (error) {
       Alert.alert('Error', 'Failed to update city');
     }
@@ -103,7 +102,6 @@ export default function Settings() {
       await AsyncStorage.setItem('@selectedMadhab', madhab);
       setSelectedMadhab(madhab);
       setShowMadhabSelector(false);
-      Alert.alert('Success', 'Madhab updated successfully');
     } catch (error) {
       Alert.alert('Error', 'Failed to update madhab');
     }
@@ -129,7 +127,17 @@ export default function Settings() {
 
         {/* City Selection */}
         <View style={styles.settingCard}>
-          <View style={styles.settingHeader}>
+          <Pressable 
+            onPress={() => setShowCitySelector(!showCitySelector)}
+            style={({ pressed }) => [
+              styles.settingHeader,
+              {
+                backgroundColor: pressed 
+                  ? resolveColor(currentColors.complement, '#f5f5f5') 
+                  : 'transparent',
+              },
+            ]}
+          >
             <View style={styles.settingInfo}>
               <Text style={[fonts.text, { color: currentColors.text?.primary?.[theme === 'dark' ? 'dark' : 'light'] }]}>
                 City
@@ -138,14 +146,12 @@ export default function Settings() {
                 {getDisplayCity()}
               </Text>
             </View>
-            <Pressable onPress={() => setShowCitySelector(!showCitySelector)}>
-              <Ionicons 
-                name={showCitySelector ? "chevron-up" : "chevron-down"} 
-                size={24} 
-                color={currentColors.text?.secondary?.[theme === 'dark' ? 'dark' : 'light']} 
-              />
-            </Pressable>
-          </View>
+            <Ionicons 
+              name={showCitySelector ? "chevron-up" : "chevron-down"} 
+              size={24} 
+              color={currentColors.text?.secondary?.[theme === 'dark' ? 'dark' : 'light']} 
+            />
+          </Pressable>
 
           <Animated.View
             style={[
@@ -213,7 +219,17 @@ export default function Settings() {
 
         {/* Madhab Selection */}
         <View style={styles.settingCard}>
-          <View style={styles.settingHeader}>
+          <Pressable 
+            onPress={() => setShowMadhabSelector(!showMadhabSelector)}
+            style={({ pressed }) => [
+              styles.settingHeader,
+              {
+                backgroundColor: pressed 
+                  ? resolveColor(currentColors.complement, '#f5f5f5') 
+                  : 'transparent',
+              },
+            ]}
+          >
             <View style={styles.settingInfo}>
               <Text style={[fonts.text, { color: currentColors.text?.primary?.[theme === 'dark' ? 'dark' : 'light'] }]}>
                 Madhab (Asr Calculation)
@@ -222,14 +238,12 @@ export default function Settings() {
                 {getDisplayMadhab()}
               </Text>
             </View>
-            <Pressable onPress={() => setShowMadhabSelector(!showMadhabSelector)}>
-              <Ionicons 
-                name={showMadhabSelector ? "chevron-up" : "chevron-down"} 
-                size={24} 
-                color={currentColors.text?.secondary?.[theme === 'dark' ? 'dark' : 'light']} 
-              />
-            </Pressable>
-          </View>
+            <Ionicons 
+              name={showMadhabSelector ? "chevron-up" : "chevron-down"} 
+              size={24} 
+              color={currentColors.text?.secondary?.[theme === 'dark' ? 'dark' : 'light']} 
+            />
+          </Pressable>
 
           <Animated.View
             style={[
