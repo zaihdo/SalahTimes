@@ -53,7 +53,9 @@ export default function RootLayout() {
         // Artificial delay for better UX (optional)
         // await new Promise(resolve => setTimeout(resolve, 1000));
       } catch (error) {
-        console.error('Initialization error:', error);
+        if (__DEV__) {
+          console.error('Initialization error:', error);
+        }
       } finally {
         setAppReady(true);
         await SplashScreen.hideAsync();
@@ -81,7 +83,9 @@ function RootLayoutNav() {
         const value = await AsyncStorage.getItem('@viewedOnboarding');
         setOnboarded(!!value);
       } catch (error) {
-        console.error('Onboarding check error:', error);
+        if (__DEV__) {
+          console.error('Onboarding check error:', error);
+        }
         setOnboarded(false); // Fallback to showing onboarding
       }
     }

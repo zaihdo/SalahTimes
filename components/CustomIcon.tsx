@@ -57,7 +57,9 @@ export default function CustomIcon({ name, size = 24, focused = false }: CustomI
   const iconSet = iconMap[name];
   
   if (!iconSet) {
-    console.warn(`Icon "${name}" not found in iconMap`);
+    if (__DEV__) {
+      console.warn(`Icon "${name}" not found in iconMap`);
+    }
     return null;
   }
 

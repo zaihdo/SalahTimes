@@ -28,7 +28,9 @@ export default function SelectCityForOnboarding() {
       setCities(capitalizedCities);
       tickAnimations.current = capitalizedCities.map(() => new Animated.Value(0));
     }).catch((err) => {
-      console.error('[onboarding2] db error', err);
+      if (__DEV__) {
+        console.error('[onboarding2] db error', err);
+      }
     });
   }, [db]);
 
@@ -52,7 +54,9 @@ export default function SelectCityForOnboarding() {
 
     const selectedCity = cities[selectedCityIndex].City;
     const normalizedCity = DataHandler.toUpperCase(selectedCity);
-    console.log('Selected City:', normalizedCity);
+    if (__DEV__) {
+      console.log('Selected City:', normalizedCity);
+    }
 
     await AsyncStorage.multiSet([
       ['@viewedOnboarding', 'true'],

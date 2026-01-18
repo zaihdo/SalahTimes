@@ -33,7 +33,9 @@ export default function IqamahScreen(Masjid: IqamahProps) {
       const results = await DataHandler.iqamahQuery(db, query);
       setIqamahTimes(results);
     }).catch((err) => {
-      console.error('[Iqamah] withTransactionAsync error', err);
+      if (__DEV__) {
+        console.error('[Iqamah] withTransactionAsync error', err);
+      }
     });
   }, [db, query]);
 

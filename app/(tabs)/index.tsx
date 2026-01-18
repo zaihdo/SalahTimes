@@ -11,22 +11,32 @@ export default function Index() {
   const loadSavedCity = async () => {
     try {
       const cityData = await AsyncStorage.getItem('@selectedCity');
-      console.log('Raw city data from AsyncStorage:', cityData);
+      if (__DEV__) {
+        console.log('Raw city data from AsyncStorage:', cityData);
+      }
       
       if (cityData) {
         const parsed = JSON.parse(cityData);
-        console.log('Parsed city data:', parsed);
+        if (__DEV__) {
+          console.log('Parsed city data:', parsed);
+        }
         
         // Extract the city name from the object
         const cityName = parsed.name || parsed;
-        console.log('City name to set:', cityName);
+        if (__DEV__) {
+          console.log('City name to set:', cityName);
+        }
         
         setSavedCity(cityName);
       } else {
-        console.log('No saved city found in AsyncStorage');
+        if (__DEV__) {
+          console.log('No saved city found in AsyncStorage');
+        }
       }
     } catch (error) {
-      console.error('Failed to load saved city:', error);
+      if (__DEV__) {
+        console.error('Failed to load saved city:', error);
+      }
     } finally {
       setIsLoading(false);
     }
@@ -46,13 +56,17 @@ export default function Index() {
 
   // Log when savedCity actually updates
   useEffect(() => {
-    console.log('savedCity state updated:', savedCity);
+    if (__DEV__) {
+      console.log('savedCity state updated:', savedCity);
+    }
   }, [savedCity]);
 
   if (isLoading) {
     return null;
   }
 
-  console.log('Rendering SalaahScreen with city:', savedCity);
+  if (__DEV__) {
+    console.log('Rendering SalaahScreen with city:', savedCity);
+  }
   return <SalaahScreen Name={savedCity || 'Gaborone'} />;
 }

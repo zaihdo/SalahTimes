@@ -44,7 +44,9 @@ export default function CompleteOnboarding() {
 
     const selectedMadhab = madhabs[selectedMadhabIndex].name;
     const normalizedMadhab = selectedMadhab;
-    console.log('Selected Madhab:', "Asr" + normalizedMadhab);
+    if (__DEV__) {
+      console.log('Selected Madhab:', "Asr" + normalizedMadhab);
+    }
 
     await AsyncStorage.multiSet([
       ['@viewedOnboarding', 'true'],
