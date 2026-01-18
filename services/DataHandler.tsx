@@ -64,7 +64,13 @@ static formatDateQuery(dateObj: Date) {
 /**
    * Return the current prayer name for given city/date.
    * Uses today's salaah times for the city and finds which prayer period `now` falls into.
-   * Returns one of: 'Fajr' | 'Dhuhr' | 'Asr' | 'Maghrib' | 'Isha' or null if unknown.
+   * 
+   * @returns One of: 'Fajr' | 'Dhuhr' | 'Asr' | 'Maghrib' | 'Isha' | 'Dhuha' | null
+   * 
+   * Note: 'Dhuha' is a special voluntary prayer period between Sunrise and Zawwal (Dhuhr).
+   * It is not part of the five obligatory prayers and is returned separately to allow
+   * consumers to handle it distinctly (e.g., display it differently in the UI or exclude it).
+   * The five obligatory prayers are determined by their scheduled times in the database.
    */
   static async getCurrentPrayer(db: SQLiteDatabase, city: string, dateObj: Date = new Date()): Promise<string | null> {
     try {
@@ -146,8 +152,9 @@ static formatDateQuery(dateObj: Date) {
       // otherwise current prayer is previous entry
       return entries[idxNext - 1].name;
     } catch (err) {
-      // eslint-disable-next-line no-console
-      console.error('[DataHandler] getCurrentPrayer error', err);
+      if (__DEV__) {
+        console.error('[DataHandler] getCurrentPrayer error', err);
+      }
       return null;
     }
   }
