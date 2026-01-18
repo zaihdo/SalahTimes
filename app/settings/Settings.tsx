@@ -9,6 +9,9 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 import { useSQLiteContext } from 'expo-sqlite/next';
 import { DataHandler } from '../../services/DataHandler';
 
+// Height of each option item in the dropdown (must match actual rendered height)
+const OPTION_ITEM_HEIGHT = 60;
+
 export default function Settings() {
   const colorScheme = useColorScheme();
   const theme = colorScheme ?? 'light';
@@ -69,7 +72,9 @@ export default function Settings() {
         setSelectedMadhab(madhab);
       }
     } catch (error) {
-      console.error('Failed to load settings:', error);
+      if (__DEV__) {
+        console.error('Failed to load settings:', error);
+      }
     }
   };
 
@@ -82,7 +87,9 @@ export default function Settings() {
       }));
       setCities(capitalizedCities);
     } catch (error) {
-      console.error('Failed to load cities:', error);
+      if (__DEV__) {
+        console.error('Failed to load cities:', error);
+      }
     }
   };
 
@@ -159,7 +166,7 @@ export default function Settings() {
               {
                 maxHeight: cityAnimatedHeight.interpolate({
                   inputRange: [0, 1],
-                  outputRange: [0, cities.length * 60],
+                  outputRange: [0, cities.length * OPTION_ITEM_HEIGHT],
                 }),
                 opacity: cityAnimatedHeight,
               },
@@ -251,7 +258,7 @@ export default function Settings() {
               {
                 maxHeight: madhabAnimatedHeight.interpolate({
                   inputRange: [0, 1],
-                  outputRange: [0, madhabs.length * 60],
+                  outputRange: [0, madhabs.length * OPTION_ITEM_HEIGHT],
                 }),
                 opacity: madhabAnimatedHeight,
               },
