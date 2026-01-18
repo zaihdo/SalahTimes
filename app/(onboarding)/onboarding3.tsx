@@ -71,10 +71,10 @@ export default function CompleteOnboarding() {
         { backgroundColor: currentColors.primary?.[theme === 'dark' ? 'dark' : 'light'] ?? (theme === 'dark' ? '#000' : '#fff') },
       ]}
     >
-      <View>
+      <View style={{ width: '100%', paddingHorizontal: 20, flex: 1, justifyContent: 'space-between' }}>
         <View style={{ marginTop: 0 }}>
           <Text style={[fonts.text ?? {}, styles.sub, { color: currentColors.text?.secondary?.[theme === 'dark' ? 'dark' : 'light'] }]}>
-            Choose your city in Botswana to view nearby mosques and get accurate prayer times.
+          Choose your preferred madhab for the Asr prayer time calculation.
           </Text>
         </View>
 
@@ -104,6 +104,12 @@ export default function CompleteOnboarding() {
                     },
                   ]}
                 >
+                  <Ionicons
+                    name="book-outline"
+                    size={20}
+                    color={iconColor}
+                    style={{ marginRight: 10 }}
+                  />
                   <Text
                     style={[
                       fonts.text,
@@ -179,7 +185,7 @@ export default function CompleteOnboarding() {
 const styles = StyleSheet.create({
   safe: {
     flex: 1,
-    justifyContent: 'flex-end',
+    justifyContent: 'flex-start',
     alignItems: 'center',
     paddingBottom: 40,
   },
