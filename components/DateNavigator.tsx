@@ -35,6 +35,25 @@ export default function DateNavigator({
       colorScheme === 'dark' ? 'dark' : 'light'
     ];
 
+  // Sync internal date state with initialDate prop when it changes
+  useEffect(() => {
+    if (initialDate) {
+      setDate(initialDate);
+    }
+  }, [initialDate]);
+
+  // Check if viewing today's date
+  const isToday = () => {
+    const today = new Date();
+    return (
+      date.getDate() === today.getDate() &&
+      date.getMonth() === today.getMonth() &&
+      date.getFullYear() === today.getFullYear()
+    );
+  };
+
+  const isViewingToday = isToday();
+
   // notify parent whenever date changes
   useEffect(() => {
     onDateChange(date);
@@ -82,10 +101,42 @@ export default function DateNavigator({
           <Ionicons name="chevron-back" size={22} color={textColor} />
         </Pressable>
 
-        <Pressable onPress={() => setShowPicker(true)} style={styles.center}>
-          <Text style={[styles.gregorianText, { color: textColor }]}>{gregorian}</Text>
-          {hijri !== '' && <Text style={[styles.hijriText, { color: subTextColor }]}>{hijri}</Text>}
-        </Pressable>
+        <View style={styles.centerContainer}>
+          <Pressable onPress={() => setShowPicker(true)} style={styles.center}>
+            <Text style={[
+              styles.gregorianText, 
+              { 
+                color: textColor,
+                opacity: isViewingToday ? 1 : 0.6,
+                fontStyle: isViewingToday ? 'normal' : 'italic',
+              }
+            ]}>
+              {gregorian}
+            </Text>
+            {hijri !== '' && (
+              <Text style={[
+                styles.hijriText, 
+                { 
+                  color: subTextColor,
+                  opacity: isViewingToday ? 1 : 0.5,
+                }
+              ]}>
+                {hijri}
+              </Text>
+            )}
+          </Pressable>
+
+          {/* Reset button when viewing non-today date */}
+          {!isViewingToday && (
+            <Pressable
+              style={({ pressed }) => [styles.resetButton, pressed && styles.resetPressed]}
+              onPress={() => setDate(new Date())}
+              hitSlop={8}
+            >
+              <Ionicons name="today-outline" size={18} color={textColor} />
+            </Pressable>
+          )}
+        </View>
 
         <Pressable onPress={() => changeDay(1)} style={styles.arrow} hitSlop={8}>
           <Ionicons name="chevron-forward" size={22} color={textColor} />
@@ -122,8 +173,21 @@ const styles = StyleSheet.create({
   arrow: {
     padding: 8,
   },
+  centerContainer: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    gap: 8,
+  },
   center: {
     alignItems: 'center',
+  },
+  resetButton: {
+    padding: 6,
+    borderRadius: 20,
+    backgroundColor: 'rgba(255, 255, 255, 0.15)',
+  },
+  resetPressed: {
+    opacity: 0.7,
   },
   gregorianText: {
     fontSize: 16,

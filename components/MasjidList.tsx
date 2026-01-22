@@ -87,8 +87,9 @@ export default function MasjidList({ columns = DEFAULT_COLUMNS, contentStyle }: 
         const rows = await DataHandler.masjidQuery(db);
         if (mounted) setMasjids(Array.isArray(rows) ? rows : []);
       } catch (err) {
-        // eslint-disable-next-line no-console
-        console.error('[MasjidList] masjidQuery error', err);
+        if (__DEV__) {
+          console.error('[MasjidList] masjidQuery error', err);
+        }
         if (mounted) setMasjids([]);
       }
     })();

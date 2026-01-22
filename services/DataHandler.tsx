@@ -64,7 +64,13 @@ static formatDateQuery(dateObj: Date) {
 /**
    * Return the current prayer name for given city/date.
    * Uses today's salaah times for the city and finds which prayer period `now` falls into.
-   * Returns one of: 'Fajr' | 'Dhuhr' | 'Asr' | 'Maghrib' | 'Isha' or null if unknown.
+   * 
+   * @returns One of: 'Fajr' | 'Dhuhr' | 'Asr' | 'Maghrib' | 'Isha' | 'Dhuha' | null
+   * 
+   * Note: 'Dhuha' is a special voluntary prayer period between Sunrise and Zawwal (Dhuhr).
+   * It is not part of the five obligatory prayers and is returned separately to allow
+   * consumers to handle it distinctly (e.g., display it differently in the UI or exclude it).
+   * The five obligatory prayers are determined by their scheduled times in the database.
    */
   static async getCurrentPrayer(db: SQLiteDatabase, city: string, dateObj: Date = new Date()): Promise<string | null> {
     try {
@@ -75,6 +81,8 @@ static formatDateQuery(dateObj: Date) {
 
       // pick the preferred Asr and Dhuhr columns if present
       const fajr = row.Fajr;
+      const sunrise = row.Sunrise;
+      const zawwal = row.Zawwal;
       const dhuhr = row.Zawwal ?? row.Dhuhr ?? row.DhuhrSunday;
       const asr = row.AsrShafiee ?? row.AsrHanafee ?? row.Asr;
       const maghrib = row.Maghrib ?? row.Sunset;
@@ -109,6 +117,16 @@ static formatDateQuery(dateObj: Date) {
       const baseDate = new Date(dateObj.getFullYear(), dateObj.getMonth(), dateObj.getDate(), 0, 0, 0, 0);
       const now = dateObj;
 
+      // Check if current time is between Sunrise and Zawwal (Dhuha time)
+      const sunriseDate = parseTimeToDate(baseDate, sunrise);
+      const zawwalDate = parseTimeToDate(baseDate, zawwal);
+      if (sunriseDate && zawwalDate) {
+        const nowTime = now.getTime();
+        if (nowTime >= sunriseDate.getTime() && nowTime < zawwalDate.getTime()) {
+          return 'Dhuha';
+        }
+      }
+
       const entries = candidatePrayers
         .map(p => ({ name: p.name, date: parseTimeToDate(baseDate, p.timeStr) }))
         .filter(e => e.date !== null) as { name: string; date: Date }[];
@@ -134,8 +152,9 @@ static formatDateQuery(dateObj: Date) {
       // otherwise current prayer is previous entry
       return entries[idxNext - 1].name;
     } catch (err) {
-      // eslint-disable-next-line no-console
-      console.error('[DataHandler] getCurrentPrayer error', err);
+      if (__DEV__) {
+        console.error('[DataHandler] getCurrentPrayer error', err);
+      }
       return null;
     }
   }

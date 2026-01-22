@@ -15,6 +15,7 @@ export default function AboutUsLayout() {
   return (
     <Stack
       screenOptions={({ route }) => ({
+        title: 'About Us',
         header: ({ navigation, options, back }) => (
           <View
             style={{

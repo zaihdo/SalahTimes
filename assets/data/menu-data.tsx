@@ -1,3 +1,7 @@
+import React from 'react';
+import { Text, Linking } from 'react-native';
+import fonts from '../../constants/Fonts';
+
 export const appContent = {
   about: [
     {
@@ -8,7 +12,7 @@ export const appContent = {
     {
       icon: require('../icons/mission.svg'),
       title: "Our Mission", 
-      content: "To deliver accurate prayer and Iqamah times for all mosques in Botswana."
+      content: "To deliver accurate prayer and Iqamah times for all mosques in Botswana, accessible fully offline without the need for an internet connection."
     },
     {
       icon: require('../icons/data-source.svg'),
@@ -18,18 +22,35 @@ export const appContent = {
   ],
   contact: [
     {
-      title: "Contact Us",
-        content: "If you have any questions or concerns about this privacy policy, please contact us at [zaidhimran2000@gmail.com]."
+      title: "Developer",
+      content: (
+        <Text style={{ textAlign: 'justify' }}>
+          For support, feedback, or inquiries about the app, please reach out to Imran Salahuddin at{' '}
+          <Text
+            onPress={() => Linking.openURL('tel:71711911')}
+            style={{ color: '#0099ff' }}
+          >
+            71711911
+          </Text>
+          {' '}or email us at{' '}
+          <Text
+            onPress={() => Linking.openURL('mailto:zaidhimran2000@gmail.com')}
+            style={{ color: '#0099ff'}}
+          >
+            zaidhimran2000@gmail.com
+          </Text>
+        </Text>
+      )
     },
   ],
   privacy: [
     {
         title: "Privacy and Security",
-        content: "We do not collect any personal data or information from our users. Our app is designed to function entirely offline, and we do not request or require any user input or data to operate."
+        content: "Your privacy is our priority. Salah Times Botswana is designed as a fully offline application that respects your personal space and requires no internet connection or user accounts to function."
     },
     {
         title: "Data Collection",
-        content: "We do not collect any personal data or information from our users. Our app is designed to function entirely offline, and we do not request or require any user input or data to operate."
+        content: "We collect zero personal data. No location tracking, no usage analytics, no contact information, and no behavioral data. Your prayer time preferences are stored locally on your device only."
     },
     {
         title: "Data Storage",
@@ -49,7 +70,18 @@ export const appContent = {
     },
     {
         title: "Contact Us",
-        content: "If you have any questions or concerns about this privacy policy, please contact us at [zaidhimran2000@gmail.com]."
+        content: (
+          <Text>
+            If you have any questions or concerns about this privacy policy, please contact us at{' '}
+            <Text
+              onPress={() => Linking.openURL('mailto:zaidhimran2000@gmail.com')}
+              style={{ color: '#0099ff' }}
+            >
+              zaidhimran2000@gmail.com
+            </Text>
+            .
+          </Text>
+        )
     },
     {
         title: "Acknowledgement",

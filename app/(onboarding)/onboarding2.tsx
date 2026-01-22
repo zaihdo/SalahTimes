@@ -28,7 +28,9 @@ export default function SelectCityForOnboarding() {
       setCities(capitalizedCities);
       tickAnimations.current = capitalizedCities.map(() => new Animated.Value(0));
     }).catch((err) => {
-      console.error('[onboarding2] db error', err);
+      if (__DEV__) {
+        console.error('[onboarding2] db error', err);
+      }
     });
   }, [db]);
 
@@ -52,7 +54,9 @@ export default function SelectCityForOnboarding() {
 
     const selectedCity = cities[selectedCityIndex].City;
     const normalizedCity = DataHandler.toUpperCase(selectedCity);
-    console.log('Selected City:', normalizedCity);
+    if (__DEV__) {
+      console.log('Selected City:', normalizedCity);
+    }
 
     await AsyncStorage.multiSet([
       ['@viewedOnboarding', 'true'],
@@ -77,7 +81,7 @@ export default function SelectCityForOnboarding() {
         { backgroundColor: currentColors.primary?.[theme === 'dark' ? 'dark' : 'light'] ?? (theme === 'dark' ? '#000' : '#fff') },
       ]}
     >
-      <View>
+      <View style={{ width: '100%', paddingHorizontal: 20, flex: 1, justifyContent: 'space-between' }}>
         <View style={{ marginTop: 0 }}>
           <Text style={[fonts.text ?? {}, styles.sub, { color: currentColors.text?.secondary?.[theme === 'dark' ? 'dark' : 'light'] }]}>
             Choose your city in Botswana to view nearby mosques and get accurate prayer times.
@@ -191,7 +195,7 @@ export default function SelectCityForOnboarding() {
 const styles = StyleSheet.create({
   safe: {
     flex: 1,
-    justifyContent: 'flex-end',
+    justifyContent: 'flex-start',
     alignItems: 'center',
     paddingBottom: 40,
   },

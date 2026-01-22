@@ -2,8 +2,9 @@ import { FlatList } from 'react-native';
 import ListItem from './ListItem';
 import { StyleSheet } from 'react-native';
 import { SalaahTime } from '../types/dbTypes';
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
 import AsyncStorage from '@react-native-async-storage/async-storage';
+import { useFocusEffect } from 'expo-router';
 
 interface ListProps {
   salaahs: SalaahTime[];
@@ -17,21 +18,24 @@ export default function List({salaahs, city}: ListProps) {
 
   const [userMadhab, setUserMadhab] = useState<string | null>(null);
 
-  useEffect(() => {
-    let mounted = true;
-    (async () => {
-      try {
-        const stored = await AsyncStorage.getItem('@selectedMadhab');
+  const loadMadhab = async () => {
+    try {
+      const stored = await AsyncStorage.getItem('@selectedMadhab');
+      if (__DEV__) {
         console.log('Retrieved madhab from storage:', stored);
-        if (mounted) setUserMadhab(stored);
-      } catch {
-        if (mounted) setUserMadhab(null);
       }
-    })();
-    return () => {
-      mounted = false;
-    };
-  }, []);
+      setUserMadhab(stored);
+    } catch {
+      setUserMadhab(null);
+    }
+  };
+
+  // Load on mount and reload when parent screen comes into focus
+  useFocusEffect(
+    React.useCallback(() => {
+      loadMadhab();
+    }, [])
+  );
 
   // flatten DB objects to [key, value] pairs
   const raw = salaahs.flatMap((salaah) => Object.entries(salaah));

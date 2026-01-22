@@ -14,6 +14,7 @@ export default function PrivacySecurityLayout() {
   return (
     <Stack
       screenOptions={({ route }) => ({
+        title: 'Privacy & Security',
         header: ({ navigation, options, back }) => (
           <View
             style={{

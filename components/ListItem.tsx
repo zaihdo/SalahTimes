@@ -1,10 +1,9 @@
 import React from 'react';
-import { StyleSheet, Switch } from 'react-native';
+import { StyleSheet, Platform } from 'react-native';
 import { Text, View } from './Themed';
 import { useScreenSize } from '../hooks/useScreenSize';
 import Colors from '../constants/Colors';
 import { useColorScheme } from '../hooks/useColorScheme';
-import fonts from '../constants/Fonts';
 
 // import SVGs as React components (requires react-native-svg & react-native-svg-transformer)
 import FajrIcon from '../assets/icons/Fajr.svg';
@@ -12,7 +11,6 @@ import SunriseIcon from '../assets/icons/Sunrise.svg';
 import DhuhrIcon from '../assets/icons/Dhuhr.svg';
 import AsrIcon from '../assets/icons/Asr.svg';
 import MaghribIcon from '../assets/icons/Maghrib.svg';
-import IshaIcon from '../assets/icons/Esha.svg';
 import IshaDarkIcon from '../assets/icons/EshaDark.svg';
 
 const prayerIcons: Record<string, React.ComponentType<any>> = {
@@ -45,7 +43,7 @@ export default function ListItem(props: { prayer: string; time: string }) {
       style={[
         styles.container,
         {
-          padding: isSmall ? 6 : 10,
+          padding: isSmall ? 6 : 12,
           borderColor: currentColors.cardOutline?.[colorScheme === 'dark' ? 'dark' : 'light'] ?? 'rgba(0, 0, 0, 0.1)',
           borderWidth: 1,
         },
@@ -81,7 +79,8 @@ export default function ListItem(props: { prayer: string; time: string }) {
       </Text>
 
       {/* Toggle */}
-      <Switch
+      {/* // TODO: Enable toggle functionality in future with notification system */}
+      {/* <Switch
         value={isEnabled}
         onValueChange={setIsEnabled}
         thumbColor={isEnabled ? '#FFFFFF' : '#F5F5F5'}
@@ -90,7 +89,7 @@ export default function ListItem(props: { prayer: string; time: string }) {
           true: currentColors.icon.switchOn[colorScheme === 'dark' ? 'dark' : 'light'],
         } as any}
         style={styles.switch}
-      />
+      /> */}
     </View>
   );
 }
@@ -100,7 +99,7 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     alignItems: 'center',
     borderRadius: 15,
-    marginTop: 4,
+    marginTop: Platform.OS === 'ios' ? 10 : 4,
     justifyContent: 'space-between',
     borderWidth: 1,
 
