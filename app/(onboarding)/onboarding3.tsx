@@ -7,7 +7,6 @@ import { Ionicons } from '@expo/vector-icons';
 import Colors from '../../constants/Colors';
 import fonts from '../../constants/Fonts';
 import { Text } from '../../components/Themed';
-import { DataHandler } from '../../services/DataHandler';
 
 export default function CompleteOnboarding() {
   const [selectedMadhabIndex, setSelectedMadhabIndex] = useState<number | null>(null);

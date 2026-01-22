@@ -1,10 +1,9 @@
 import React from 'react';
-import { StyleSheet, Switch, Platform } from 'react-native';
+import { StyleSheet, Platform } from 'react-native';
 import { Text, View } from './Themed';
 import { useScreenSize } from '../hooks/useScreenSize';
 import Colors from '../constants/Colors';
 import { useColorScheme } from '../hooks/useColorScheme';
-import fonts from '../constants/Fonts';
 
 // import SVGs as React components (requires react-native-svg & react-native-svg-transformer)
 import FajrIcon from '../assets/icons/Fajr.svg';
@@ -12,7 +11,6 @@ import SunriseIcon from '../assets/icons/Sunrise.svg';
 import DhuhrIcon from '../assets/icons/Dhuhr.svg';
 import AsrIcon from '../assets/icons/Asr.svg';
 import MaghribIcon from '../assets/icons/Maghrib.svg';
-import IshaIcon from '../assets/icons/Esha.svg';
 import IshaDarkIcon from '../assets/icons/EshaDark.svg';
 
 const prayerIcons: Record<string, React.ComponentType<any>> = {
