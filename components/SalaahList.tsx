@@ -2,7 +2,7 @@ import { FlatList } from 'react-native';
 import ListItem from './ListItem';
 import { StyleSheet } from 'react-native';
 import { SalaahTime } from '../types/dbTypes';
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { useFocusEffect } from 'expo-router';
 
@@ -30,12 +30,7 @@ export default function List({salaahs, city}: ListProps) {
     }
   };
 
-  // Load on mount
-  useEffect(() => {
-    loadMadhab();
-  }, []);
-
-  // Reload when parent screen comes into focus
+  // Load on mount and reload when parent screen comes into focus
   useFocusEffect(
     React.useCallback(() => {
       loadMadhab();

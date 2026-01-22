@@ -1,4 +1,3 @@
-// app/(tabs)/index.tsx
 import React, { useEffect, useState } from 'react';
 import SalaahScreen from '../Salaah';
 import AsyncStorage from '@react-native-async-storage/async-storage';
@@ -42,12 +41,7 @@ export default function Index() {
     }
   };
 
-  // Load on mount
-  useEffect(() => {
-    loadSavedCity();
-  }, []);
-
-  // Reload when screen comes into focus
+  // Load on mount and reload when screen comes into focus
   useFocusEffect(
     React.useCallback(() => {
       loadSavedCity();
