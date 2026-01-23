@@ -6,7 +6,7 @@ import fonts from '../../constants/Fonts';
 import { useColorScheme } from '../../hooks/useColorScheme';
 import { Ionicons } from '@expo/vector-icons';
 import AsyncStorage from '@react-native-async-storage/async-storage';
-import { useSQLiteContext } from 'expo-sqlite/next';
+import { useSQLiteContext } from 'expo-sqlite';
 import { DataHandler } from '../../services/DataHandler';
 
 // Height of each option item in the dropdown (must match actual rendered height)

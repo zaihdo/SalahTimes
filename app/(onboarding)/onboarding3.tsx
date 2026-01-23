@@ -52,7 +52,7 @@ export default function CompleteOnboarding() {
       ['@selectedMadhab', "Asr" + normalizedMadhab],
     ]);
 
-    router.replace('/(tabs)/');
+    router.replace('/(tabs)');
   };
 
   const isButtonDisabled = selectedMadhabIndex === null;
