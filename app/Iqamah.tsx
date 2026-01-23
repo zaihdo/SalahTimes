@@ -1,7 +1,7 @@
 import { StatusBar } from 'expo-status-bar';
 import { Platform, StyleSheet, ImageBackground, View as RNView } from 'react-native';
 import React, { useEffect, useState } from 'react';
-import { useSQLiteContext } from 'expo-sqlite/next';
+import { useSQLiteContext } from 'expo-sqlite';
 import { Text, View } from '../components/Themed';
 import Suspense from '../components/Suspense';
 import { IqamahTime } from '../types/dbTypes';

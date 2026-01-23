@@ -53,9 +53,9 @@ export default function RootLayout() {
         // Artificial delay for better UX (optional)
         // await new Promise(resolve => setTimeout(resolve, 1000));
       } catch (error) {
-        if (__DEV__) {
-          console.error('Initialization error:', error);
-        }
+        // if (__DEV__) {
+        //   console.error('Initialization error:', error);
+        // }
       } finally {
         setAppReady(true);
         await SplashScreen.hideAsync();
