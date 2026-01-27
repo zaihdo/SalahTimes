@@ -83,9 +83,6 @@ function RootLayoutNav() {
         const value = await AsyncStorage.getItem('@viewedOnboarding');
         setOnboarded(!!value);
       } catch (error) {
-        if (__DEV__) {
-          console.error('Onboarding check error:', error);
-        }
         setOnboarded(false); // Fallback to showing onboarding
       }
     }

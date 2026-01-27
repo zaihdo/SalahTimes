@@ -48,19 +48,8 @@ export default function Index() {
     }, [])
   );
 
-  // Log when savedCity actually updates
-  useEffect(() => {
-    if (__DEV__) {
-      console.log('savedCity state updated:', savedCity);
-    }
-  }, [savedCity]);
-
   if (isLoading) {
     return null;
-  }
-
-  if (__DEV__) {
-    console.log('Rendering SalaahScreen with city:', savedCity);
   }
   return <SalaahScreen Name={savedCity || 'Gaborone'} />;
 }
