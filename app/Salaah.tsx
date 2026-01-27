@@ -38,9 +38,6 @@ export default function SalaahScreen({ Name }: SalaahProps) {
   // Reset to preferred city whenever the screen comes into focus or Name prop changes
   useFocusEffect(
     React.useCallback(() => {
-      if (__DEV__) {
-        console.log('Screen focused, resetting to preferred city:', Name);
-      }
       setSelectedCity(Name || query || undefined);
       // Also reset date to today when screen comes into focus
       setSelectedDate(new Date());
@@ -49,9 +46,6 @@ export default function SalaahScreen({ Name }: SalaahProps) {
 
   // Also reset when Name prop changes (in case async storage updates)
   useEffect(() => {
-    if (__DEV__) {
-      console.log('Name prop changed, resetting to:', Name);
-    }
     setSelectedCity(Name || query || undefined);
   }, [Name, query]);
 
@@ -68,18 +62,12 @@ export default function SalaahScreen({ Name }: SalaahProps) {
               .map((c: any) => String(c))
           : [];
         setCities(list);
-        if (__DEV__) {
-          console.log('Loaded cities from DB:', list.length);
-        }
         
         // Only set initial city if not already set by focus effect
         if (!selectedCity) {
           setSelectedCity(Name || query || list[0]);
         }
       } catch (err) {
-        if (__DEV__) {
-          console.error('[Salaah] cityQuery error', err);
-        }
         setCities([]);
       }
     })();
@@ -90,18 +78,9 @@ export default function SalaahScreen({ Name }: SalaahProps) {
     (async () => {
       try {
         const cityToUse = selectedCity;
-        if (__DEV__) {
-          console.log(`Querying salaah times for city: ${cityToUse} on date: ${selectedDate.toDateString()}`);
-        }
         const results = await DataHandler.salaahQueryForDate(db, cityToUse, selectedDate);
         setSalaahTimes(Array.isArray(results) ? results : []);
-        if (__DEV__) {
-          console.log(`Loaded ${results.length} salaah times for city: ${cityToUse}`);
-        }
       } catch (err) {
-        if (__DEV__) {
-          console.error('[Salaah] salaahQueryForDate error', err);
-        }
         setSalaahTimes([]);
       }
     })();
@@ -124,18 +103,12 @@ export default function SalaahScreen({ Name }: SalaahProps) {
         const p = await DataHandler.getCurrentPrayer(db, cityToUse, new Date());
         setCurrentPrayer(p);
       } catch (err) {
-        if (__DEV__) {
-          console.error('[Salaah] getCurrentPrayer error', err);
-        }
         setCurrentPrayer(null);
       }
     })();
   }, [db, selectedCity, currentTime]);
 
   const handleCitySelect = (city: string) => {
-    if (__DEV__) {
-      console.log('User selected temporary city:', city);
-    }
     setSelectedCity(city);
     setSelectorVisible(false);
   };

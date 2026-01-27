@@ -152,9 +152,6 @@ static formatDateQuery(dateObj: Date) {
       // otherwise current prayer is previous entry
       return entries[idxNext - 1].name;
     } catch (err) {
-      if (__DEV__) {
-        console.error('[DataHandler] getCurrentPrayer error', err);
-      }
       return null;
     }
   }
