@@ -1,7 +1,7 @@
 import * as FileSystem from 'expo-file-system';
 import { Asset } from 'expo-asset';
 import { IqamahTime, SalaahTime } from '../types/dbTypes';
-import { SQLiteDatabase } from 'expo-sqlite/next';
+import { SQLiteDatabase } from 'expo-sqlite';
 
 export class DataHandler {
   static async loadDatabase() {
@@ -9,7 +9,7 @@ export class DataHandler {
     const dbAsset = require('../assets/databases/prayerTimes.db');
 
     const dbUri = Asset.fromModule(dbAsset).uri;
-    const dbFilePath = `${FileSystem.documentDirectory}SQLite/${dbName}`;
+    const dbFilePath = `${FileSystem.Directory}SQLite/${dbName}`;
 
     // Always delete and recreate for debugging (remove this in production)
     //await FileSystem.deleteAsync(dbFilePath).catch(() => {});
@@ -17,7 +17,7 @@ export class DataHandler {
     const fileInfo = await FileSystem.getInfoAsync(dbFilePath);
     if (!fileInfo.exists){
         await FileSystem.makeDirectoryAsync(
-            `${FileSystem.documentDirectory}SQLite`, {intermediates: true}
+            `${FileSystem.Directory}SQLite`, {intermediates: true}
         );
         await FileSystem.downloadAsync(dbUri, dbFilePath);
     }

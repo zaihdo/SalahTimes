@@ -2,7 +2,7 @@ import { View, SafeAreaView, Pressable, ScrollView, StyleSheet, Animated } from 
 import { useLocalSearchParams, router } from 'expo-router';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import React, { useEffect, useState, useRef } from 'react';
-import { useSQLiteContext } from 'expo-sqlite/next';
+import { useSQLiteContext } from 'expo-sqlite';
 import { useColorScheme } from '../../hooks/useColorScheme';
 import { DataHandler } from '../../services/DataHandler';
 import { Ionicons } from '@expo/vector-icons';

@@ -8,7 +8,7 @@ import {
   ImageBackground,
   ActivityIndicator,
 } from 'react-native';
-import { useSQLiteContext } from 'expo-sqlite/next';
+import { useSQLiteContext } from 'expo-sqlite';
 import { Link } from 'expo-router';
 import { LinearGradient } from 'expo-linear-gradient';
 import { Text } from './Themed';
