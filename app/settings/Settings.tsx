@@ -318,6 +318,59 @@ export default function Settings() {
             </View>
           </Animated.View>
         </View>
+
+        {/* Debug: Reset Onboarding (only in dev) */}
+        {__DEV__ && (
+          <View style={styles.settingCard}>
+            <Pressable
+              onPress={async () => {
+                try {
+                  await AsyncStorage.removeItem('@viewedOnboarding');
+                  Alert.alert('Success', 'Onboarding reset. Restart the app to see onboarding screens.');
+                } catch (error) {
+                  Alert.alert('Error', 'Failed to reset onboarding');
+                }
+              }}
+              style={({ pressed }) => [
+                styles.settingHeader,
+                {
+                  backgroundColor: pressed
+                    ? resolveColor(currentColors.complement, '#f5f5f5')
+                    : 'transparent',
+                },
+              ]}
+            >
+              <View style={styles.settingInfo}>
+                <Text
+                  style={[
+                    fonts.textMedium,
+                    {
+                      color: currentColors.text?.primary?.[theme === 'dark' ? 'dark' : 'light'],
+                      marginBottom: 4,
+                    },
+                  ]}
+                >
+                  Reset Onboarding (Dev Only)
+                </Text>
+                <Text
+                  style={[
+                    fonts.textSmall,
+                    {
+                      color: currentColors.text?.secondary?.[theme === 'dark' ? 'dark' : 'light'],
+                    },
+                  ]}
+                >
+                  Clear onboarding flag to test first-run experience
+                </Text>
+              </View>
+              <Ionicons
+                name="refresh-outline"
+                size={22}
+                color={currentColors.text?.secondary?.[theme === 'dark' ? 'dark' : 'light']}
+              />
+            </Pressable>
+          </View>
+        )}
       </View>
     </ScrollView>
   );
