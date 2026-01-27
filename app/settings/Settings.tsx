@@ -67,14 +67,23 @@ export default function Settings() {
       if (city) {
         const parsedCity = JSON.parse(city);
         setSelectedCity(parsedCity);
+      } else {
+        // Set default city
+        const defaultCity = 'GABORONE';
+        await AsyncStorage.setItem('@selectedCity', JSON.stringify(defaultCity));
+        setSelectedCity(defaultCity);
       }
       if (madhab) {
         setSelectedMadhab(madhab);
       }
-    } catch (error) {
-      if (__DEV__) {
-        console.error('Failed to load settings:', error);
+      else {
+        // Set default madhab
+        const defaultMadhab = 'AsrShafiee';
+        await AsyncStorage.setItem('@selectedMadhab', defaultMadhab);
+        setSelectedMadhab(defaultMadhab);
       }
+    } catch (error) {
+      setSelectedCity('GABORONE'); // Fallback on error
     }
   };
 
