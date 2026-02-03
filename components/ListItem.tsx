@@ -3,6 +3,7 @@ import { StyleSheet, Platform } from 'react-native';
 import { Text, View } from './Themed';
 import { useScreenSize } from '../hooks/useScreenSize';
 import Colors from '../constants/Colors';
+import fonts from '../constants/Fonts';
 import { useColorScheme } from '../hooks/useColorScheme';
 
 // import SVGs as React components (requires react-native-svg & react-native-svg-transformer)
@@ -58,7 +59,7 @@ export default function ListItem(props: { prayer: string; time: string }) {
       <Text
         style={[
           styles.prayerText,
-          { fontFamily: 'PlusJakartaSans-Regular' },
+          { fontFamily: 'PlusJakartaSans-Bold', fontSize: isSmall ? 14 : 16 },
         ]}
         lightColor={currentColors.text.primary.light}
         darkColor={currentColors.text.primary.dark}
@@ -70,10 +71,10 @@ export default function ListItem(props: { prayer: string; time: string }) {
       <Text
         style={[
           styles.timeText,
-          { fontFamily: 'PlusJakartaSans-Regular' },
+          { fontFamily: 'PlusJakartaSans-Regular', fontSize: isSmall ? 14 : 16 },
         ]}
         lightColor={currentColors.text.primary.light}
-        darkColor={currentColors.text.primary.dark}
+        darkColor={currentColors.text.tertiary.light}
       >
         {props.time}
       </Text>
@@ -106,14 +107,12 @@ const styles = StyleSheet.create({
   },
   prayerText: {
     lineHeight: 24,
-    fontSize: 16,
     minWidth: 70,
     flex: 1,
     marginLeft: 8,
   },
   timeText: {
     lineHeight: 24,
-    fontSize: 16,
     minWidth: 60,
     textAlign: 'right',
     flex: 1,
