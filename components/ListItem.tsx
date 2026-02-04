@@ -48,7 +48,7 @@ export default function ListItem(props: { prayer: string; time: string; isCurren
           borderColor: props.isCurrent 
             ? (currentColors.primary?.[colorScheme === 'dark' ? 'light' : 'dark'] ?? 'rgba(0, 0, 0, 0.1)')
             : (currentColors.cardOutline?.[colorScheme === 'dark' ? 'dark' : 'light'] ?? 'rgba(0, 0, 0, 0.1)'),
-          borderWidth: props.isCurrent ? 3 : 1,
+          borderWidth: props.isCurrent ? 1.5 : 1,
         },
       ]}
       lightColor={Colors.light.cardBg.light}
