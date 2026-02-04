@@ -28,7 +28,7 @@ const prayerIcons: Record<string, React.ComponentType<any>> = {
   Isha: IshaDarkIcon
 };
 
-export default function ListItem(props: { prayer: string; time: string }) {
+export default function ListItem(props: { prayer: string; time: string; isCurrent?: boolean }) {
   const { isSmall } = useScreenSize();
   const colorScheme = useColorScheme();
   const [isEnabled, setIsEnabled] = React.useState(true);
@@ -45,8 +45,10 @@ export default function ListItem(props: { prayer: string; time: string }) {
         styles.container,
         {
           padding: isSmall ? 6 : 12,
-          borderColor: currentColors.cardOutline?.[colorScheme === 'dark' ? 'dark' : 'light'] ?? 'rgba(0, 0, 0, 0.1)',
-          borderWidth: 1,
+          borderColor: props.isCurrent 
+            ? (currentColors.primary?.[colorScheme === 'dark' ? 'light' : 'dark'] ?? 'rgba(0, 0, 0, 0.1)')
+            : (currentColors.cardOutline?.[colorScheme === 'dark' ? 'dark' : 'light'] ?? 'rgba(0, 0, 0, 0.1)'),
+          borderWidth: props.isCurrent ? 3 : 1,
         },
       ]}
       lightColor={Colors.light.cardBg.light}
