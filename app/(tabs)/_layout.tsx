@@ -65,8 +65,8 @@ export default function TabLayout() {
           backgroundColor: backgroundColor,
           borderTopWidth: 0,
           padding: 4,
-          paddingBottom: Platform.OS === 'android' ? 8 : 4,
-          height: Platform.OS === 'android' ? 70 : 60,
+          paddingBottom: Platform.OS === 'android' ? 6 : 4,
+          height: Platform.OS === 'android' ? 68 : 60,
         },
       }}
     >

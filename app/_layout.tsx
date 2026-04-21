@@ -48,13 +48,13 @@ export default function RootLayout() {
         );
         
         // Keep splash screen visible for 2 seconds
-        await new Promise(resolve => setTimeout(resolve, 1500));
+        await new Promise(resolve => setTimeout(resolve, 750));
         
         setAppReady(true);
         
         // Small delay before hiding to ensure UI is ready
-        await new Promise(resolve => setTimeout(resolve, 100));
-        await SplashScreen.hideAsync();
+        // await new Promise(resolve => setTimeout(resolve, 100));
+        // await SplashScreen.hideAsync();
       } catch (error) {
         if (__DEV__) {
           console.error('[RootLayout] Initialization error:', error);
