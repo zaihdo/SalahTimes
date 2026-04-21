@@ -69,20 +69,23 @@ export default function Settings() {
       if (city) {
         const parsedCity = JSON.parse(city);
         setSelectedCity(parsedCity);
+      } else {
+        // Set default city
+        const defaultCity = 'GABORONE';
+        await AsyncStorage.setItem('@selectedCity', JSON.stringify(defaultCity));
+        setSelectedCity(defaultCity);
       }
       if (madhab) {
         setSelectedMadhab(madhab);
       }
-      if (hijriOffset != null) {
-        const parsed = parseInt(hijriOffset, 10);
-        if (!Number.isNaN(parsed)) {
-          setHijriDayOffset(Math.max(-2, Math.min(2, parsed)));
-        }
+      else {
+        // Set default madhab
+        const defaultMadhab = 'AsrShafiee';
+        await AsyncStorage.setItem('@selectedMadhab', defaultMadhab);
+        setSelectedMadhab(defaultMadhab);
       }
     } catch (error) {
-      if (__DEV__) {
-        console.error('Failed to load settings:', error);
-      }
+      setSelectedCity('GABORONE'); // Fallback on error
     }
   };
 
@@ -328,60 +331,20 @@ export default function Settings() {
           </Animated.View>
         </View>
 
-        {/* Hijri Date Adjustment */}
-        <View style={styles.settingCard}>
-          <View style={styles.settingHeader}>
-            <View style={styles.settingInfo}>
-              <Text style={[fonts.text, { color: currentColors.text?.primary?.[theme === 'dark' ? 'dark' : 'light'] }]}>
-                Hijri Date Adjustment
-              </Text>
-              <Text style={[fonts.textSmall, { color: currentColors.text?.secondary?.[theme === 'dark' ? 'dark' : 'light'], marginTop: 4 }]}> 
-                Shift Hijri date for local moon sighting ({hijriDayOffset > 0 ? `+${hijriDayOffset}` : hijriDayOffset} day)
-              </Text>
-            </View>
-          </View>
-
-          <View style={styles.hijriOffsetRow}>
+        {/* Debug: Reset Onboarding (only in dev) */}
+        {__DEV__ && (
+          <View style={styles.settingCard}>
             <Pressable
-              onPress={() => handleHijriOffsetChange(hijriDayOffset - 1)}
+              onPress={async () => {
+                try {
+                  await AsyncStorage.removeItem('@viewedOnboarding');
+                  Alert.alert('Success', 'Onboarding reset. Restart the app to see onboarding screens.');
+                } catch (error) {
+                  Alert.alert('Error', 'Failed to reset onboarding');
+                }
+              }}
               style={({ pressed }) => [
-                styles.offsetButton,
-                {
-                  backgroundColor: pressed
-                    ? resolveColor(currentColors.complement, '#f5f5f5')
-                    : 'transparent',
-                  opacity: hijriDayOffset <= -2 ? 0.4 : 1,
-                },
-              ]}
-              disabled={hijriDayOffset <= -2}
-            >
-              <Ionicons name="remove" size={20} color={currentColors.text?.primary?.[theme === 'dark' ? 'dark' : 'light']} />
-            </Pressable>
-
-            <Text style={[fonts.textLargeBold, { color: currentColors.text?.primary?.[theme === 'dark' ? 'dark' : 'light'] }]}>
-              {hijriDayOffset > 0 ? `+${hijriDayOffset}` : hijriDayOffset}
-            </Text>
-
-            <Pressable
-              onPress={() => handleHijriOffsetChange(hijriDayOffset + 1)}
-              style={({ pressed }) => [
-                styles.offsetButton,
-                {
-                  backgroundColor: pressed
-                    ? resolveColor(currentColors.complement, '#f5f5f5')
-                    : 'transparent',
-                  opacity: hijriDayOffset >= 2 ? 0.4 : 1,
-                },
-              ]}
-              disabled={hijriDayOffset >= 2}
-            >
-              <Ionicons name="add" size={20} color={currentColors.text?.primary?.[theme === 'dark' ? 'dark' : 'light']} />
-            </Pressable>
-
-            <Pressable
-              onPress={() => handleHijriOffsetChange(0)}
-              style={({ pressed }) => [
-                styles.resetOffsetButton,
+                styles.settingHeader,
                 {
                   backgroundColor: pressed
                     ? resolveColor(currentColors.complement, '#f5f5f5')
@@ -389,10 +352,37 @@ export default function Settings() {
                 },
               ]}
             >
-              <Text style={[fonts.textSmall, { color: currentColors.text?.secondary?.[theme === 'dark' ? 'dark' : 'light'] }]}>Reset</Text>
+              <View style={styles.settingInfo}>
+                <Text
+                  style={[
+                    fonts.textMedium,
+                    {
+                      color: currentColors.text?.primary?.[theme === 'dark' ? 'dark' : 'light'],
+                      marginBottom: 4,
+                    },
+                  ]}
+                >
+                  Reset Onboarding (Dev Only)
+                </Text>
+                <Text
+                  style={[
+                    fonts.textSmall,
+                    {
+                      color: currentColors.text?.secondary?.[theme === 'dark' ? 'dark' : 'light'],
+                    },
+                  ]}
+                >
+                  Clear onboarding flag to test first-run experience
+                </Text>
+              </View>
+              <Ionicons
+                name="refresh-outline"
+                size={22}
+                color={currentColors.text?.secondary?.[theme === 'dark' ? 'dark' : 'light']}
+              />
             </Pressable>
           </View>
-        </View>
+        )}
       </View>
     </ScrollView>
   );

@@ -7,25 +7,23 @@ import { DarkTheme, DefaultTheme, ThemeProvider } from '@react-navigation/native
 import { SQLiteProvider } from 'expo-sqlite';
 import * as SystemUI from 'expo-system-ui';
 import AsyncStorage from '@react-native-async-storage/async-storage';
+import { Redirect } from 'expo-router';
 import 'react-native-reanimated';
 
 import { useColorScheme } from '../hooks/useColorScheme';
-import { DataHandler } from '../services/DataHandler';
 import Colors from '../constants/Colors';
 
 export { ErrorBoundary } from 'expo-router';
 
-export const unstable_settings = {
-  initialRouteName: '(tabs)',
-};
-
 // Prevent splash screen from auto-hiding
-SplashScreen.preventAutoHideAsync();
+SplashScreen.preventAutoHideAsync().catch((error) => {
+  if (__DEV__) console.warn('Splash screen error:', error);
+});
 
 export default function RootLayout() {
   const colorScheme = useColorScheme();
   const [appReady, setAppReady] = useState(false);
-  const [fontsLoaded] = useFonts({
+  const [fontsLoaded, fontsError] = useFonts({
     SpaceMono: require('../assets/fonts/SpaceMono-Regular.ttf'),
     'PlusJakartaSans-Regular': require('../assets/fonts/PlusJakartaSans.ttf'),
     'PlusJakartaSans-Italic': require('../assets/fonts/PlusJakartaSans-Italic.ttf'),
@@ -39,31 +37,42 @@ export default function RootLayout() {
   useEffect(() => {
     async function prepareApp() {
       try {
+        // Wait for fonts to load first
+        if (!fontsLoaded && !fontsError) {
+          return;
+        }
+
         // Set splash screen background color
         await SystemUI.setBackgroundColorAsync(
           Colors[colorScheme ?? 'light'].primary[colorScheme === 'dark' ? 'dark' : 'light']
         );
-
-        // Load database and fonts in parallel
-        await Promise.all([
-          DataHandler.loadDatabase(),
-          fontsLoaded,
-        ]);
-
-        // Artificial delay for better UX (optional)
-        // await new Promise(resolve => setTimeout(resolve, 1000));
-      } catch (error) {
-        // if (__DEV__) {
-        //   console.error('Initialization error:', error);
-        // }
-      } finally {
+        
+        // Keep splash screen visible for 2 seconds
+        await new Promise(resolve => setTimeout(resolve, 1500));
+        
         setAppReady(true);
+        
+        // Small delay before hiding to ensure UI is ready
+        await new Promise(resolve => setTimeout(resolve, 100));
         await SplashScreen.hideAsync();
+      } catch (error) {
+        if (__DEV__) {
+          console.error('[RootLayout] Initialization error:', error);
+        }
+        // Still set app ready and hide splash even on error
+        setAppReady(true);
+        try {
+          await SplashScreen.hideAsync();
+        } catch (hideError) {
+          if (__DEV__) {
+            console.error('[RootLayout] Error hiding splash:', hideError);
+          }
+        }
       }
     }
 
     prepareApp();
-  }, [fontsLoaded, colorScheme]);
+  }, [fontsLoaded, fontsError, colorScheme]);
 
   if (!appReady) {
     return null;
@@ -84,7 +93,7 @@ function RootLayoutNav() {
         setOnboarded(!!value);
       } catch (error) {
         if (__DEV__) {
-          console.error('Onboarding check error:', error);
+          console.error('[RootLayout] Onboarding check error:', error);
         }
         setOnboarded(false); // Fallback to showing onboarding
       }
@@ -106,22 +115,20 @@ function RootLayoutNav() {
           useSuspense
           assetSource={{ assetId: require("../assets/databases/prayerTimes.db") }}
         >
-        {onboarded ? (
-          // TODO: remove the header shown: false and swap (tabs) with (onboarding) [tabs should be first but swap to test out onboarding]
-          <Stack screenOptions={{ headerShown: false }} >
-            <Stack.Screen name="(onboarding)" />
-          </Stack>
-        ) : (
-          <Stack screenOptions={{ headerShown: true }}>
-            {/* <Stack.Screen 
+          <Stack screenOptions={{ headerShown: false }}>
+            <Stack.Screen 
+              name="(onboarding)" 
+              options={{ 
+                headerShown: false,
+              }} 
+            />
+            <Stack.Screen 
               name="(tabs)" 
               options={{ 
-                headerShown: false 
+                headerShown: false,
               }} 
-            /> */}
-            <Stack.Screen name="(onboarding)" />
+            />
           </Stack>
-        )}
         </SQLiteProvider>
       </ThemeProvider>
   );

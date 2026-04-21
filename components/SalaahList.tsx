@@ -47,12 +47,16 @@ export default function List({salaahs, city}: ListProps) {
   const loadMadhab = async () => {
     try {
       const stored = await AsyncStorage.getItem('@selectedMadhab');
-      if (__DEV__) {
-        console.log('Retrieved madhab from storage:', stored);
+      // Default to AsrShafiee if no madhab is selected
+      if (!stored) {
+        const defaultMadhab = 'AsrShafiee';
+        await AsyncStorage.setItem('@selectedMadhab', defaultMadhab);
+        setUserMadhab(defaultMadhab);
+      } else {
+        setUserMadhab(stored);
       }
-      setUserMadhab(stored);
     } catch {
-      setUserMadhab(null);
+      setUserMadhab('AsrShafiee'); // Fallback to Shafiee
     }
   };
 
