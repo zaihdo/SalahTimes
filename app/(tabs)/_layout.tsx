@@ -1,5 +1,6 @@
 import React from 'react';
 import { Tabs } from 'expo-router';
+import { Platform } from 'react-native';
 import Colors from '../../constants/Colors';
 import { useColorScheme } from '../../hooks/useColorScheme';
 import Icon from '../../components/Icon';
@@ -57,12 +58,15 @@ export default function TabLayout() {
   return (
     <Tabs
       screenOptions={{
+        headerShown: false, // Add this global default
         tabBarActiveTintColor: activeIconColor,
         tabBarInactiveTintColor: inactiveIconColor,
         tabBarStyle: {
           backgroundColor: backgroundColor,
           borderTopWidth: 0,
           padding: 4,
+          paddingBottom: Platform.OS === 'android' ? 6 : 4,
+          height: Platform.OS === 'android' ? 68 : 60,
         },
       }}
     >

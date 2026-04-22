@@ -27,7 +27,7 @@ const prayerIcons: Record<string, React.ComponentType<any>> = {
   Isha: IshaDarkIcon
 };
 
-export default function ListItem(props: { prayer: string; time: string }) {
+export default function ListItem(props: { prayer: string; time: string; isCurrent?: boolean }) {
   const { isSmall } = useScreenSize();
   const colorScheme = useColorScheme();
   const [isEnabled, setIsEnabled] = React.useState(true);
@@ -44,8 +44,10 @@ export default function ListItem(props: { prayer: string; time: string }) {
         styles.container,
         {
           padding: isSmall ? 6 : 12,
-          borderColor: currentColors.cardOutline?.[colorScheme === 'dark' ? 'dark' : 'light'] ?? 'rgba(0, 0, 0, 0.1)',
-          borderWidth: 1,
+          borderColor: props.isCurrent 
+            ? (currentColors.primary?.[colorScheme === 'dark' ? 'light' : 'dark'] ?? 'rgba(0, 0, 0, 0.1)')
+            : (currentColors.cardOutline?.[colorScheme === 'dark' ? 'dark' : 'light'] ?? 'rgba(0, 0, 0, 0.1)'),
+          borderWidth: props.isCurrent ? 1.5 : 1,
         },
       ]}
       lightColor={Colors.light.cardBg.light}
@@ -58,7 +60,7 @@ export default function ListItem(props: { prayer: string; time: string }) {
       <Text
         style={[
           styles.prayerText,
-          { fontFamily: 'PlusJakartaSans-Regular' },
+          { fontFamily: 'PlusJakartaSans-Bold', fontSize: isSmall ? 14 : 16 },
         ]}
         lightColor={currentColors.text.primary.light}
         darkColor={currentColors.text.primary.dark}
@@ -70,10 +72,10 @@ export default function ListItem(props: { prayer: string; time: string }) {
       <Text
         style={[
           styles.timeText,
-          { fontFamily: 'PlusJakartaSans-Regular' },
+          { fontFamily: 'PlusJakartaSans-Regular', fontSize: isSmall ? 14 : 16 },
         ]}
         lightColor={currentColors.text.primary.light}
-        darkColor={currentColors.text.primary.dark}
+        darkColor={currentColors.text.tertiary.light}
       >
         {props.time}
       </Text>
@@ -106,14 +108,12 @@ const styles = StyleSheet.create({
   },
   prayerText: {
     lineHeight: 24,
-    fontSize: 16,
     minWidth: 70,
     flex: 1,
     marginLeft: 8,
   },
   timeText: {
     lineHeight: 24,
-    fontSize: 16,
     minWidth: 60,
     textAlign: 'right',
     flex: 1,

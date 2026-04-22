@@ -1,6 +1,6 @@
 import { StatusBar } from 'expo-status-bar';
-import { Platform, StyleSheet, ImageBackground, View as RNView } from 'react-native';
-import React, { useEffect, useState } from 'react';
+import { Platform, StyleSheet, ImageBackground, View as RNView, Animated } from 'react-native';
+import React, { useEffect, useState, useRef } from 'react';
 import { useSQLiteContext } from 'expo-sqlite';
 import { Text, View } from '../components/Themed';
 import Suspense from '../components/Suspense';
@@ -21,12 +21,25 @@ interface IqamahProps {
 export default function IqamahScreen(Masjid: IqamahProps) {
   const [IqamahTimes, setIqamahTimes] = useState<IqamahTime[]>([]);
   const [currentTime, setCurrentTime] = useState<string>(Utilities.getCurrentTime(new Date()));
+  const [imageLoaded, setImageLoaded] = useState(false);
   const { query, img } = useLocalSearchParams<{ query: string; img?: string }>();
   const db = useSQLiteContext();
   const colorScheme = useColorScheme();
+  const fadeAnim = useRef(new Animated.Value(0)).current;
 
   // resolve header image from passed img key; fallback to default header
   const headerImage = resolveMasjidImage(img as string) ?? require('../assets/images/homeScreenHeader.png');
+
+  // Fade in the image when loaded
+  useEffect(() => {
+    if (imageLoaded) {
+      Animated.timing(fadeAnim, {
+        toValue: 1,
+        duration: 300,
+        useNativeDriver: true,
+      }).start();
+    }
+  }, [imageLoaded]);
 
   useEffect(() => {
     db.withTransactionAsync(async () => {
@@ -50,18 +63,21 @@ export default function IqamahScreen(Masjid: IqamahProps) {
   return (
     <React.Suspense fallback={<Suspense />}>
       <View style={{ flex: 1, backgroundColor: Colors[colorScheme ?? 'light'].primary[colorScheme === 'dark' ? 'dark' : 'light'] }}>
-        <ImageBackground
-          source={headerImage}
-          style={styles.headerBackground}
-          resizeMode="cover"
-        >
-          <RNView style={styles.headerContent}>
-            <RNView style={styles.timeContainer}>
-              <Text style={styles.time}>{currentTime}</Text>
-              <Text style={styles.smallDate}>{Utilities.getFormattedDate(new Date())}</Text>
+        <Animated.View style={{ flex: 1.5, opacity: fadeAnim }}>
+          <ImageBackground
+            source={headerImage}
+            style={styles.headerBackground}
+            resizeMode="cover"
+            onLoadEnd={() => setImageLoaded(true)}
+          >
+            <RNView style={styles.headerContent}>
+              <RNView style={styles.timeContainer}>
+                <Text style={styles.time}>{currentTime}</Text>
+                <Text style={styles.smallDate}>{Utilities.getFormattedDate(new Date())}</Text>
+              </RNView>
             </RNView>
-          </RNView>
-        </ImageBackground>
+          </ImageBackground>
+        </Animated.View>
 
         <View
           style={[
