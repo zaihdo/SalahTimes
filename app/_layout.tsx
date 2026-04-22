@@ -7,7 +7,6 @@ import { DarkTheme, DefaultTheme, ThemeProvider } from '@react-navigation/native
 import { SQLiteProvider } from 'expo-sqlite';
 import * as SystemUI from 'expo-system-ui';
 import AsyncStorage from '@react-native-async-storage/async-storage';
-import { Redirect } from 'expo-router';
 import 'react-native-reanimated';
 
 import { useColorScheme } from '../hooks/useColorScheme';
@@ -15,7 +14,6 @@ import Colors from '../constants/Colors';
 
 export { ErrorBoundary } from 'expo-router';
 
-// Prevent splash screen from auto-hiding
 SplashScreen.preventAutoHideAsync().catch((error) => {
   if (__DEV__) console.warn('Splash screen error:', error);
 });
@@ -33,28 +31,21 @@ export default function RootLayout() {
     'Poppins-Italic': require('../assets/fonts/Poppins-Italic.ttf'),    
   });
 
-  // Initialize app resources
   useEffect(() => {
     async function prepareApp() {
       try {
-        // Wait for fonts to load first
         if (!fontsLoaded && !fontsError) {
           return;
         }
 
-        // Set splash screen background color
         await SystemUI.setBackgroundColorAsync(
           Colors[colorScheme ?? 'light'].primary[colorScheme === 'dark' ? 'dark' : 'light']
         );
         
-        // Keep splash screen visible for 2 seconds
+        // Keep splash screen visible for a bit 
         await new Promise(resolve => setTimeout(resolve, 750));
-        
         setAppReady(true);
-        
-        // Small delay before hiding to ensure UI is ready
-        // await new Promise(resolve => setTimeout(resolve, 100));
-        // await SplashScreen.hideAsync();
+        await SplashScreen.hideAsync();
       } catch (error) {
         if (__DEV__) {
           console.error('[RootLayout] Initialization error:', error);
@@ -85,7 +76,6 @@ function RootLayoutNav() {
   const colorScheme = useColorScheme();
   const [onboarded, setOnboarded] = useState<boolean | null>(null);
 
-  // Check onboarding status
   useEffect(() => {
     async function checkOnboarding() {
       try {
@@ -95,7 +85,7 @@ function RootLayoutNav() {
         if (__DEV__) {
           console.error('[RootLayout] Onboarding check error:', error);
         }
-        setOnboarded(false); // Fallback to showing onboarding
+        setOnboarded(false); 
       }
     }
 
