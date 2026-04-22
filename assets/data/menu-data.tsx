@@ -19,7 +19,7 @@ export const appContent = {
       title: "Data Source",
       content: (
         <Text style={{ textAlign: 'justify' }}>
-          All times have been sourced from the BMA database created by Mr.Mirza Zawahir and may differ if a Masjid uses an updated calculation method for their Adhaan times or their own convenient times for Iqamah.{'\n\n'}
+          All times have been sourced from the BMA database created by Mr. Mirza Zawahir and may differ if a Masjid uses an updated calculation method for their Adhaan times or their own convenient times for Iqamah.{'\n\n'}
           If any changes need to be made to the Adhān time (which is unlikely) or the Iqāmah time, or if any new Masājids or Jamā'at khānas need to be added to this App, please contact Imran Salahuddin at{' '}
           <Text
             onPress={() => Linking.openURL('tel:71711911')}
