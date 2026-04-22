@@ -3,7 +3,6 @@ import { StyleSheet, Platform } from 'react-native';
 import { Text, View } from './Themed';
 import { useScreenSize } from '../hooks/useScreenSize';
 import Colors from '../constants/Colors';
-import fonts from '../constants/Fonts';
 import { useColorScheme } from '../hooks/useColorScheme';
 
 // import SVGs as React components (requires react-native-svg & react-native-svg-transformer)

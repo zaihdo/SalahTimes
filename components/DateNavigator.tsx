@@ -66,10 +66,6 @@ export default function DateNavigator({
   }, []);
 
   // Keep Hijri date in sync with user's local moon-sighting adjustment.
-  useEffect(() => {
-    loadHijriOffset();
-  }, [loadHijriOffset]);
-
   useFocusEffect(
     React.useCallback(() => {
       loadHijriOffset();
