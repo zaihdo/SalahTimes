@@ -19,6 +19,32 @@ export default function List({iqamahs, masjid}: ListProps) {
     return name.replace(/([a-z])([A-Z])/g, '$1-$2');
   };
 
+  // Determine current prayer based on time
+  const getCurrentPrayer = (prayerTimes: [string, string][]) => {
+    const now = new Date();
+    const currentMinutes = now.getHours() * 60 + now.getMinutes();
+
+    // Convert prayer times to minutes
+    const timesInMinutes = prayerTimes.map(([name, time]) => {
+      const [hours, minutes] = time.split(':').map(Number);
+      return {
+        name,
+        minutes: hours * 60 + minutes,
+      };
+    });
+
+    // Find the next prayer time that hasn't occurred yet
+    for (let i = 0; i < timesInMinutes.length; i++) {
+      if (currentMinutes < timesInMinutes[i].minutes) {
+        // Current time is before this prayer, so we're in the previous prayer period
+        return i > 0 ? timesInMinutes[i - 1].name : timesInMinutes[timesInMinutes.length - 1].name;
+      }
+    }
+
+    // If we're past all prayer times, we're in the last prayer period
+    return timesInMinutes[timesInMinutes.length - 1]?.name;
+  };
+
   // flatten entries, filter Dhuhr/DhuhrSunday according to current day,
   // and limit to 5 items so the list always shows 5 iqamah times
   const isSunday = new Date().getDay() === 0; // 0 === Sunday
@@ -41,9 +67,18 @@ export default function List({iqamahs, masjid}: ListProps) {
   // preserve order, but ensure only 5 items are shown
   const data = filteredEntries.slice(0, 5);
 
-  const renderItem = ({ item }: { item: [string, string] }) => (
-    <ListItem prayer={formatColumnName(item[0])} time={item[1]}></ListItem>
-  );
+  const currentPrayer = getCurrentPrayer(data);
+
+  const renderItem = ({ item }: { item: [string, string] }) => {
+    const isCurrent = item[0] === currentPrayer;
+    return (
+      <ListItem 
+        prayer={formatColumnName(item[0])} 
+        time={item[1]} 
+        isCurrent={isCurrent}
+      />
+    );
+  };
 
   return (
     <FlatList

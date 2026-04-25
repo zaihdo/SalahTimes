@@ -56,7 +56,6 @@ export default function SelectCityForOnboarding() {
     const normalizedCity = DataHandler.toUpperCase(selectedCity);
 
     await AsyncStorage.multiSet([
-      ['@viewedOnboarding', 'true'],
       ['@selectedCity', JSON.stringify(normalizedCity)],
     ]);
 

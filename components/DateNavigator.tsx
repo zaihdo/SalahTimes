@@ -8,6 +8,8 @@ import {
   TouchableOpacity,
 } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
+import AsyncStorage from '@react-native-async-storage/async-storage';
+import { useFocusEffect } from 'expo-router';
 import { Utilities } from '../util/Utilities';
 import Colors from '../constants/Colors';
 import { useColorScheme } from '../hooks/useColorScheme';
@@ -23,6 +25,7 @@ export default function DateNavigator({
 
   const [date, setDate] = useState<Date>(initialDate ?? new Date());
   const [showPicker, setShowPicker] = useState(false);
+  const [hijriDayOffset, setHijriDayOffset] = useState<number>(0);
   const colorScheme = useColorScheme();
   const theme = colorScheme ?? 'dark';
   const themeColors = (Colors as any)[theme] ?? {};
@@ -41,6 +44,33 @@ export default function DateNavigator({
       setDate(initialDate);
     }
   }, [initialDate]);
+
+  const loadHijriOffset = React.useCallback(() => {
+    (async () => {
+      try {
+        const stored = await AsyncStorage.getItem('@hijriDayOffset');
+        if (stored == null) {
+          setHijriDayOffset(0);
+          return;
+        }
+        const parsed = parseInt(stored, 10);
+        if (Number.isNaN(parsed)) {
+          setHijriDayOffset(0);
+          return;
+        }
+        setHijriDayOffset(Math.max(-2, Math.min(2, parsed)));
+      } catch {
+        setHijriDayOffset(0);
+      }
+    })();
+  }, []);
+
+  // Keep Hijri date in sync with user's local moon-sighting adjustment.
+  useFocusEffect(
+    React.useCallback(() => {
+      loadHijriOffset();
+    }, [loadHijriOffset])
+  );
 
   // Check if viewing today's date
   const isToday = () => {
@@ -74,23 +104,35 @@ export default function DateNavigator({
     ? Utilities.getFormattedDate(date)
     : date.toLocaleDateString();
 
-  // Hijri (Islamic) date via Intl if available, fallback to empty string
+  // Apply local day correction before formatting Hijri date.
+  const adjustedDate = new Date(date.getTime());
+  adjustedDate.setDate(adjustedDate.getDate() + hijriDayOffset);
+
+  // Hijri (Islamic) date via Intl with fallback chain, else empty string.
   let hijri = '';
   try {
-    hijri = new Intl.DateTimeFormat('en-GB-u-ca-islamic', {
+    hijri = new Intl.DateTimeFormat('en-GB-u-ca-islamic-umalqura', {
       day: 'numeric',
       month: 'long',
       year: 'numeric',
-    }).format(date);
+    }).format(adjustedDate);
   } catch {
     try {
-      hijri = new Intl.DateTimeFormat('ar-SA-u-ca-islamic', {
+      hijri = new Intl.DateTimeFormat('en-GB-u-ca-islamic', {
         day: 'numeric',
         month: 'long',
         year: 'numeric',
-      }).format(date);
+      }).format(adjustedDate);
     } catch {
-      hijri = '';
+      try {
+        hijri = new Intl.DateTimeFormat('ar-SA-u-ca-islamic', {
+          day: 'numeric',
+          month: 'long',
+          year: 'numeric',
+        }).format(adjustedDate);
+      } catch {
+        hijri = '';
+      }
     }
   }
 

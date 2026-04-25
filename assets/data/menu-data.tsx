@@ -17,7 +17,18 @@ export const appContent = {
     {
       icon: require('../icons/data-source.svg'),
       title: "Data Source",
-      content: "All times have been sourced from the BMA database created by Mirza Zawahir and may differ if a mosque uses an updated calculation method."
+      content: (
+        <Text style={{ textAlign: 'justify' }}>
+          All times have been sourced from the BMA database created by Mr. Mirza Zawahir and may differ if a Masjid uses an updated calculation method for their Adhaan times or their own convenient times for Iqamah.{'\n\n'}
+          If any changes need to be made to the Adhān time (which is unlikely) or the Iqāmah time, or if any new Masājids or Jamā'at khānas need to be added to this App, please contact Imran Salahuddin at{' '}
+          <Text
+            onPress={() => Linking.openURL('tel:71711911')}
+            style={{ color: '#0099ff' }}
+          >
+            71 711 911
+          </Text>
+        </Text>
+      )
     }
   ],
   contact: [
@@ -25,7 +36,7 @@ export const appContent = {
       title: "Developer",
       content: (
         <Text style={{ textAlign: 'justify' }}>
-          For support, feedback, or inquiries about the app, please reach out to Imran Salahuddin at{' '}
+          For support, feedback, suggestions, or inquiries about the app, please reach out to Imran Salahuddin at{' '}
           <Text
             onPress={() => Linking.openURL('tel:71711911')}
             style={{ color: '#0099ff' }}
