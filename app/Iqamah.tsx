@@ -1,18 +1,19 @@
 import { StatusBar } from 'expo-status-bar';
-import { Platform, StyleSheet, ImageBackground, View as RNView, Animated } from 'react-native';
-import React, { useEffect, useState, useRef } from 'react';
+import { Platform, StyleSheet, ImageBackground, View as RNView, Pressable, Animated } from 'react-native';
+import React, { useEffect, useRef, useState } from 'react';
 import { useSQLiteContext } from 'expo-sqlite';
 import { Text, View } from '../components/Themed';
 import Suspense from '../components/Suspense';
 import { IqamahTime } from '../types/dbTypes';
 import { DataHandler } from '../services/DataHandler';
-import { useLocalSearchParams } from 'expo-router';
+import { useLocalSearchParams, useRouter } from 'expo-router';
 import { Utilities } from '../util/Utilities';
 import IqamahList from '../components/IqamahList';
 import Colors from '../constants/Colors';
 import { useColorScheme } from '../hooks/useColorScheme';
 import fonts from '../constants/Fonts'; // added import
 import { resolveMasjidImage } from '../constants/MasjidImages'; // added imports
+import { Ionicons } from '@expo/vector-icons';
 
 interface IqamahProps {
   Name: string;
@@ -23,6 +24,7 @@ export default function IqamahScreen(Masjid: IqamahProps) {
   const [currentTime, setCurrentTime] = useState<string>(Utilities.getCurrentTime(new Date()));
   const [imageLoaded, setImageLoaded] = useState(false);
   const { query, img } = useLocalSearchParams<{ query: string; img?: string }>();
+  const router = useRouter();
   const db = useSQLiteContext();
   const colorScheme = useColorScheme();
   const fadeAnim = useRef(new Animated.Value(0)).current;
@@ -63,21 +65,25 @@ export default function IqamahScreen(Masjid: IqamahProps) {
   return (
     <React.Suspense fallback={<Suspense />}>
       <View style={{ flex: 1, backgroundColor: Colors[colorScheme ?? 'light'].primary[colorScheme === 'dark' ? 'dark' : 'light'] }}>
-        <Animated.View style={{ flex: 1.5, opacity: fadeAnim }}>
-          <ImageBackground
-            source={headerImage}
-            style={styles.headerBackground}
-            resizeMode="cover"
-            onLoadEnd={() => setImageLoaded(true)}
-          >
-            <RNView style={styles.headerContent}>
-              <RNView style={styles.timeContainer}>
-                <Text style={styles.time}>{currentTime}</Text>
-                <Text style={styles.smallDate}>{Utilities.getFormattedDate(new Date())}</Text>
-              </RNView>
+        <ImageBackground
+          source={headerImage}
+          style={styles.headerBackground}
+          resizeMode="cover"
+        >
+          <RNView style={styles.headerContent}>
+            <Pressable
+              style={({ pressed }) => [styles.backButton, pressed && styles.backButtonPressed]}
+              onPress={() => router.back()}
+              hitSlop={8}
+            >
+              <Ionicons name="chevron-back" size={28} color="#fff" />
+            </Pressable>
+            <RNView style={styles.timeContainer}>
+              <Text style={styles.time}>{currentTime}</Text>
+              <Text style={styles.smallDate}>{Utilities.getFormattedDate(new Date())}</Text>
             </RNView>
-          </ImageBackground>
-        </Animated.View>
+          </RNView>
+        </ImageBackground>
 
         <View
           style={[
@@ -114,6 +120,20 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     position: 'relative',
     paddingTop: Platform.OS === 'ios' ? 48 : 24,
+  },
+  backButton: {
+    position: 'absolute',
+    top: Platform.OS === 'ios' ? 54 : 28,
+    left: 14,
+    width: 48,
+    height: 48,
+    borderRadius: 24,
+    alignItems: 'center',
+    justifyContent: 'center',
+    backgroundColor: 'rgba(0,0,0,0.22)',
+  },
+  backButtonPressed: {
+    backgroundColor: 'rgba(0,0,0,0.36)',
   },
   cityContainer: {
     position: 'absolute',
