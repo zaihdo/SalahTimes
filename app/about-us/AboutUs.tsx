@@ -1,8 +1,6 @@
 import React from 'react';
 import { StyleSheet, View, ScrollView } from 'react-native';
-import { Text } from '../../components/Themed';
 import Colors from '../../constants/Colors';
-import fonts from '../../constants/Fonts';
 import { useColorScheme } from '../../hooks/useColorScheme';
 import SectionCard from '../../components/SectionCard';
 

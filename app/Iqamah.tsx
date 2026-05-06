@@ -22,13 +22,26 @@ interface IqamahProps {
 export default function IqamahScreen(Masjid: IqamahProps) {
   const [IqamahTimes, setIqamahTimes] = useState<IqamahTime[]>([]);
   const [currentTime, setCurrentTime] = useState<string>(Utilities.getCurrentTime(new Date()));
+  const [imageLoaded, setImageLoaded] = useState(false);
   const { query, img } = useLocalSearchParams<{ query: string; img?: string }>();
   const router = useRouter();
   const db = useSQLiteContext();
   const colorScheme = useColorScheme();
+  const fadeAnim = useRef(new Animated.Value(0)).current;
 
   // resolve header image from passed img key; fallback to default header
   const headerImage = resolveMasjidImage(img as string) ?? require('../assets/images/homeScreenHeader.png');
+
+  // Fade in the image when loaded
+  useEffect(() => {
+    if (imageLoaded) {
+      Animated.timing(fadeAnim, {
+        toValue: 1,
+        duration: 300,
+        useNativeDriver: true,
+      }).start();
+    }
+  }, [imageLoaded]);
 
   useEffect(() => {
     db.withTransactionAsync(async () => {

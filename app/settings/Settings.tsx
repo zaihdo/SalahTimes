@@ -20,6 +20,7 @@ export default function Settings() {
   const [cities, setCities] = useState<any[]>([]);
   const [selectedCity, setSelectedCity] = useState<string>('');
   const [selectedMadhab, setSelectedMadhab] = useState<string>('');
+  const [hijriDayOffset, setHijriDayOffset] = useState<number>(0);
   const [showCitySelector, setShowCitySelector] = useState(false);
   const [showMadhabSelector, setShowMadhabSelector] = useState(false);
 
@@ -63,6 +64,7 @@ export default function Settings() {
     try {
       const city = await AsyncStorage.getItem('@selectedCity');
       const madhab = await AsyncStorage.getItem('@selectedMadhab');
+      const hijriOffset = await AsyncStorage.getItem('@hijriDayOffset');
       
       if (city) {
         const parsedCity = JSON.parse(city);
@@ -82,6 +84,14 @@ export default function Settings() {
         await AsyncStorage.setItem('@selectedMadhab', defaultMadhab);
         setSelectedMadhab(defaultMadhab);
       }
+
+      if (hijriOffset != null) {
+        const parsed = parseInt(hijriOffset, 10);
+        if (!Number.isNaN(parsed)) {
+          setHijriDayOffset(Math.max(-2, Math.min(2, parsed)));
+        }
+      }
+      
     } catch (error) {
       setSelectedCity('GABORONE'); // Fallback on error
     }
@@ -120,6 +130,17 @@ export default function Settings() {
       setShowMadhabSelector(false);
     } catch (error) {
       Alert.alert('Error', 'Failed to update madhab');
+    }
+  };
+
+
+  const handleHijriOffsetChange = async (offset: number) => {
+    const clamped = Math.max(-2, Math.min(2, offset));
+    try {
+      await AsyncStorage.setItem('@hijriDayOffset', String(clamped));
+      setHijriDayOffset(clamped);
+    } catch (error) {
+      Alert.alert('Error', 'Failed to update Hijri date adjustment');
     }
   };
 
@@ -319,20 +340,60 @@ export default function Settings() {
           </Animated.View>
         </View>
 
-        {/* Debug: Reset Onboarding (only in dev) */}
-        {__DEV__ && (
-          <View style={styles.settingCard}>
+        {/* Hijri Date Adjustment */}
+        <View style={styles.settingCard}>
+          <View style={styles.settingHeader}>
+            <View style={styles.settingInfo}>
+              <Text style={[fonts.text, { color: currentColors.text?.primary?.[theme === 'dark' ? 'dark' : 'light'] }]}>
+                Hijri Date Adjustment
+              </Text>
+              <Text style={[fonts.textSmall, { color: currentColors.text?.secondary?.[theme === 'dark' ? 'dark' : 'light'], marginTop: 4 }]}> 
+                Shift Hijri date for local moon sighting ({hijriDayOffset > 0 ? `+${hijriDayOffset}` : hijriDayOffset} day)
+              </Text>
+            </View>
+          </View>
+
+          <View style={styles.hijriOffsetRow}>
             <Pressable
-              onPress={async () => {
-                try {
-                  await AsyncStorage.removeItem('@viewedOnboarding');
-                  Alert.alert('Success', 'Onboarding reset. Restart the app to see onboarding screens.');
-                } catch (error) {
-                  Alert.alert('Error', 'Failed to reset onboarding');
-                }
-              }}
+              onPress={() => handleHijriOffsetChange(hijriDayOffset - 1)}
               style={({ pressed }) => [
-                styles.settingHeader,
+                styles.offsetButton,
+                {
+                  backgroundColor: pressed
+                    ? resolveColor(currentColors.complement, '#f5f5f5')
+                    : 'transparent',
+                  opacity: hijriDayOffset <= -2 ? 0.4 : 1,
+                },
+              ]}
+              disabled={hijriDayOffset <= -2}
+            >
+              <Ionicons name="remove" size={20} color={currentColors.text?.primary?.[theme === 'dark' ? 'dark' : 'light']} />
+            </Pressable>
+
+            <Text style={[fonts.textLargeBold, { color: currentColors.text?.primary?.[theme === 'dark' ? 'dark' : 'light'] }]}>
+              {hijriDayOffset > 0 ? `+${hijriDayOffset}` : hijriDayOffset}
+            </Text>
+
+            <Pressable
+              onPress={() => handleHijriOffsetChange(hijriDayOffset + 1)}
+              style={({ pressed }) => [
+                styles.offsetButton,
+                {
+                  backgroundColor: pressed
+                    ? resolveColor(currentColors.complement, '#f5f5f5')
+                    : 'transparent',
+                  opacity: hijriDayOffset >= 2 ? 0.4 : 1,
+                },
+              ]}
+              disabled={hijriDayOffset >= 2}
+            >
+              <Ionicons name="add" size={20} color={currentColors.text?.primary?.[theme === 'dark' ? 'dark' : 'light']} />
+            </Pressable>
+
+            <Pressable
+              onPress={() => handleHijriOffsetChange(0)}
+              style={({ pressed }) => [
+                styles.resetOffsetButton,
                 {
                   backgroundColor: pressed
                     ? resolveColor(currentColors.complement, '#f5f5f5')
@@ -340,37 +401,10 @@ export default function Settings() {
                 },
               ]}
             >
-              <View style={styles.settingInfo}>
-                <Text
-                  style={[
-                    fonts.textMedium,
-                    {
-                      color: currentColors.text?.primary?.[theme === 'dark' ? 'dark' : 'light'],
-                      marginBottom: 4,
-                    },
-                  ]}
-                >
-                  Reset Onboarding (Dev Only)
-                </Text>
-                <Text
-                  style={[
-                    fonts.textSmall,
-                    {
-                      color: currentColors.text?.secondary?.[theme === 'dark' ? 'dark' : 'light'],
-                    },
-                  ]}
-                >
-                  Clear onboarding flag to test first-run experience
-                </Text>
-              </View>
-              <Ionicons
-                name="refresh-outline"
-                size={22}
-                color={currentColors.text?.secondary?.[theme === 'dark' ? 'dark' : 'light']}
-              />
+              <Text style={[fonts.textSmall, { color: currentColors.text?.secondary?.[theme === 'dark' ? 'dark' : 'light'] }]}>Reset</Text>
             </Pressable>
           </View>
-        )}
+        </View>
       </View>
     </ScrollView>
   );
@@ -412,5 +446,25 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     paddingVertical: 12,
     paddingHorizontal: 16,
+  },
+  hijriOffsetRow: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'space-between',
+    paddingHorizontal: 16,
+    paddingBottom: 16,
+    gap: 12,
+  },
+  offsetButton: {
+    width: 36,
+    height: 36,
+    borderRadius: 18,
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+  resetOffsetButton: {
+    paddingVertical: 6,
+    paddingHorizontal: 10,
+    borderRadius: 8,
   },
 });
