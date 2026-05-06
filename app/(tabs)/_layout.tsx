@@ -1,5 +1,6 @@
 import React from 'react';
 import { Tabs } from 'expo-router';
+import { Platform } from 'react-native';
 import Colors from '../../constants/Colors';
 import { useColorScheme } from '../../hooks/useColorScheme';
 import Icon from '../../components/Icon';
@@ -46,6 +47,7 @@ export default function TabLayout() {
 
   const backgroundColor = resolveColor(currentColors.primary);
   const headerTextColor = resolveColor(currentColors.text?.primary);
+  const isIOS = Platform.OS === 'ios';
 
   const tabIcons: Record<string, any> = {
     home: require('../../assets/icons/home2.svg'),
@@ -61,8 +63,10 @@ export default function TabLayout() {
         tabBarInactiveTintColor: inactiveIconColor,
         tabBarStyle: {
           backgroundColor: backgroundColor,
-          borderTopWidth: 0,
-          padding: 4,
+          height: isIOS ? '8%' : '10%',
+        },
+        tabBarItemStyle: {
+          paddingVertical: isIOS ? 4 : 0,
         },
       }}
     >
